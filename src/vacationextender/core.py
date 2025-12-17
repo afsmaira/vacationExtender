@@ -1,8 +1,9 @@
-import os
+import heapq
 import toml
 from datetime import date, timedelta
-from typing import Dict, List, Tuple, Union
-from .mycalendar import Calendar
+from typing import Dict, Any, List, Tuple, Union
+from .mycalendar import Calendar, Break
+
 
 class VacationExtender:
     def __init__(self, config_file: str = None):
@@ -69,14 +70,52 @@ class VacationExtender:
         else:
             self._run_greedy()
 
+    def pq_add(self, br: Break):
+        br.times_tried += 1
+        item = (br.times_tried,
+                -br.w_roi, -br.total, br.days_pto, br
+                )
+        if item not in self.breaks:
+            heapq.heappush(self.breaks, item)
+
+    def pq_pop(self):
+        return heapq.heappop(self.breaks)[-1]
+
     def _preprocess(self):
         """ Preprocesses the data. """
-        # Days map (FORBIDDEN, HOLIDAY/WEEKEND, WORKING)
-        for date in self.calendar:
-
-        # TODO: Potential breaks (identifies all candidates; fora each bridge coast, beneficy, efficiency)
-
-        pass
+        dDay = timedelta(days=1)
+        for holiday in self.calendar.holidays():
+            # Days before and after
+            for f in [-1, 1]:
+                pto_day = holiday + f * dDay
+                if pto_day in self.calendar\
+                    and self.calendar[pto_day].is_working():
+                    break_lim1, n_holiday = holiday, 1
+                    while break_lim1-f*dDay in self.calendar\
+                        and self.calendar[break_lim1-f*dDay].is_holiday():
+                        break_lim1 -= f*dDay
+                        n_holiday += 1
+                    break_lim2, n_pto = pto_day, 1
+                    while break_lim2+f*dDay in self.calendar\
+                        and not self.calendar[break_lim2+f*dDay].is_forbidden():
+                        break_lim2 += f*dDay
+                        if self.holiday_as_pto:
+                            n_pto += 1
+                        elif self.calendar[break_lim2].is_working():
+                            n_pto += 1
+                        elif self.calendar[break_lim2].is_holiday():
+                            n_holiday += 1
+                        if n_pto > self.max_vac_break:
+                            break
+                        if n_pto >= self.min_vac_break\
+                            and n_pto + n_holiday >= self.min_tot_break:
+                            break_lims = (
+                                min(break_lim1, break_lim2),
+                                max(break_lim1, break_lim2)
+                            )
+                            self.pq_add(self.calendar.new_break(*break_lims,
+                                                                self.holiday_as_pto,
+                                                                self.alpha))
 
     def _run_optimal(self):
         """ TODO: Runs the optimal vacation algorithm. """
