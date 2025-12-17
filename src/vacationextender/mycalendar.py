@@ -108,17 +108,6 @@ class Calendar:
             return self.dates[self.first_date.date() + timedelta(days=item)]
         return self.dates[item]
 
-    def set_forbidden(self, days: Union[date, CalendarDay, Iterable[date], Iterable[CalendarDay]]):
-        if isinstance(days, date):
-            days = {days}
-        if isinstance(days, CalendarDay):
-            days = {days.date()}
-        if isinstance(days, (list, set)):
-            if len(days) == 0: return
-            days = {day.date() if isinstance(day, CalendarDay)
-                    else day for day in days}
-        for day in days:
-            self.dates[day].set_forbidden()
     def __contains__(self, item: date):
         return self.first_date.date() <= item <= self.last_date.date()
 
