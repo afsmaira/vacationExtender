@@ -86,22 +86,21 @@ class Calendar:
                 self.dates[curr].set_holiday()
         self._holidays.sort()
 
+    def __str__(self):
+        return '\n'.join(str(day) for day in self)
+
     def __iter__(self):
-        self._iter_current_date = self.first_date
+        self._iter_current_date = self.first_date.date()
         return self
 
     def __next__(self) -> CalendarDay:
-        if self._iter_current_date > self.last_date:
+        if self._iter_current_date > self.last_date.date():
             raise StopIteration
-        current_day: CalendarDay = self.dates.get(self._iter_current_date.date())
+        current_day: CalendarDay = self.dates.get(self._iter_current_date)
 
         if current_day is None:
             raise ValueError(f"Day {self._iter_current_date} ausente no calendário.")
-
-        # 3. Prepara a data para a próxima chamada
         self._iter_current_date += timedelta(days=1)
-
-        # 4. Retorna o objeto CalendarDay da iteração atual (a REFERÊNCIA)
         return current_day
 
     def __getitem__(self, item: Union[int, date]) -> CalendarDay:
