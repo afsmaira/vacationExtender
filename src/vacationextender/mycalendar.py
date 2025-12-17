@@ -1,9 +1,12 @@
 import holidays as hd
 from datetime import date, timedelta
-from typing import List, Set, Union, Dict, Iterable
+from typing import List, Set, Union, Dict, Optional
 
 FORBIDDEN, HOLIDAY, WORKING = range(3)
 
+TYPES = {0: 'forbidden',
+         1: 'holiday',
+         2: 'working'}
 
 class CalendarDay:
     def __init__(self, day: date):
@@ -11,7 +14,7 @@ class CalendarDay:
         self.type: int = WORKING
 
     def __str__(self):
-        return str(self.day)
+        return f'{self.day} {TYPES[self.type]}'
 
     def __gt__(self, other):
         return self.day > other.day
