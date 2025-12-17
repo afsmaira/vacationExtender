@@ -119,6 +119,8 @@ class Calendar:
                     else day for day in days}
         for day in days:
             self.dates[day].set_forbidden()
+    def __contains__(self, item: date):
+        return self.first_date.date() <= item <= self.last_date.date()
 
     def _load_holidays(self):
         """
