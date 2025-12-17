@@ -72,9 +72,19 @@ class Calendar:
         while curr <= self.last_date.date():
             self.dates[curr] = CalendarDay(curr)
             self.years.add(curr.year)
-            curr += timedelta(days=1)
-        self.weekends: List[int] = [5, 6] if weekend is None else weekend
+            curr += dDAY
         self._load_holidays()
+        self._holidays.extend(custom_holidays)
+        self._forbidden = forbidden
+        for curr in self.dates:
+            if curr in forbidden:
+                self.dates[curr].set_forbidden()
+            elif self.is_weekend(curr):
+                self.dates[curr].set_holiday()
+                self._holidays.append(curr)
+            elif self.is_holiday(curr):
+                self.dates[curr].set_holiday()
+        self._holidays.sort()
 
     def __iter__(self):
         self._iter_current_date = self.first_date
