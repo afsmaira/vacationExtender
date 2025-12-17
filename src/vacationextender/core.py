@@ -8,9 +8,10 @@ class VacationExtender:
     def __init__(self, config_file: str = None):
         self.config = self._load_config(config_file)
         self._process_config()
-        self.algorithm = 'optimal' # or greedy
+        self.breaks = list()
+        self.selected_breaks = list()
 
-    def _load_config(self, file_path: str) -> dict:
+    def _load_config(self, file_path: str) -> Dict[str, Any]:
         """Reads and processes the configuration file (TOML format)."""
         if file_path is None:
             return dict()
@@ -32,17 +33,18 @@ class VacationExtender:
         location = self.config.get('LOCATION', dict())
         self.country = location.get('country_code', "BR")
         self.state = location.get('subdivision_code', "SP")
-        self.calendar = Calendar(self.country, self.state,
-                                 first_day, last_day, self.weekend)
         self.weekend_holiday = location.get('include_observed', False)
         constraints = self.config.get('CONSTRAINTS', dict())
         self.days = constraints.get('vacation_days', 30)
-        self.breaks = constraints.get('max_vac_periods', 3)
+        self.n_breaks = constraints.get('max_vac_periods', 3)
         self.max_vac_break = constraints.get('max_vac_days_per_break',
                                              self.days)
+        if self.max_vac_break <= 0:
+            self.max_vac_break = self.days
         self.min_vac_break = constraints.get('min_vac_days_per_break', 1)
         self.min_tot_break = constraints.get('min_total_days_off', 1)
-        self.locals = constraints.get('custom_holidays', list())
+        self.holiday_as_pto = constraints.get('in_holiday_as_pto', True)
+        self.custom_holidays = constraints.get('custom_holidays', list())
         self.forbidden = constraints.get('forced_work_dates', list())
         forb_intervals = constraints.get('forced_work_intervals', list())
         for forb_interval in forb_intervals:
@@ -52,7 +54,13 @@ class VacationExtender:
                 self.forbidden.append(beg)
                 beg += timedelta(days=1)
         self.forbidden = set(self.forbidden)
-        self.calendar.set_forbidden(self.forbidden)
+        self.calendar = Calendar(self.country, self.state,
+                                 first_day, last_day,
+                                 self.weekend, self.custom_holidays,
+                                 self.forbidden)
+        algorithm = self.config.get('ALGORITHM', dict())
+        self.algorithm = algorithm.get('algorithm', 'greedy')
+        self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
 
     def run(self):
         self._preprocess()
