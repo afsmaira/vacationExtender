@@ -37,6 +37,9 @@ class CalendarDay:
     def date(self) -> date:
         return self.day
 
+    def strftime(self, format: str) -> str:
+        return self.day.strftime(format)
+
 
 class Calendar:
     def __init__(self, country: str = 'BR', subdivision: str = None,
