@@ -116,12 +116,12 @@ class Calendar:
         Loads all holidays in the specified year and location.
         """
         try:
-            self._holidays = set(hd.country_holidays(
+            self._holidays = list(sorted(hd.country_holidays(
                 country=self.country,
                 subdiv=self.state,
                 years=self.years,
                 observed=True
-            ).keys())
+            ).keys()))
         except Exception as err:
             raise ValueError(
                 f"Error loading holidays from {self.country}/{self.state} in the years {self.years}. '"
@@ -134,3 +134,42 @@ class Calendar:
 
     def is_weekend(self, day: date) -> bool:
         return self.dates[day].date().weekday() in self.weekends
+
+
+class Break:
+    def __init__(self, begin: date, end: date, alpha: float):
+        self.begin = CalendarDay(begin)
+        self.end = CalendarDay(end)
+        self.begin_pto = None
+        self.end_pto = None
+        self.days_pto: Optional[int] = None
+        self.days_holidays: Optional[int] = None
+        self.total: Optional[int] = None
+        self.roi: Optional[int] = None
+        self.w_roi: Optional[int] = None
+        self.times_tried: int = -1
+        self.alpha = alpha
+
+    def __eq__(self, other):
+        return self.begin == other.begin and self.end == other.end
+
+    def __lt__(self, other) -> bool:
+        if self.begin != other.begin:
+            return self.begin < other.begin
+        return self.end < other.end
+
+    def __xor__(self, other):
+        b1 = min(self, other)
+        b2 = max(self, other)
+        return b1.begin <= b2.begin <= b1.end \
+            and b2.begin <= b1.end <= b2.end
+
+    def set_pto_range(self, begin: date, end: date):
+        self.begin_pto, self.end_pto = CalendarDay(begin), CalendarDay(end)
+
+    def set_days(self, pto: int, holidays: int):
+        self.days_pto = pto
+        self.days_holidays = holidays
+        self.total = self.days_pto + self.days_holidays
+        self.roi = self.total / self.days_pto
+        self.w_roi = self.total ** (1 + self.alpha) / self.days_pto
