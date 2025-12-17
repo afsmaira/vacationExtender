@@ -1,4 +1,6 @@
 from .core import VacationExtender
 
 def main():
-    VacationExtender().run()
+    ve = VacationExtender('test/config.toml')
+    ve.run()
+    print(ve)
