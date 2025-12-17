@@ -135,6 +135,37 @@ class Calendar:
     def is_weekend(self, day: date) -> bool:
         return self.dates[day].date().weekday() in self.weekends
 
+    def is_holiday(self, day: date) -> bool:
+        return self.dates[day].date() in self.holidays()
+
+    def is_working(self, day: date) -> bool:
+        return not (self.is_weekend(day) or self.is_holiday(day))
+
+    def new_break(self, begin: date, end: date,
+                  in_holiday_as_pto: bool, alpha: float):
+        while begin-dDAY in self and self[begin-dDAY].is_holiday():
+            begin -= dDAY
+        while end+dDAY in self and self[end+dDAY].is_holiday():
+            end += dDAY
+        br = Break(begin, end, alpha)
+        n_total = (end-begin).days+1
+        n_holiday = 0
+        while begin in self and self[begin].is_holiday() and begin <= end:
+            n_holiday += 1
+            begin += dDAY
+        while end in self and self[end].is_holiday() and end >= begin:
+            n_holiday += 1
+            end -= dDAY
+        br.set_pto_range(begin, end)
+        if not in_holiday_as_pto:
+            while begin <= end:
+                if self[begin].is_holiday():
+                    n_holiday += 1
+                begin += dDAY
+        n_pto = n_total - n_holiday
+        br.set_days(n_pto, n_holiday)
+        return br
+
 
 class Break:
     def __init__(self, begin: date, end: date, alpha: float):
