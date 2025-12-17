@@ -54,7 +54,9 @@ class Calendar:
     def __init__(self, country: str = 'BR', subdivision: str = None,
                  first_date: Union[date, CalendarDay] = None,
                  last_date: Union[date, CalendarDay] = None,
-                 weekend: List[int] = None):
+                 weekend: List[int] = None,
+                 custom_holidays: List[Union[date, CalendarDay]] = None,
+                 forbidden: Set[Union[date, CalendarDay]] = None):
         self.country: str = country
         self.state: str = subdivision
         if first_date is None:
