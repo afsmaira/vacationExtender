@@ -3,10 +3,10 @@ from datetime import date, timedelta
 from typing import List, Set, Union, Dict, Optional
 
 FORBIDDEN, HOLIDAY, WORKING = range(3)
-
 TYPES = {0: 'forbidden',
          1: 'holiday',
          2: 'working'}
+dDAY = timedelta(days=1)
 
 class CalendarDay:
     def __init__(self, day: date):
@@ -18,6 +18,12 @@ class CalendarDay:
 
     def __gt__(self, other):
         return self.day > other.day
+
+    def __eq__(self, other):
+        return self.day == other.day
+
+    def __ge__(self, other):
+        return self.day >= other.day
 
     def set_forbidden(self):
         self.type = FORBIDDEN
