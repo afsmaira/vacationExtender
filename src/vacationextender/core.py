@@ -12,6 +12,64 @@ class VacationExtender:
         self.breaks = list()
         self.selected_breaks = list()
 
+    def __str__(self):
+        """Returns all selected vacation bridges in a table."""
+
+        ret = ''
+        for i, selected_break in enumerate(self.selected_breaks):
+            # --- Formatting config ---
+            N_SEP = 90
+            HEADER_FORMAT = "{:<12} {:<12} {:<12} {:<12} {:>6} {:>6} {:>10} {:>10}\n"
+            ROW_FORMAT = "{:<12} {:<12} {:<12} {:<12} {:>6} {:>6} {:>10.2f} {:>10.2f}\n"
+            SEPARATOR = "-" * N_SEP + '\n'
+
+            ret = "\n" + "=" * N_SEP + '\n'
+            if self.algorithm == 'greedy':
+                ret += f"🌴 EXTENDED VACATION 📅\n"
+            else:
+                ret += f"🌴 EXTENDED VACATION (option {i+1}) 📅\n"
+            ret += "=" * N_SEP + '\n'
+
+            # Headers
+            ret += HEADER_FORMAT.format("BEGIN BREAK", "END BREAK",
+                                        "BEGIN PTO", "END PTO",
+                                        "PTO", "TOTAL", "ROI", "SCORE")
+            ret += SEPARATOR
+
+            # Impressão das linhas
+            total_pto_used = 0
+            total_days_gained = 0
+
+            for br in selected_break:
+                start_date_str = br.begin.strftime("%Y-%m-%d")
+                end_date_str = br.end.strftime("%Y-%m-%d")
+                start_date_pto_str = br.begin_pto.strftime("%Y-%m-%d")
+                end_date_pto_str = br.end_pto.strftime("%Y-%m-%d")
+
+                ret += ROW_FORMAT.format(
+                    start_date_str,
+                    end_date_str,
+                    start_date_pto_str,
+                    end_date_pto_str,
+                    br.days_pto,
+                    br.total,
+                    br.roi,
+                    br.w_roi
+                )
+
+                total_pto_used += br.days_pto
+                total_days_gained += br.total
+
+            ret += SEPARATOR
+
+            # Resumo Final
+            ret += f"USED PTO: {total_pto_used} / {self.days}\n"
+            ret += f"TOTAL BREAK DAYS: {total_days_gained}\n"
+            ret += f"AVERAGE ROI: {total_days_gained / total_pto_used:.2f} break days / PTO days\n"
+            ret += "=" * N_SEP + '\n'
+
+        return ret
+
     def _load_config(self, file_path: str) -> Dict[str, Any]:
         """Reads and processes the configuration file (TOML format)."""
         if file_path is None:
