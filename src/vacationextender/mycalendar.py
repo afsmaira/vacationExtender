@@ -37,6 +37,15 @@ class CalendarDay:
     def date(self) -> date:
         return self.day
 
+    def is_holiday(self) -> bool:
+        return self.type == HOLIDAY
+
+    def is_working(self) -> bool:
+        return self.type == WORKING
+
+    def is_forbidden(self) -> bool:
+        return self.type == FORBIDDEN
+
     def strftime(self, format: str) -> str:
         return self.day.strftime(format)
 
