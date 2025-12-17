@@ -123,7 +123,30 @@ class VacationExtender:
         pass
 
     def _run_greedy(self):
-        """ TODO: Runs the greedy vacation algorithm. """
-        # TODO: Sort by efficiency (PQ)
-        # TODO: Iterate (chose the most efficient, check conflict
-        pass
+        """ Runs the greedy vacation algorithm. """
+        days_left = self.days
+        curr: List[Break] = []
+        ch_tried: bool = False
+        while len(self.breaks) > 0 and days_left > 0:
+            br = self.pq_pop()
+            if len(curr) > 0 and curr[-1].times_tried == br.times_tried-1:
+                if ch_tried:
+                    break
+                curr[-1].times_tried += 1
+                ch_tried = True
+                self.pq_add(curr[-1])
+                self.selected_breaks.append(curr.copy())
+                curr.pop()
+            elif len(curr) == self.n_breaks-1\
+                and br.days_pto != days_left:
+                ch_tried = False
+                self.pq_add(br)
+            elif br.days_pto > days_left\
+                or any(br ^ ci for ci in curr):
+                ch_tried = False
+                self.pq_add(br)
+            else:
+                ch_tried = False
+                curr.append(br)
+                days_left -= br.days_pto
+        self.selected_breaks.append(curr.copy())
