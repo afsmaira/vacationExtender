@@ -65,6 +65,7 @@ class Calendar:
             last_date = date(date.today().year, 12, 31)
         self.first_date = CalendarDay(first_date)
         self.last_date = CalendarDay(last_date)
+        self.weekends: List[int] = [5, 6] if weekend is None else weekend
         self.dates: Dict[date, CalendarDay] = dict()
         self.years: Set[int] = set()
         curr = self.first_date.date()
