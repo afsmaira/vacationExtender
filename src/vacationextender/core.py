@@ -3,7 +3,7 @@ import toml
 import bisect
 
 from datetime import date, timedelta
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 from .mycalendar import Calendar, Break
 
 
@@ -16,26 +16,25 @@ class VacationExtender:
 
     def __str__(self):
         """Returns all selected vacation bridges in a table."""
+        # --- Formatting config ---
+        N_SEP = 80
+        HEADER_FORMAT = "{:<12} {:<12} {:<12} {:<12} {:>6} {:>6} {:>10}\n"
+        ROW_FORMAT = "{:<12} {:<12} {:<12} {:<12} {:>6} {:>6} {:>10.2f}\n"
+        SEPARATOR = "-" * N_SEP + '\n'
 
         ret = ''
         for i, selected_break in enumerate(self.selected_breaks):
-            # --- Formatting config ---
-            N_SEP = 90
-            HEADER_FORMAT = "{:<12} {:<12} {:<12} {:<12} {:>6} {:>6} {:>10} {:>10}\n"
-            ROW_FORMAT = "{:<12} {:<12} {:<12} {:<12} {:>6} {:>6} {:>10.2f} {:>10.2f}\n"
-            SEPARATOR = "-" * N_SEP + '\n'
-
-            ret = "\n" + "=" * N_SEP + '\n'
-            if self.algorithm == 'greedy':
+            ret += "\n" + "=" * N_SEP + '\n'
+            if self.algorithm == 'greedy' or self.top_n == 1:
                 ret += f"🌴 EXTENDED VACATION 📅\n"
             else:
-                ret += f"🌴 EXTENDED VACATION (option {i+1}) 📅\n"
+                ret += f"🌴 EXTENDED VACATION (suggestion {i + 1}) 📅\n"
             ret += "=" * N_SEP + '\n'
 
             # Headers
             ret += HEADER_FORMAT.format("BEGIN BREAK", "END BREAK",
                                         "BEGIN PTO", "END PTO",
-                                        "PTO", "TOTAL", "ROI", "SCORE")
+                                        "PTO", "TOTAL", "ROI")
             ret += SEPARATOR
 
             # Impressão das linhas
@@ -56,7 +55,7 @@ class VacationExtender:
                     br.days_pto,
                     br.total,
                     br.roi,
-                    br.w_roi
+                    #br.w_roi
                 )
 
                 total_pto_used += br.days_pto
@@ -87,7 +86,7 @@ class VacationExtender:
     def _process_config(self):
         calendar = self.config.get('calendar', dict())
         today = date.today()
-        self.year = calendar.get('year', today.year+1)
+        self.year = calendar.get('year', today.year + 1)
         first_day = max(today, date(self.year, 1, 1))
         last_day = date(self.year, 12, 31)
         self.weekend = calendar.get('weekend', [5, 6])
@@ -123,6 +122,7 @@ class VacationExtender:
         self.algorithm = algorithm.get('algorithm', 'greedy')
         self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
         self.min_gap = constraints.get('min_gap_days', 0)
+        self.top_n = constraints.get('top_n_suggestions', 1)
 
     def run(self):
         self._preprocess()
@@ -150,17 +150,17 @@ class VacationExtender:
             # Days before and after
             for f in [-1, 1]:
                 pto_day = holiday + f * dDay
-                if pto_day in self.calendar\
-                    and self.calendar[pto_day].is_working():
+                if pto_day in self.calendar \
+                        and self.calendar[pto_day].is_working():
                     break_lim1, n_holiday = holiday, 1
-                    while break_lim1-f*dDay in self.calendar\
-                        and self.calendar[break_lim1-f*dDay].is_holiday():
-                        break_lim1 -= f*dDay
+                    while break_lim1 - f * dDay in self.calendar \
+                            and self.calendar[break_lim1 - f * dDay].is_holiday():
+                        break_lim1 -= f * dDay
                         n_holiday += 1
                     break_lim2, n_pto = pto_day, 1
-                    while break_lim2+f*dDay in self.calendar\
-                        and not self.calendar[break_lim2+f*dDay].is_forbidden():
-                        break_lim2 += f*dDay
+                    while break_lim2 + f * dDay in self.calendar \
+                            and not self.calendar[break_lim2 + f * dDay].is_forbidden():
+                        break_lim2 += f * dDay
                         if self.holiday_as_pto:
                             n_pto += 1
                         elif self.calendar[break_lim2].is_working():
@@ -169,8 +169,8 @@ class VacationExtender:
                             n_holiday += 1
                         if n_pto > self.max_vac_break:
                             break
-                        if n_pto >= self.min_vac_break\
-                            and n_pto + n_holiday >= self.min_tot_break:
+                        if n_pto >= self.min_vac_break \
+                                and n_pto + n_holiday >= self.min_tot_break:
                             break_lims = (
                                 min(break_lim1, break_lim2),
                                 max(break_lim1, break_lim2)
@@ -179,49 +179,43 @@ class VacationExtender:
                                                                 self.holiday_as_pto,
                                                                 self.alpha))
 
-    def _prev_break(self, i):
-        max_date = self.breaks[i].begin.date()-timedelta(days=self.min_gap)
-        all_ends = [b.end.date() for b in self.breaks]
+    def _prev_break(self, i, all_ends):
+        max_date = self.breaks[i].begin.date() - timedelta(days=self.min_gap)
         return bisect.bisect_left(all_ends, max_date)
 
     def _run_optimal(self):
         """ Runs the optimal vacation algorithm. """
-        dp: List[List[List[Optional[int]]]] = \
-            [[[0]*(self.n_breaks+1)
-              for _ in range(self.days+1)]
-             for _ in range(len(self.breaks)+1)]
-        for i_minus_1, br in enumerate(self.breaks):
-            i = i_minus_1 + 1
-            prev_idx = self._prev_break(i_minus_1)
-            for p in range(self.days + 1):
-                for k in range(self.n_breaks + 1):
-                    dp[i][p][k] = dp[i-1][p][k]
-                    if p >= br.days_pto and k > 0:
-                        dp[i][p][k] = max(
-                            dp[i][p][k],
-                            br.total + dp[prev_idx][p - br.days_pto][k - 1]
-                        )
+        all_ends: List[date] = [b.end.date() for b in self.breaks]
         n = len(self.breaks)
+        all_ends = [b.end.date() for b in self.breaks]
+        dp: List[List[List[List[Tuple[int, List[Break]]]]]] = \
+            [[[[] for _ in range(self.n_breaks + 1)]
+              for _ in range(self.days + 1)]
+             for _ in range(n + 1)]
+        for i in range(n + 1):
+            for p in range(self.days + 1):
+                dp[i][0][0] = [(0, [])]
+        for i_idx, br in enumerate(self.breaks):
+            i = i_idx + 1
+            prev_idx = self._prev_break(i_idx, all_ends)
 
-        # Reconstruction
-        curr_p = self.days
-        curr_k = self.n_breaks
+            for p in range(self.days + 1):
+                for k in range(1, self.n_breaks + 1):
+                    candidates = []
+                    if dp[i-1][p][k]:
+                        candidates.extend(dp[i-1][p][k])
+                    if p >= br.days_pto:
+                        prev_solutions = dp[prev_idx][p - br.days_pto][k - 1]
+                        for score, path in prev_solutions:
+                            new_score = score + br.total
+                            new_path = path + [br]
+                            candidates.append((new_score, new_path))
+                    if candidates:
+                        candidates.sort(key=lambda x: x[0], reverse=True)
+                        dp[i][p][k] = candidates[:self.top_n]
 
-        self.selected_breaks = [[]]
-
-        i = n
-        while i > 0 and curr_p > 0 and curr_k > 0:
-            br = self.breaks[i-1]
-            prev_idx = self._prev_break(i-1)
-            if curr_p >= br.days_pto and \
-                    dp[i][curr_p][curr_k] == (br.total + dp[prev_idx][curr_p - br.days_pto][curr_k - 1]):
-                self.selected_breaks[0].append(br)
-                i = prev_idx
-                curr_p -= br.days_pto
-                curr_k -= 1
-            else:
-                i -= 1
-        self.selected_breaks[0] = self.selected_breaks[0][::-1]
+        final_solutions = dp[n][self.days][self.n_breaks]
+        self.selected_breaks = [sol[1] for sol in final_solutions]
 
     def _run_greedy(self):
         """ Runs the greedy vacation algorithm. """
@@ -230,7 +224,7 @@ class VacationExtender:
         ch_tried: bool = False
         while len(self.breaks) > 0 and days_left > 0:
             br: Break = self.pq_pop()
-            if len(curr) > 0 and curr[-1].times_tried == br.times_tried-1:
+            if len(curr) > 0 and curr[-1].times_tried == br.times_tried - 1:
                 if ch_tried:
                     break
                 curr[-1].times_tried += 1
@@ -238,13 +232,13 @@ class VacationExtender:
                 self.pq_add(curr[-1])
                 self.selected_breaks.append(curr.copy())
                 curr.pop()
-            elif len(curr) == self.n_breaks-1\
-                and br.days_pto != days_left:
+            elif len(curr) == self.n_breaks - 1 \
+                    and br.days_pto != days_left:
                 ch_tried = False
                 self.pq_add(br)
-            elif br.days_pto > days_left\
-                or any(br ^ ci for ci in curr)\
-                or any(br.gap(ci) < self.min_gap for ci in curr):
+            elif br.days_pto > days_left \
+                    or any(br ^ ci for ci in curr) \
+                    or any(br.gap(ci) < self.min_gap for ci in curr):
                 ch_tried = False
                 self.pq_add(br)
             else:

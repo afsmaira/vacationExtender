@@ -59,6 +59,10 @@ min_total_days_off = 1
 # Default: 0
 min_gap_days = 60
 
+# The number of suggestions in output
+# Default: 1
+top_n_suggestions = 1
+
 # Holidays and weekends inside a vacation span are counted
 # against the PTO budget?
 # Default: true

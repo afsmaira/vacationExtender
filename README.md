@@ -120,6 +120,7 @@ This section defines the user's budget and specific rules for suggesting optimal
 | `min_vac_days_per_break` | Integer | `1` | The minimum number of **PTO days** required to be used for a period to be considered a bridge suggestion.                                                      |
 | `min_total_days_off`     | Integer | `1` | The minimum number of **TOTAL days off** (PTO + holidays + weekend) that a suggested period must include.                                                      |
 | `min_gap_days`           | Integer | `0` | The minimum number of days **between two vacation periods**.                                                                                                   |
+| `top_n_suggestions`      | Integer | `1` | The number of **vaccation suggestions**.                                                                                                                       |
 | `in_holiday_as_pto`      | Boolean | `true` | If `true`, Fixed Days Off (holidays/weekends) inside a continuous vacation span are charged against the PTO budget. If `false`, only working days consume PTO. |
 | `custom_holidays`        | List of Dates | `[]` | List of additional non-working days (e.g., local holidays) in `YYYY-MM-DD` format.                                                                             |
 | `forced_work_dates`      | List of Dates | `[]` | Specific dates when **work is mandatory**, overriding any holiday or weekend. Format: `YYYY-MM-DD`.                                                            |
@@ -129,7 +130,7 @@ This section defines the user's budget and specific rules for suggesting optimal
 
 This section configures the type of optimization algorithm and the specific scoring rule used to prioritize potential vacation breaks.
 
-| Parameter | Type    | Default | Description |
-| :--- |:--------| :--- | :--- |
-| `algorithm_type` | String  | `greedy` | The selection algorithm used. Currently supports only: greedy. |
-| `duration_weight_factor_alpha` | `float` | The Alpha Factor ($\alpha$) that weights break duration. It calculates priority with the Score $P = \eta \times T^{\alpha}$. Values $\alpha > 0$ penalize short breaks and prioritize longer vacation periods ($T$). Use $0$ for Pure Efficiency ($\eta$). |
+| Parameter | Type    | Default | Description                                                                                                                                                                                                                                                 |
+| :--- |:--------|:---------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `algorithm_type` | String  | `greedy` | The selection algorithm used. Currently supports only: greedy.                                                                                                                                                                                              |
+| `duration_weight_factor_alpha` | `float` | 0.5      | The Alpha Factor ($\alpha$) that weights break duration. It calculates priority with the Score $P = \eta \times T^{\alpha}$. Values $\alpha > 0$ penalize short breaks and prioritize longer vacation periods ($T$). Use $0$ for Pure Efficiency ($\eta$).  |
