@@ -1,7 +1,9 @@
 import heapq
 import toml
+import bisect
+
 from datetime import date, timedelta
-from typing import Dict, Any, List, Tuple, Union
+from typing import Dict, Any, List, Optional
 from .mycalendar import Calendar, Break
 
 
@@ -124,6 +126,7 @@ class VacationExtender:
     def run(self):
         self._preprocess()
         if self.algorithm == 'optimal':
+            self.breaks = list(sorted(br[-1] for br in self.breaks))
             self._run_optimal()
         else:
             self._run_greedy()
@@ -175,10 +178,49 @@ class VacationExtender:
                                                                 self.holiday_as_pto,
                                                                 self.alpha))
 
+    def _prev_break(self, i):
+        start_date = self.breaks[i].begin.date()
+        all_ends = [b.end.date() for b in self.breaks]
+        return bisect.bisect_left(all_ends, start_date)
+
     def _run_optimal(self):
-        """ TODO: Runs the optimal vacation algorithm. """
-        # TODO: many greedy
-        pass
+        """ Runs the optimal vacation algorithm. """
+        dp: List[List[List[Optional[int]]]] = \
+            [[[0]*(self.n_breaks+1)
+              for _ in range(self.days+1)]
+             for _ in range(len(self.breaks)+1)]
+        for i_minus_1, br in enumerate(self.breaks):
+            i = i_minus_1 + 1
+            prev_idx = self._prev_break(i_minus_1)
+            for p in range(self.days + 1):
+                for k in range(self.n_breaks + 1):
+                    dp[i][p][k] = dp[i-1][p][k]
+                    if p >= br.days_pto and k > 0:
+                        dp[i][p][k] = max(
+                            dp[i][p][k],
+                            br.total + dp[prev_idx][p - br.days_pto][k - 1]
+                        )
+        n = len(self.breaks)
+
+        # Reconstruction
+        curr_p = self.days
+        curr_k = self.n_breaks
+
+        self.selected_breaks = [[]]
+
+        i = n
+        while i > 0 and curr_p > 0 and curr_k > 0:
+            br = self.breaks[i-1]
+            prev_idx = self._prev_break(i-1)
+            if curr_p >= br.days_pto and \
+                    dp[i][curr_p][curr_k] == (br.total + dp[prev_idx][curr_p - br.days_pto][curr_k - 1]):
+                self.selected_breaks[0].append(br)
+                i = prev_idx
+                curr_p -= br.days_pto
+                curr_k -= 1
+            else:
+                i -= 1
+        self.selected_breaks[0] = self.selected_breaks[0][::-1]
 
     def _run_greedy(self):
         """ Runs the greedy vacation algorithm. """

@@ -185,9 +185,9 @@ class Break:
         return self.begin == other.begin and self.end == other.end
 
     def __lt__(self, other) -> bool:
-        if self.begin != other.begin:
-            return self.begin < other.begin
-        return self.end < other.end
+        if self.end != other.end:
+            return self.end < other.end
+        return self.begin < other.begin
 
     def __xor__(self, other):
         b1 = min(self, other)
