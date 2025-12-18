@@ -122,6 +122,7 @@ class VacationExtender:
         algorithm = self.config.get('ALGORITHM', dict())
         self.algorithm = algorithm.get('algorithm', 'greedy')
         self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
+        self.min_gap = constraints.get('min_gap_days', 0)
 
     def run(self):
         self._preprocess()
@@ -179,9 +180,9 @@ class VacationExtender:
                                                                 self.alpha))
 
     def _prev_break(self, i):
-        start_date = self.breaks[i].begin.date()
+        max_date = self.breaks[i].begin.date()-timedelta(days=self.min_gap)
         all_ends = [b.end.date() for b in self.breaks]
-        return bisect.bisect_left(all_ends, start_date)
+        return bisect.bisect_left(all_ends, max_date)
 
     def _run_optimal(self):
         """ Runs the optimal vacation algorithm. """
@@ -228,7 +229,7 @@ class VacationExtender:
         curr: List[Break] = []
         ch_tried: bool = False
         while len(self.breaks) > 0 and days_left > 0:
-            br = self.pq_pop()
+            br: Break = self.pq_pop()
             if len(curr) > 0 and curr[-1].times_tried == br.times_tried-1:
                 if ch_tried:
                     break
@@ -242,7 +243,8 @@ class VacationExtender:
                 ch_tried = False
                 self.pq_add(br)
             elif br.days_pto > days_left\
-                or any(br ^ ci for ci in curr):
+                or any(br ^ ci for ci in curr)\
+                or any(br.gap(ci) < self.min_gap for ci in curr):
                 ch_tried = False
                 self.pq_add(br)
             else:

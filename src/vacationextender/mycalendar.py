@@ -190,10 +190,14 @@ class Break:
         return self.begin < other.begin
 
     def __xor__(self, other):
-        b1 = min(self, other)
-        b2 = max(self, other)
-        return b1.begin <= b2.begin <= b1.end \
-            and b2.begin <= b1.end <= b2.end
+        return self.gap(other) == 0
+
+    def gap(self, other):
+        if self.end < other.begin:
+            return (other.begin.date() - self.end.date()).days
+        if self.begin > other.end:
+            return (self.begin.date() - other.end.date()).days
+        return 0
 
     def set_pto_range(self, begin: date, end: date):
         self.begin_pto, self.end_pto = CalendarDay(begin), CalendarDay(end)

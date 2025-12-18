@@ -55,6 +55,10 @@ min_vac_days_per_break = 1
 # Default: 1
 min_total_days_off = 1
 
+# Minimum number of working days between two vacation periods
+# Default: 0
+min_gap_days = 60
+
 # Holidays and weekends inside a vacation span are counted
 # against the PTO budget?
 # Default: true

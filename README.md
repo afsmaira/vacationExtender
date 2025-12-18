@@ -49,17 +49,17 @@ The program will output a suggested schedule, such as:
 
 ```text
 ==========================================================================================
-🌴 EXTENDED VACATION 📅
+🌴 EXTENDED VACATION (option 1) 📅
 ==========================================================================================
 BEGIN BREAK  END BREAK    BEGIN PTO    END PTO         PTO  TOTAL        ROI      SCORE
 ------------------------------------------------------------------------------------------
-2026-12-17   2026-12-31   2026-12-17   2026-12-18        2     15       7.50      29.05
 2026-02-14   2026-02-22   2026-02-19   2026-02-20        2      9       4.50      13.50
-2026-10-03   2026-11-04   2026-10-05   2026-10-30       26     33       1.27       7.29
+2026-10-31   2026-11-08   2026-11-05   2026-11-06        2      9       4.50      13.50
+2026-11-20   2026-12-31   2026-11-23   2026-12-18       26     42       1.62      10.47
 ------------------------------------------------------------------------------------------
 USED PTO: 30 / 30
-TOTAL BREAK DAYS: 57
-AVERAGE ROI: 1.90 break days / PTO days
+TOTAL BREAK DAYS: 60
+AVERAGE ROI: 2.00 break days / PTO days
 ==========================================================================================
 ```
 
@@ -112,17 +112,18 @@ These settings tell the `VacationExtender` which public holiday calendar to load
 
 This section defines the user's budget and specific rules for suggesting optimal vacation periods.
 
-| Parameter | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `vacation_days` | Integer | `30` | The **total PTO (Paid Time Off)** budget available for the year. The algorithm will stop when this budget is depleted. |
-| `max_vac_periods` | Integer | `3` | The maximum number of **separate vacation periods** (breaks) the algorithm should suggest. |
-| `max_vac_days_per_break` | Integer | `-1` | The maximum number of **PTO days** you are willing to spend for a single continuous break. Use `-1` for no limit. |
-| `min_vac_days_per_break` | Integer | `1` | The minimum number of **PTO days** required to be used for a period to be considered a bridge suggestion. |
-| `min_total_days_off` | Integer | `1` | The minimum number of **TOTAL days off** (PTO + holidays + weekend) that a suggested period must include. |
-| `in_holiday_as_pto` | Boolean | `true` | If `true`, Fixed Days Off (holidays/weekends) inside a continuous vacation span are charged against the PTO budget. If `false`, only working days consume PTO. |
-| `custom_holidays` | List of Dates | `[]` | List of additional non-working days (e.g., local holidays) in `YYYY-MM-DD` format. |
-| `forced_work_dates` | List of Dates | `[]` | Specific dates when **work is mandatory**, overriding any holiday or weekend. Format: `YYYY-MM-DD`. |
-| `forced_work_intervals` | Array of Tables | `[]` | Periods where **work is mandatory**. Format: `[[forced_work_intervals]] start = YYYY-MM-DD end = YYYY-MM-DD`. |
+| Parameter                | Type | Default | Description                                                                                                                                                    |
+|:-------------------------| :--- | :--- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `vacation_days`          | Integer | `30` | The **total PTO (Paid Time Off)** budget available for the year. The algorithm will stop when this budget is depleted.                                         |
+| `max_vac_periods`        | Integer | `3` | The maximum number of **separate vacation periods** (breaks) the algorithm should suggest.                                                                     |
+| `max_vac_days_per_break` | Integer | `-1` | The maximum number of **PTO days** you are willing to spend for a single continuous break. Use `-1` for no limit.                                              |
+| `min_vac_days_per_break` | Integer | `1` | The minimum number of **PTO days** required to be used for a period to be considered a bridge suggestion.                                                      |
+| `min_total_days_off`     | Integer | `1` | The minimum number of **TOTAL days off** (PTO + holidays + weekend) that a suggested period must include.                                                      |
+| `min_gap_days`           | Integer | `0` | The minimum number of days **between two vacation periods**.                                                                                                   |
+| `in_holiday_as_pto`      | Boolean | `true` | If `true`, Fixed Days Off (holidays/weekends) inside a continuous vacation span are charged against the PTO budget. If `false`, only working days consume PTO. |
+| `custom_holidays`        | List of Dates | `[]` | List of additional non-working days (e.g., local holidays) in `YYYY-MM-DD` format.                                                                             |
+| `forced_work_dates`      | List of Dates | `[]` | Specific dates when **work is mandatory**, overriding any holiday or weekend. Format: `YYYY-MM-DD`.                                                            |
+| `forced_work_intervals`  | Array of Tables | `[]` | Periods where **work is mandatory**. Format: `[[forced_work_intervals]] start = YYYY-MM-DD end = YYYY-MM-DD`.                                                  |
 
 ### ⚙️ `[ALGORITHM]`
 
