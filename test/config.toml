@@ -89,7 +89,7 @@ forced_work_intervals = []
 
 [ALGORITHM]
 # Algorithm used. greedy or optimal
-# Default: greedy
+# Default: optimal
 algorithm = 'optimal'
 
 # Weighting factor to prioritize the duration (Total Days Off).

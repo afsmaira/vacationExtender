@@ -119,7 +119,7 @@ class VacationExtender:
                                  self.weekend, self.custom_holidays,
                                  self.forbidden)
         algorithm = self.config.get('ALGORITHM', dict())
-        self.algorithm = algorithm.get('algorithm', 'greedy')
+        self.algorithm = algorithm.get('algorithm', 'optimal')
         self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
         self.min_gap = constraints.get('min_gap_days', 0)
         self.top_n = constraints.get('top_n_suggestions', 1)
