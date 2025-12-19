@@ -3,12 +3,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "vacationextender"
+name = "vacation-extender"
 version = "0.1.0"
 description = "Maximize time off by smart linking public holidays and weekends."
 readme = "README.md"
 requires-python = ">=3.8"
-license = "MIT"
+license = { file = "LICENSE" }
 authors = [
     { name = "André de Freitas Smaira", email = "andre.smaira@gmail.com" },
 ]
@@ -24,8 +24,11 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/SeuUsername/VacationExtender"
-"Bug Tracker" = "https://github.com/SeuUsername/VacationExtender/issues"
+"Homepage" = "https://github.com/afsmaira/vacationExtender"
+"Bug Tracker" = "https://github.com/afsmaira/vacationExtender/issues"
 
 [project.scripts]
 vacationext = "vacationextender.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vacationextender"]
