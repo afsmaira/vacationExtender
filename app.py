@@ -113,17 +113,17 @@ with (st.sidebar):
     )
     max_periods = st.number_input(
         t["max_periods"],
-        min_value=1, max_value=366, value=3, step=1
+        min_value=1, max_value=vac_days, value=3, step=1
     )
 
     with st.expander(t["advanced"]):
         min_break = st.number_input(
             t["min_break"],
-            min_value=1, max_value=366, value=1, step=1
+            min_value=1, max_value=vac_days, value=1, step=1
         )
         max_break = st.number_input(
             t["max_break"],
-            min_value=1, max_value=366, value=-1, step=1
+            min_value=1, max_value=vac_days, value=vac_days, step=1
         )
         min_gap = st.number_input(
             t['min_gap'],
