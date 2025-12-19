@@ -307,7 +307,10 @@ if st.button(
     components.html(
         """
         <script>
-            window.parent.document.querySelector('button[data-testid="stSidebarCollapseButton"]').click();
+            var sidebarButton = window.parent.document.querySelector('button[data-testid="stSidebarCollapseButton"]');
+            if (sidebarButton) {
+                sidebarButton.click();
+            }
         </script>
         """,
         height=0, width=0,
