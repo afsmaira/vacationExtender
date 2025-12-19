@@ -73,24 +73,38 @@ top_n_suggestions = 1
 # Default: false
 in_holiday_as_pto = false
 
-# Custom holidays list, in format YYYY-MM-DD
+# Additional holidays (e.g., local holidays or company bridges).
+# Accepted formats in the list:
+#   - Single day: "YYYY-MM-DD"
+#   - Interval:   "YYYY-MM-DD:YYYY-MM-DD" (Start:End)
+#
+# Usage Example:
+# custom_holidays = [
+#    "2026-11-20",            # Local Holiday (Single day)
+#    "2026-02-16:2026-02-18"  # Carnival (3-day interval)
+# ]
+#
 # Default: []
-custom_holidays = [2026-02-16, 2026-02-17, 2026-02-18, # Carnaval
-                   2026-06-04, 2026-06-05, # Corpus-Christ
-                   2026-10-28,
-                   2026-11-03, 2026-11-04,
-                   2026-12-21, 2026-12-22, 2026-12-23, 2026-12-24,
-                    2026-12-28, 2026-12-29, 2026-12-30, 2026-12-31
+custom_holidays = ["2026-02-16:2026-02-18", # Carnaval
+                   "2026-06-04:2026-06-05", # Corpus-Christ
+                   "2026-10-28",
+                   "2026-11-03:2026-11-04",
+                   "2026-12-21:2026-12-31"
                     ]
 
-# Forbidden dates, that ones you have to work, in format YYYY-MM-DD
-# Default: []
-forced_work_dates = []
-
-# Forbidden intevals, that ones you have to work
-# in format { start = YYYY-MM-DD, end = YYYY-MM-DD }
-# Default: []
-forced_work_intervals = []
+# Mandatory work days or intervals (dates where you CANNOT take vacation).
+# Accepted formats in the list:
+#   - Single day: "YYYY-MM-DD"
+#   - Interval:   "YYYY-MM-DD:YYYY-MM-DD" (Start:End)
+#
+# Usage Example:
+# forced_work = [
+#    "2026-01-15",            # Important meeting (Single day)
+#    "2026-05-20:2026-05-30"  # Project delivery (10-day interval)
+# ]
+#
+# Default: [] (No restrictions)
+forced_work = []
 
 [ALGORITHM]
 # Algorithm used. greedy or optimal

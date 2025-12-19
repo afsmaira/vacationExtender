@@ -8,6 +8,7 @@ TYPES = {0: 'forbidden',
          2: 'working'}
 dDAY = timedelta(days=1)
 
+
 class CalendarDay:
     def __init__(self, day: date):
         self.day: date = day
@@ -143,12 +144,12 @@ class Calendar:
 
     def new_break(self, begin: date, end: date,
                   in_holiday_as_pto: bool, alpha: float):
-        while begin-dDAY in self and self[begin-dDAY].is_holiday():
+        while begin - dDAY in self and self[begin - dDAY].is_holiday():
             begin -= dDAY
-        while end+dDAY in self and self[end+dDAY].is_holiday():
+        while end + dDAY in self and self[end + dDAY].is_holiday():
             end += dDAY
         br = Break(begin, end, alpha)
-        n_total = (end-begin).days+1
+        n_total = (end - begin).days + 1
         n_holiday = 0
         while begin in self and self[begin].is_holiday() and begin <= end:
             n_holiday += 1

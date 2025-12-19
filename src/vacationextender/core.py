@@ -1,9 +1,10 @@
+import re
 import heapq
 import toml
 import bisect
 
 from datetime import date, timedelta
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Tuple
 from .mycalendar import Calendar, Break
 
 
@@ -83,6 +84,31 @@ class VacationExtender:
         except toml.TomlDecodeError:
             raise Exception("Error decoding TOML file. Check syntax.")
 
+    def _str2date(self, dates: List[str]) -> List[date]:
+        pattern = re.compile(r'^(\d{4}-\d{2}-\d{2}):?(\d{4}-\d{2}-\d{2})?')
+        all_dates = []
+        for item in dates:
+            clean_item = str(item).strip().replace(" ", "")
+            match = pattern.search(clean_item)
+            if match:
+                try:
+                    date1 = date.fromisoformat(match.group(1))
+                    d2_str = match.group(2)
+                    if d2_str:
+                        date2 = date.fromisoformat(d2_str)
+                        start, end = sorted((date1, date2))
+                        curr = start
+                        while curr <= end:
+                            all_dates.append(curr)
+                            curr += timedelta(days=1)
+                    else:
+                        all_dates.append(date1)
+                except Exception as err:
+                    print(f"⚠️ WARNING: Invalid date value: '{item}' ({err})")
+            else:
+                print(f"⚠️ WARNING: Unrecognized format: '{item}'. Expected 'YYYY-MM-DD' or 'YYYY-MM-DD:YYYY-MM-DD'")
+        return all_dates
+
     def _process_config(self):
         calendar = self.config.get('calendar', dict())
         today = date.today()
@@ -108,14 +134,9 @@ class VacationExtender:
             self.max_tot_break = 999999
         self.holiday_as_pto = constraints.get('in_holiday_as_pto', False)
         self.custom_holidays = constraints.get('custom_holidays', list())
-        self.forbidden = constraints.get('forced_work_dates', list())
-        forb_intervals = constraints.get('forced_work_intervals', list())
-        for forb_interval in forb_intervals:
-            beg = forb_interval['start']
-            end = forb_interval['end']
-            while beg <= end:
-                self.forbidden.append(beg)
-                beg += timedelta(days=1)
+        self.custom_holidays = self._str2date(self.custom_holidays)
+        self.forbidden = constraints.get('forced_work', list())
+        self.forbidden = self._str2date(self.forbidden)
         self.forbidden = set(self.forbidden)
         self.calendar = Calendar(self.country, self.state,
                                  first_day, last_day,
