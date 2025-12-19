@@ -55,6 +55,7 @@ languages = {
         "no_hols": "No holidays identified for this selection.",
         "date_format": "%m/%d",
         "date_display": "%b %d",
+        "config_btn": " Vacation Config"
     },
     "Português": {
         "title": "🌴 Vacation Extender 🌴",
@@ -100,10 +101,39 @@ languages = {
         "no_hols": "Nenhum feriado identificado para esta seleção.",
         "date_format": "%d/%m",
         "date_display": "%d/%m",
+        "config_btn": " Configurar Férias"
     }
 }
 
+# --- LANGUAGE SELECTOR ---
+selected_lang = st.sidebar.selectbox(
+    "🌐 Language / Idioma", ["English", "Português"]
+)
+t = languages[selected_lang]
+
 # Page Config
+st.markdown(
+    f"""
+    <style>
+        button[data-testid="stSidebarCollapseButton"]::after {{
+            content: "{t['config_btn']}";
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 5px;
+            color: #ff4b4b; /* Cor de destaque (ajuste ao seu tema) */
+        }}
+
+        button[data-testid="stSidebarCollapseButton"] {{
+            background-color: rgba(255, 75, 75, 0.1);
+            border: 1px solid #ff4b4b;
+            border-radius: 10px;
+            padding-right: 15px;
+        }}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.set_page_config(
     page_title="Vacation Extender", page_icon="🌴", layout="centered"
 )
@@ -112,12 +142,6 @@ if 'extra_holidays' not in st.session_state:
     st.session_state.extra_holidays = []
 if 'mandatory_days' not in st.session_state:
     st.session_state.mandatory_days = []
-
-# --- LANGUAGE SELECTOR ---
-selected_lang = st.sidebar.selectbox(
-    "🌐 Language / Idioma", ["English", "Português"]
-)
-t = languages[selected_lang]
 
 # Title & Description
 st.title(t["title"])
