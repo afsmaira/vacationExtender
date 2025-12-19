@@ -61,7 +61,7 @@ languages = {
     },
     "Português": {
         "title": "🌴 Vacation Extender 🌴",
-        "subtitle": "Maximize seu descanso conectando feriados e fins de semana<br>de forma inteligente",
+        "subtitle": "Maximize seu descanso conectando feriados e fins de semana de forma inteligente",
         "settings": "⚙️ Configurações",
         "year": "Ano",
         "country": "País (ISO)",
@@ -110,7 +110,8 @@ languages = {
 
 # --- LANGUAGE SELECTOR ---
 selected_lang = st.selectbox(
-    "🌐 Language / Idioma", ["English", "Português"]
+    "🌐 Language / Idioma", ["English", "Português"],
+    index=0
 )
 t = languages[selected_lang]
 
