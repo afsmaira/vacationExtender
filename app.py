@@ -34,7 +34,9 @@ languages = {
         "footer": "Made with ❤️ by André de Freitas Smaira",
         "error": "Error processing: ",
         "check_iso": "Please check if the Country ISO code and State are correct.",
-        "caption": "Legend: PTO = Vacation days used | TOTAL = Total days off (including holidays and weekends)"
+        "caption": "Legend: PTO = Vacation days used | TOTAL = Total days off (including holidays and weekends)",
+        "add_holidays_label": "Extra Holidays",
+        "mandatory_label": "Work Days (Block)"
     },
     "Português": {
         "title": "🌴 Vacation Extender",
@@ -59,7 +61,9 @@ languages = {
         "footer": "Feito com ❤️ por André de Freitas Smaira",
         "error": "Erro ao processar: ",
         "check_iso": "Verifique se o código do país e estado estão corretos.",
-        "caption": "Legenda: PTO = Dias de férias usados | TOTAL = Dias totais de descanso (incluindo feriados e fins de semana)"
+        "caption": "Legenda: PTO = Dias de férias usados | TOTAL = Dias totais de descanso (incluindo feriados e fins de semana)",
+        "add_holidays_label": "Feriados Extras",
+        "mandatory_label": "Dias de trabalho obrigatórios"
     }
 }
 
