@@ -109,7 +109,7 @@ languages = {
 }
 
 # --- LANGUAGE SELECTOR ---
-selected_lang = st.sidebar.selectbox(
+selected_lang = st.selectbox(
     "🌐 Language / Idioma", ["English", "Português"]
 )
 t = languages[selected_lang]
