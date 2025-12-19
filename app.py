@@ -209,7 +209,7 @@ with (st.sidebar):
                 dt.strftime(t['date_format'])
                 for dt in sorted(st.session_state.extra_holidays)
             )
-            st.write(f"{t['added_dates']} {}")
+            st.write(f"{t['added_dates']} {lst}")
             if st.button(t["clear_btn"], key="clr_h"):
                 st.session_state.extra_holidays = []
 
