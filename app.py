@@ -60,7 +60,7 @@ languages = {
         "config_btn": "Start Planning"
     },
     "Português": {
-        "title": "🌴 Vacation Extender 🌴",
+        "title": "🌴 Férias Smart 🌴",
         "subtitle": "Maximize seu descanso conectando feriados e fins de semana de forma inteligente",
         "settings": "⚙️ Configurações",
         "year": "Ano",
