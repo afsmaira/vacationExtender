@@ -118,9 +118,7 @@ t = languages[selected_lang]
 st.markdown(
     """
     <style>
-        button:has(svg path[d^="M10"]), 
-        button[aria-label="Expand sidebar"],
-        button[data-testid="stBaseButton-headerNoPadding"] {
+        button[aria-label="Expand sidebar"] {
             background-color: #ff4b4b !important;
             color: white !important;
             border-radius: 8px !important;
@@ -136,16 +134,15 @@ st.markdown(
             z-index: 1000001 !important;
         }
 
-        button[data-testid="stSidebarCollapseButton"]::after {
+        button[aria-label="Expand sidebar"]::after {
             content: "Configurar / Setup" !important;
             font-size: 14px !important;
             font-weight: bold !important;
             font-family: sans-serif !important;
         }
 
-        [data-testid="collapsedControl"] {
-            display: flex !important;
-            width: auto !important;
+        button:has(svg path[d^="M10"]) svg {
+            display: none !important;
         }
     </style>
     """,
