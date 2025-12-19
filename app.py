@@ -137,9 +137,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-if "sidebar_state" not in st.session_state:
-    st.info("👈 "+t['h_config'])
-
 st.set_page_config(
     page_title="Vacation Extender", page_icon="🌴", layout="centered"
 )
