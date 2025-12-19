@@ -1,5 +1,9 @@
 # 🌴 Vacation Extender 📅
 
+[![PyPI version](https://img.shields.io/pypi/v/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
+[![Python versions](https://img.shields.io/pypi/pyversions/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **Maximize Your Time Off. Smartly connect public holidays and weekends for the longest possible vacations.**
 
 ---
@@ -13,34 +17,34 @@ Perfect for travelers, remote workers, and anyone looking to get the most value 
 ## ✨ Key Features
 
 * **Minimal PTO Usage:** Prioritizes solutions that yield the longest rest period for the lowest number of paid days used.
-* **Localization Ready:** Easily adaptable to different countries' holiday calendars. (Currently configured for Brazil/Global demo, but easily extendable!)
+* **Localization Ready:** Easily adaptable to different countries' holiday calendars. (Default: Brazil).
 * **Simple Output:** Provides clear date ranges and the resulting total days of vacation.
 
-## 🛠️ Installation & Usage (Example for Python)
+## 🛠️ Installation
 
-*(**Note:** Adjust these steps based on the actual language and structure of your program. If it's a Python package, include pip install; if it's a script, show how to run it.)*
+Since the package is hosted on PyPI, installation is simple:
 
-### Prerequisites
+```bash
+pip install vacation-extender
+```
 
-* [e.g., Python 3.x]
+## ⚡ Quick Start
 
-### Getting Started
-
-1.  **Clone the repository:**
+1.  **Generate a configuration file:**
+    Create a default `config.toml` in your current folder.
     ```bash
-    git clone [https://github.com/YourUsername/VacationExtender.git](https://github.com/YourUsername/VacationExtender.git)
-    cd VacationExtender
-    ```
- 
-2.  **Install the editable mode:**
-    ```bash
-    pip install -e .
+    vacationext init
     ```
 
-3.  **Run the core script:**
+2.  **Edit the configuration file if needed.**
+
+3.  **Run the optimizer:**
     ```bash
-    # Example command to run the optimizer for the next year
     vacationext
+    ```
+    *Or run with a specific config file:*
+    ```bash
+    vacationext --config your_config_file.toml
     ```
 
 ### Expected Output
@@ -81,7 +85,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## ⚙️ Configuration File (`config.toml`)
 
-The `config.toml` file is the primary way to define the optimization parameters, including the target calendar, location, and user-specific PTO constraints. You can run the optimizer with a custom configuration file path using the command line (e.g., `python main.py --config config_us.toml`).
+The `config.toml` file is the primary way to define the optimization parameters, including the target calendar, location, and user-specific PTO constraints. You can run the optimizer with a custom configuration file path using the command line (e.g., `vacationext --config config_us.toml`).
 
 ---
 
@@ -121,7 +125,7 @@ This section defines the user's budget and specific rules for suggesting optimal
 | `min_total_days_off`     | Integer         | `1`     | The minimum number of **TOTAL days off** (PTO + holidays + weekend) that a suggested period must include.                                                                                  |
 | `max_total_days_off`     | Integer         | `-1`    | The maximum number of **TOTAL days off** (PTO + holidays + weekend) that a suggested period can include. Use `-1` for no limit.                                                            |
 | `min_gap_days`           | Integer         | `0`     | The minimum number of days **between two vacation periods**.                                                                                                                               |
-| `top_n_suggestions`      | Integer         | `1`     | The number of **vaccation suggestions**.                                                                                                                                                   |
+| `top_n_suggestions`      | Integer         | `1`     | The number of **vacation suggestions**.                                                                                                                                                   |
 | `in_holiday_as_pto`      | Boolean         | `false` | If `true`, Fixed Days Off (holidays/weekends) inside a continuous vacation span are charged against the PTO budget. If `false`, only working days consume PTO.                             |
 | `custom_holidays`        | List of Strings | `[]`    | List of additional non-working days. Supports single days ("YYYY-MM-DD") or ranges ("YYYY-MM-DD:YYYY-MM-DD").                                                                                                         |
 | `forced_work`      | List of Strings | `[]`    | List of dates or intervals where work is mandatory. Supports single days ("YYYY-MM-DD") or ranges ("YYYY-MM-DD:YYYY-MM-DD").                                                               |
