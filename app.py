@@ -158,6 +158,8 @@ if 'extra_holidays' not in st.session_state:
     st.session_state.extra_holidays = []
 if 'mandatory_days' not in st.session_state:
     st.session_state.mandatory_days = []
+if "btn_clicks" not in st.session_state:
+    st.session_state.btn_clicks = 0
 
 # Title & Description
 st.title(t["title"])
@@ -318,6 +320,7 @@ sorted_dates = sorted(all_hols_dict.keys())
 if st.button(
         "🚀 "+t['config_btn'], use_container_width=True, type="primary"
 ):
+    st.session_state.btn_clicks += 1
     components.html(
         """
         <script>
@@ -326,6 +329,7 @@ if st.button(
         </script>
         """,
         height=0, width=0,
+        key=f"trigger_js_{st.session_state.btn_clicks}"
     )
 
 with st.expander(t["hols_list_title"]):
