@@ -213,6 +213,14 @@ if st.button(t["button"], type="primary", use_container_width=True):
 # --- FOOTER ---
 st.divider()
 st.markdown(
+    '''
+    <style>
+        section[data-testid="stSidebar"] {
+            width: 20% !important;
+            min-width: 300px;
+        }
+    </style>
+    '''
     f"""
     <div style='text-align: center'>
         <p>{t['footer']}</p>
