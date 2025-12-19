@@ -114,42 +114,6 @@ selected_lang = st.sidebar.selectbox(
 )
 t = languages[selected_lang]
 
-# Page Config
-st.markdown(
-    """
-    <style>
-        button[data-testid="stExpandSidebarButton"] {
-            background-color: #ff4b4b !important; /* Vermelho do seu botão */
-            color: white !important;
-            border-radius: 8px !important;
-            width: auto !important;
-            height: 38px !important;
-            padding: 0 12px !important;
-            display: flex !important;
-            align-items: center !important;
-            position: fixed !important;
-            top: 10px !important;
-            left: 10px !important;
-            z-index: 1000001 !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
-        }
-
-        button[data-testid="stExpandSidebarButton"]::after {
-            content: " ⚙️ """+t['config_btn']+"""" !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            margin-left: 5px !important;
-            color: white !important;
-        }
-
-        button[data-testid="stExpandSidebarButton"] span[data-testid="stIconMaterial"] {
-            display: none !important;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
 st.set_page_config(
     page_title="Vacation Extender", page_icon="🌴", layout="centered"
 )
