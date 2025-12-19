@@ -314,22 +314,22 @@ for d in st.session_state.get("extra_holidays", []):
         all_hols_dict[d] = t["custom_holiday_label"]
 sorted_dates = sorted(all_hols_dict.keys())
 
-'''
-if st.button(
-        "🚀 "+t['config_btn'], use_container_width=True, type="primary"
-):
-    components.html(
-        """
-        <script>
-            var sidebarButton = window.parent.document.querySelector('button[data-testid="stSidebarCollapseButton"]');
-            if (sidebarButton) {
-                sidebarButton.click();
-            }
-        </script>
-        """,
-        height=0, width=0,
-    )
-'''
+
+# if st.button(
+#         "🚀 "+t['config_btn'], use_container_width=True, type="primary"
+# ):
+#     components.html(
+#         """
+#         <script>
+#             var sidebarButton = window.parent.document.querySelector('button[data-testid="stSidebarCollapseButton"]');
+#             if (sidebarButton) {
+#                 sidebarButton.click();
+#             }
+#         </script>
+#         """,
+#         height=0, width=0,
+#     )
+
 with st.expander(t["hols_list_title"]):
     if sorted_dates:
         for d in sorted_dates:
