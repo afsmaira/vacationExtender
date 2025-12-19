@@ -49,7 +49,10 @@ languages = {
         "h_top_n": "Number of alternative vacation plans to display.",
         "h_add_hols": "Add holidays that are not in the standard list (e.g., municipal holidays).",
         "h_mandatory": "Days when you MUST work (the algorithm will avoid these days for vacation).",
-        "h_min_gap": "Minimum number of days between two vacation periods to ensure they are well distributed throughout the year."
+        "h_min_gap": "Minimum number of days between two vacation periods to ensure they are well distributed throughout the year.",
+        "hols_list_title": "📅 Holidays Considered for Calculation",
+        "custom_holiday_label": "User Added",
+        "no_hols": "No holidays identified for this selection.",
     },
     "Português": {
         "title": "🌴 Vacation Extender",
@@ -89,7 +92,10 @@ languages = {
         "h_top_n": "Número de diferentes sugestões de planos de férias que você quer ver.",
         "h_add_hols": "Adicione feriados que não estão na lista padrão (ex: feriados municipais).",
         "h_mandatory": "Dias em que você NÃO pode estar de férias (ex: reuniões importantes).",
-        "h_min_gap": "Número mínimo de dias entre dois períodos de férias para garantir que fiquem bem distribuídas ao longo do ano."
+        "h_min_gap": "Número mínimo de dias entre dois períodos de férias para garantir que fiquem bem distribuídas ao longo do ano.",
+        "hols_list_title": "📅 Feriados Considerados para o Cálculo",
+        "custom_holiday_label": "Adicionado pelo Usuário",
+        "no_hols": "Nenhum feriado identificado para esta seleção.",
     }
 }
 
@@ -235,6 +241,26 @@ config_payload = {
         "duration_weight_factor_alpha": alpha
     }
 }
+
+try:
+    base_hols = hd.country_holidays(
+        country, subdiv=subdivision, years=year
+    )
+except:
+    base_hols = {}
+all_hols_dict = {d: name for d, name in base_hols.items()}
+for d in st.session_state.get("extra_holidays", []):
+    if d not in all_hols_dict:
+        all_hols_dict[d] = t["custom_holiday_label"]
+sorted_dates = sorted(all_hols_dict.keys())
+
+with st.expander(t["hols_list_title"]):
+    if sorted_dates:
+        for d in sorted_dates:
+            date_str = d.strftime("%d/%m")
+            st.write(f"**{date_str}** - {all_hols_dict[d]}")
+    else:
+        st.info(t["no_hols"])
 
 if st.button(t["button"], type="primary", use_container_width=True):
     try:
