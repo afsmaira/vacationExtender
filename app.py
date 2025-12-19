@@ -118,7 +118,9 @@ t = languages[selected_lang]
 st.markdown(
     """
     <style>
-        button[data-testid="stSidebarCollapseButton"] {
+        button:has(svg path[d^="M10"]), 
+        button[aria-label="Expand sidebar"],
+        button[data-testid="stBaseButton-headerNoPadding"] {
             background-color: #ff4b4b !important;
             color: white !important;
             border-radius: 8px !important;
