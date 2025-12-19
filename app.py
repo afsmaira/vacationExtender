@@ -135,7 +135,7 @@ st.markdown(
         }
 
         button[data-testid="stExpandSidebarButton"]::after {
-            content: " ⚙️ """+t['config_btn']+""" !important;
+            content: " ⚙️ """+t['config_btn']+"""" !important;
             font-size: 14px !important;
             font-weight: 600 !important;
             margin-left: 5px !important;
