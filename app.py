@@ -13,7 +13,7 @@ curr_year = datetime.datetime.now().year
 languages = {
     "English": {
         "title": "🌴 Vacation Extender",
-        "subtitle": "Maximize your time off by linking\nholidays and weekends smartly",
+        "subtitle": "Maximize your time off by linking<br>holidays and weekends smartly",
         "settings": "⚙️ Settings",
         "year": "Year",
         "country": "Country (ISO)",
@@ -58,7 +58,7 @@ languages = {
     },
     "Português": {
         "title": "🌴 Vacation Extender",
-        "subtitle": "Maximize seu descanso conectando feriados e\nfins de semana de forma inteligente",
+        "subtitle": "Maximize seu descanso conectando feriados e<br>fins de semana de forma inteligente",
         "settings": "⚙️ Configurações",
         "year": "Ano",
         "country": "País (ISO)",
