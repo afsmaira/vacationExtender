@@ -113,24 +113,25 @@ These settings tell the `VacationExtender` which public holiday calendar to load
 This section defines the user's budget and specific rules for suggesting optimal vacation periods.
 
 | Parameter                | Type | Default | Description                                                                                                                                                    |
-|:-------------------------| :--- | :--- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `vacation_days`          | Integer | `30` | The **total PTO (Paid Time Off)** budget available for the year. The algorithm will stop when this budget is depleted.                                         |
-| `max_vac_periods`        | Integer | `3` | The maximum number of **separate vacation periods** (breaks) the algorithm should suggest.                                                                     |
-| `max_vac_days_per_break` | Integer | `-1` | The maximum number of **PTO days** you are willing to spend for a single continuous break. Use `-1` for no limit.                                              |
-| `min_vac_days_per_break` | Integer | `1` | The minimum number of **PTO days** required to be used for a period to be considered a bridge suggestion.                                                      |
-| `min_total_days_off`     | Integer | `1` | The minimum number of **TOTAL days off** (PTO + holidays + weekend) that a suggested period must include.                                                      |
-| `min_gap_days`           | Integer | `0` | The minimum number of days **between two vacation periods**.                                                                                                   |
-| `top_n_suggestions`      | Integer | `1` | The number of **vaccation suggestions**.                                                                                                                       |
-| `in_holiday_as_pto`      | Boolean | `true` | If `true`, Fixed Days Off (holidays/weekends) inside a continuous vacation span are charged against the PTO budget. If `false`, only working days consume PTO. |
-| `custom_holidays`        | List of Dates | `[]` | List of additional non-working days (e.g., local holidays) in `YYYY-MM-DD` format.                                                                             |
-| `forced_work_dates`      | List of Dates | `[]` | Specific dates when **work is mandatory**, overriding any holiday or weekend. Format: `YYYY-MM-DD`.                                                            |
-| `forced_work_intervals`  | Array of Tables | `[]` | Periods where **work is mandatory**. Format: `[[forced_work_intervals]] start = YYYY-MM-DD end = YYYY-MM-DD`.                                                  |
+|:-------------------------| :--- |:--------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `vacation_days`          | Integer | `30`    | The **total PTO (Paid Time Off)** budget available for the year. The algorithm will stop when this budget is depleted.                                         |
+| `max_vac_periods`        | Integer | `3`     | The maximum number of **separate vacation periods** (breaks) the algorithm should suggest.                                                                     |
+| `max_vac_days_per_break` | Integer | `-1`    | The maximum number of **PTO days** you are willing to spend for a single continuous break. Use `-1` for no limit.                                              |
+| `min_vac_days_per_break` | Integer | `1`     | The minimum number of **PTO days** required to be used for a period to be considered a bridge suggestion.                                                      |
+| `min_total_days_off`     | Integer | `1`     | The minimum number of **TOTAL days off** (PTO + holidays + weekend) that a suggested period must include.                                                      |
+| `max_total_days_off`     | Integer | `-1`    | The maximum number of **TOTAL days off** (PTO + holidays + weekend) that a suggested period can include. Use `-1` for no limit.                                |
+| `min_gap_days`           | Integer | `0`     | The minimum number of days **between two vacation periods**.                                                                                                   |
+| `top_n_suggestions`      | Integer | `1`     | The number of **vaccation suggestions**.                                                                                                                       |
+| `in_holiday_as_pto`      | Boolean | `false` | If `true`, Fixed Days Off (holidays/weekends) inside a continuous vacation span are charged against the PTO budget. If `false`, only working days consume PTO. |
+| `custom_holidays`        | List of Dates | `[]`    | List of additional non-working days (e.g., local holidays) in `YYYY-MM-DD` format.                                                                             |
+| `forced_work_dates`      | List of Dates | `[]`    | Specific dates when **work is mandatory**, overriding any holiday or weekend. Format: `YYYY-MM-DD`.                                                            |
+| `forced_work_intervals`  | Array of Tables | `[]`    | Periods where **work is mandatory**. Format: `[[forced_work_intervals]] start = YYYY-MM-DD end = YYYY-MM-DD`.                                                  |
 
 ### ⚙️ `[ALGORITHM]`
 
 This section configures the type of optimization algorithm and the specific scoring rule used to prioritize potential vacation breaks.
 
-| Parameter | Type    | Default | Description                                                                                                                                                                                                                                                 |
-| :--- |:--------|:---------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `algorithm_type` | String  | `optimal` | The selection algorithm used. Currently supports only: greedy.                                                                                                                                                                                              |
-| `duration_weight_factor_alpha` | `float` | 0.5      | The Alpha Factor ($\alpha$) that weights break duration. It calculates priority with the Score $P = \eta \times T^{\alpha}$. Values $\alpha > 0$ penalize short breaks and prioritize longer vacation periods ($T$). Use $0$ for Pure Efficiency ($\eta$).  |
+| Parameter | Type    | Default | Description                                                                                                                                                                                                                                                |
+| :--- |:--------|:---------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `algorithm_type` | `str` | `optimal` | `optimal`: Uses Dynamic Programming to find the mathematical global maximum. `greedy`: Selects best ROI first (Fast, heuristic-based).                                                                                                                     |
+| `duration_weight_factor_alpha` | `float` | `0.5`      | The Alpha Factor ($\alpha$) that weights break duration. It calculates priority with the Score $P = \eta \times T^{\alpha}$. Values $\alpha > 0$ penalize short breaks and prioritize longer vacation periods ($T$). Use $0$ for Pure Efficiency ($\eta$). |

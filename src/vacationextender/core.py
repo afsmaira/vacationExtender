@@ -103,7 +103,10 @@ class VacationExtender:
             self.max_vac_break = self.days
         self.min_vac_break = constraints.get('min_vac_days_per_break', 1)
         self.min_tot_break = constraints.get('min_total_days_off', 1)
-        self.holiday_as_pto = constraints.get('in_holiday_as_pto', True)
+        self.max_tot_break = constraints.get('max_total_days_off', 999999)
+        if self.max_tot_break <= 0:
+            self.max_tot_break = 999999
+        self.holiday_as_pto = constraints.get('in_holiday_as_pto', False)
         self.custom_holidays = constraints.get('custom_holidays', list())
         self.forbidden = constraints.get('forced_work_dates', list())
         forb_intervals = constraints.get('forced_work_intervals', list())
