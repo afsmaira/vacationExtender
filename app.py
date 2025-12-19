@@ -116,22 +116,35 @@ t = languages[selected_lang]
 
 # Page Config
 st.markdown(
-    f"""
+    """
     <style>
-        button[data-testid="stSidebarCollapseButton"]::after {{
-            content: "{t['config_btn']}";
-            font-size: 16px;
-            font-weight: bold;
-            margin-left: 5px;
-            color: #ff4b4b;
-        }}
+        button[data-testid="stSidebarCollapseButton"] {
+            background-color: #ff4b4b !important;
+            color: white !important;
+            border-radius: 8px !important;
+            width: auto !important;
+            height: 40px !important;
+            padding: 0 15px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            position: fixed !important;
+            top: 10px !important;
+            left: 10px !important;
+            z-index: 1000001 !important;
+        }
 
-        button[data-testid="stSidebarCollapseButton"] {{
-            background-color: rgba(255, 75, 75, 0.1);
-            border: 1px solid #ff4b4b;
-            border-radius: 10px;
-            padding-right: 15px;
-        }}
+        button[data-testid="stSidebarCollapseButton"]::after {
+            content: "Configurar / Setup" !important;
+            font-size: 14px !important;
+            font-weight: bold !important;
+            font-family: sans-serif !important;
+        }
+
+        [data-testid="collapsedControl"] {
+            display: flex !important;
+            width: auto !important;
+        }
     </style>
     """,
     unsafe_allow_html=True,
@@ -301,6 +314,7 @@ for d in st.session_state.get("extra_holidays", []):
         all_hols_dict[d] = t["custom_holiday_label"]
 sorted_dates = sorted(all_hols_dict.keys())
 
+'''
 if st.button(
         "🚀 "+t['config_btn'], use_container_width=True, type="primary"
 ):
@@ -315,7 +329,7 @@ if st.button(
         """,
         height=0, width=0,
     )
-
+'''
 with st.expander(t["hols_list_title"]):
     if sorted_dates:
         for d in sorted_dates:
