@@ -118,32 +118,32 @@ t = languages[selected_lang]
 st.markdown(
     """
     <style>
-        button[aria-label="Expand sidebar"] {
-            background-color: #ff4b4b !important;
+        button[data-testid="stExpandSidebarButton"] {
+            background-color: #ff4b4b !important; /* Vermelho do seu botão */
             color: white !important;
             border-radius: 8px !important;
             width: auto !important;
-            height: 40px !important;
-            padding: 0 15px !important;
+            height: 38px !important;
+            padding: 0 12px !important;
             display: flex !important;
             align-items: center !important;
-            gap: 10px !important;
             position: fixed !important;
             top: 10px !important;
             left: 10px !important;
             z-index: 1000001 !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
         }
 
-        button[aria-label="Expand sidebar"]::after {
-            content: "Configurar / Setup" !important;
+        button[data-testid="stExpandSidebarButton"]::after {
+            content: " ⚙️ """+t['config_btn']+""" !important;
             font-size: 14px !important;
-            font-weight: bold !important;
-            font-family: sans-serif !important;
+            font-weight: 600 !important;
+            margin-left: 5px !important;
+            color: white !important;
         }
 
-        button[aria-label="View menu"] {
-            background-color: transparent !important;
-            color: inherit !important;
+        button[data-testid="stExpandSidebarButton"] span[data-testid="stIconMaterial"] {
+            display: none !important;
         }
     </style>
     """,
