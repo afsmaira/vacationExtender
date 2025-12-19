@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 from src.vacationextender.core import VacationExtender
 
 import datetime
@@ -56,7 +57,7 @@ languages = {
         "no_hols": "No holidays identified for this selection.",
         "date_format": "%m/%d",
         "date_display": "%b %d",
-        "config_btn": " Vacation Config"
+        "config_btn": "Start Planning"
     },
     "Português": {
         "title": "🌴 Vacation Extender 🌴",
@@ -103,7 +104,7 @@ languages = {
         "no_hols": "Nenhum feriado identificado para esta seleção.",
         "date_format": "%d/%m",
         "date_display": "%d/%m",
-        "config_btn": " Configurar Férias"
+        "config_btn": "Começar Planejamento"
     }
 }
 
@@ -136,6 +137,9 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+if "sidebar_state" not in st.session_state:
+    st.info("👈 "+t['h_config'])
+
 st.set_page_config(
     page_title="Vacation Extender", page_icon="🌴", layout="centered"
 )
@@ -154,11 +158,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-if "sidebar_state" not in st.session_state:
-    st.info("👈 "+t['h_config'])
-
 # --- SIDEBAR INPUTS ---
-with (st.sidebar):
+with st.sidebar:
     st.header(t["settings"])
 
     year = st.number_input(
@@ -310,6 +311,19 @@ with st.expander(t["hols_list_title"]):
             st.write(f"**{date_str}** - {all_hols_dict[d]}")
     else:
         st.info(t["no_hols"])
+
+st.markdown("<br>", unsafe_allow_html=True)
+if st.button(
+    "🚀 "+t['config_btn'], use_container_width=True, type="primary"
+):
+    components.html(
+        """
+        <script>
+            window.parent.document.querySelector('button[data-testid="stSidebarCollapseButton"]').click();
+        </script>
+        """,
+        height=0, width=0,
+    )
 
 if st.button(t["button"], type="primary", use_container_width=True):
     try:
