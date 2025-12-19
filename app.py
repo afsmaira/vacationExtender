@@ -328,8 +328,7 @@ if st.button(
             if (sidebarButton) { sidebarButton.click(); }
         </script>
         """+f"<!--{st.session_state.btn_clicks}-->",
-        height=0, width=0,
-        key=f"trigger_js_{st.session_state.btn_clicks}"
+        height=0, width=0
     )
 
 with st.expander(t["hols_list_title"]):
