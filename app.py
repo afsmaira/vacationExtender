@@ -26,7 +26,6 @@ languages = {
         "min_gap": "Min. days gap between periods",
         "top_n": "Number of suggestions in output",
         "alpha": "Alpha Factor (Duration vs Efficiency)",
-        "alpha_help": "0.0 focuses on pure efficiency. 1.0 prioritizes longer breaks.",
         "button": "🚀 Optimize My Vacation",
         "loading": "Analyzing calendar and optimizing periods...",
         "success": "Optimization complete!",
@@ -37,7 +36,17 @@ languages = {
         "caption": "Legend: PTO = Vacation days used | TOTAL = Total days off (including holidays and weekends)",
         "add_holidays_label": "Extra Holidays",
         "mandatory_label": "Work Days (Block)",
-        "add_date_btn": "Add Date",
+        "add_date_btn": "Add Date","h_year": "The calendar year for which you want to plan your vacations.",
+        "h_country": "Select your country to automatically load national holidays.",
+        "h_state": "Select your state/region for local holidays.",
+        "h_vac_days": "Total number of PTO (Paid Time Off) days you have available.",
+        "h_max_periods": "The maximum number of separate vacation blocks the algorithm should suggest.",
+        "h_min_max": "Constraints on the duration (in total days) of each vacation block.",
+        "h_alpha": "0.0 focuses on pure efficiency. Greater values prioritize longer breaks.",
+        "h_top_n": "Number of alternative vacation plans to display.",
+        "h_add_hols": "Add holidays that are not in the standard list (e.g., municipal holidays).",
+        "h_mandatory": "Days when you MUST work (the algorithm will avoid these days for vacation).",
+        "h_min_gap": "Minimum number of days between two vacation periods to ensure they are well distributed throughout the year."
     },
     "Português": {
         "title": "🌴 Vacation Extender",
@@ -54,7 +63,6 @@ languages = {
         "min_gap": "Mín. dias entre períodos",
         "top_n": "Número de sugestões na saída",
         "alpha": "Fator Alpha (Duração vs Eficiência)",
-        "alpha_help": "0.0 foca em eficiência pura. 1.0 prioriza períodos mais longos.",
         "button": "🚀 Otimizar Minhas Férias",
         "loading": "Analisando o calendário...",
         "success": "Otimização concluída!",
@@ -65,7 +73,17 @@ languages = {
         "caption": "Legenda: PTO = Dias de férias usados | TOTAL = Dias totais de descanso (incluindo feriados e fins de semana)",
         "add_holidays_label": "Feriados Extras",
         "mandatory_label": "Dias de trabalho obrigatórios",
-        "add_date_btn": "Adicionar",
+        "add_date_btn": "Adicionar","h_year": "O ano do calendário para o qual você deseja planejar suas férias.",
+        "h_country": "Selecione seu país para carregar automaticamente os feriados nacionais.",
+        "h_state": "Selecione seu estado ou região para feriados locais.",
+        "h_vac_days": "Quantidade total de dias de férias que você tem disponível para usar.",
+        "h_max_periods": "O número máximo de períodos (blocos) em que suas férias podem ser divididas.",
+        "h_min_max": "Limites de duração (em dias totais) para cada período de descanso.",
+        "h_alpha": "0.0 foca em eficiência pura. Valores maiores priorizam períodos mais longos.",
+        "h_top_n": "Número de diferentes sugestões de planos de férias que você quer ver.",
+        "h_add_hols": "Adicione feriados que não estão na lista padrão (ex: feriados municipais).",
+        "h_mandatory": "Dias em que você NÃO pode estar de férias (ex: reuniões importantes).",
+        "h_min_gap": "Número mínimo de dias entre dois períodos de férias para garantir que fiquem bem distribuídas ao longo do ano."
     }
 }
 
@@ -98,7 +116,8 @@ with (st.sidebar):
 
     year = st.number_input(
         t["year"],
-        min_value=curr_year, max_value=curr_year+10, value=curr_year+1
+        min_value=curr_year, max_value=curr_year+10, value=curr_year+1,
+        help=t['h_year']
     )
 
     col1, col2 = st.columns(2)
@@ -107,13 +126,15 @@ with (st.sidebar):
                                 if "BR" in country_codes else 0
         country = st.selectbox(
             t["country"],
-            options=country_codes, index=default_country_index
+            options=country_codes, index=default_country_index,
+            help=t['h_country']
         )
     state_options = sorted(supported_data.get(country, []))
     if state_options:
         with col2:
             subdivision = st.selectbox(
-                t["state"], options=state_options
+                t["state"], options=state_options,
+                help=t['h_state']
             )
     else:
         subdivision = None
@@ -122,17 +143,20 @@ with (st.sidebar):
 
     vac_days = st.number_input(
         t["vac_days"],
-        min_value=1, max_value=366, value=30, step=1
+        min_value=1, max_value=366, value=30, step=1,
+        help=t['h_vac_days']
     )
     max_periods = st.number_input(
         t["max_periods"],
-        min_value=1, max_value=vac_days, value=3, step=1
+        min_value=1, max_value=vac_days, value=3, step=1,
+        help=t['h_max_periods']
     )
 
     with st.expander(t["advanced"]):
         min_break = st.number_input(
             t["min_break"],
-            min_value=1, max_value=vac_days, value=1, step=1
+            min_value=1, max_value=vac_days, value=1, step=1,
+            help=t['h_min_max']
         )
         max_break = st.number_input(
             t["max_break"],
@@ -140,21 +164,26 @@ with (st.sidebar):
         )
         min_gap = st.number_input(
             t['min_gap'],
-            min_value=1, max_value=366, value=60, step=1
+            min_value=1, max_value=366, value=60, step=1,
+            help=t['h_min_gap']
         )
         top_n = st.number_input(
             t["top_n"],
-            min_value=1, max_value=10, value=1, step=1
+            min_value=1, max_value=10, value=1, step=1,
+            help=t['h_top_n']
         )
         alpha = st.slider(
             t["alpha"],
             0.0, 10.0, 0.5,
-            help=t["alpha_help"]
+            help=t["h_alpha"]
         )
 
         st.markdown(f"**{t['add_holidays_label']}**")
         col_date, col_btn = st.columns([2, 1])
-        new_h = col_date.date_input("Holidays", label_visibility="collapsed", key="in_h")
+        new_h = col_date.date_input(
+            "Holidays", label_visibility="collapsed", key="in_h",
+            help=t['h_holidays']
+        )
         if col_btn.button(t["add_date_btn"], key="btn_h"):
             if new_h not in st.session_state.extra_holidays:
                 st.session_state.extra_holidays.append(new_h)
@@ -168,7 +197,10 @@ with (st.sidebar):
 
         st.markdown(f"**{t['mandatory_label']}**")
         col_date_m, col_btn_m = st.columns([2, 1])
-        new_m = col_date_m.date_input("Mandatory", label_visibility="collapsed", key="in_m")
+        new_m = col_date_m.date_input(
+            "Mandatory", label_visibility="collapsed", key="in_m",
+            help=t['h_mandatory']
+        )
         if col_btn_m.button(t["add_date_btn"], key="btn_m"):
             if new_m not in st.session_state.mandatory_days:
                 st.session_state.mandatory_days.append(new_m)
