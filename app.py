@@ -12,7 +12,7 @@ curr_year = datetime.datetime.now().year
 # 1. DICTIONARY OF TRANSLATIONS
 languages = {
     "English": {
-        "title": "🌴 Vacation Extender",
+        "title": "🌴 Vacation Extender 🌴",
         "subtitle": "Maximize your time off by linking holidays<br>and weekends smartly",
         "settings": "⚙️ Settings",
         "year": "Year",
@@ -57,7 +57,7 @@ languages = {
         "date_display": "%b %d",
     },
     "Português": {
-        "title": "🌴 Vacation Extender",
+        "title": "🌴 Vacation Extender 🌴",
         "subtitle": "Maximize seu descanso conectando feriados e fins de semana<br>de forma inteligente",
         "settings": "⚙️ Configurações",
         "year": "Ano",
@@ -303,8 +303,17 @@ st.markdown(
     '''
     <style>
         section[data-testid="stSidebar"] {
-            width: 20% !important;
-            min-width: 300px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            background-color: white;
+            height: 100vh;
+            box-shadow: 5px 0px 15px rgba(0,0,0,0.1);
+        }
+
+        section.main {
+            margin-left: 0 !important;
         }
     </style>
     '''
