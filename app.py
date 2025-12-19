@@ -198,6 +198,9 @@ with (st.sidebar):
         col_date, col_btn = st.columns([2, 1])
         new_h = col_date.date_input(
             "Holidays", label_visibility="collapsed", key="in_h",
+            min_value=datetime.date(year, 1, 1),
+            max_value=datetime.date(year, 12, 31),
+            value=datetime.date(year, 1, 1),
             help=t['h_add_hols']
         )
         if col_btn.button(t["add_date_btn"], key="btn_h"):
@@ -219,6 +222,9 @@ with (st.sidebar):
         col_date_m, col_btn_m = st.columns([2, 1])
         new_m = col_date_m.date_input(
             "Mandatory", label_visibility="collapsed", key="in_m",
+            min_value=datetime.date(year, 1, 1),
+            max_value=datetime.date(year, 12, 31),
+            value=datetime.date(year, 1, 1),
             help=t['h_mandatory']
         )
         if col_btn_m.button(t["add_date_btn"], key="btn_m"):
@@ -226,7 +232,11 @@ with (st.sidebar):
                 st.session_state.mandatory_days.append(new_m)
 
         if st.session_state.mandatory_days:
-            st.write(f"{t['added_dates']} {st.session_state.mandatory_days}")
+            lst = ', '.join(
+                dt.strftime(t['date_format'])
+                for dt in sorted(st.session_state.mandatory_days)
+            )
+            st.write(f"{t['added_dates']} {lst}")
             if st.button(t["clear_btn"], key="clr_m"):
                 st.session_state.mandatory_days = []
 
