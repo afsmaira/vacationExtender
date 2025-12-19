@@ -307,7 +307,6 @@ st.markdown(
             top: 0;
             left: 0;
             z-index: 9999;
-            background-color: white;
             height: 100vh;
             box-shadow: 5px 0px 15px rgba(0,0,0,0.1);
         }
