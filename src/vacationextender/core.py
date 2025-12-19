@@ -152,35 +152,31 @@ class VacationExtender:
         for holiday in self.calendar.holidays():
             # Days before and after
             for f in [-1, 1]:
-                pto_day = holiday + f * dDay
-                if pto_day in self.calendar \
-                        and self.calendar[pto_day].is_working():
-                    break_lim1, n_holiday = holiday, 1
-                    while break_lim1 - f * dDay in self.calendar \
-                            and self.calendar[break_lim1 - f * dDay].is_holiday():
-                        break_lim1 -= f * dDay
-                        n_holiday += 1
-                    break_lim2, n_pto = pto_day, 1
-                    while break_lim2 + f * dDay in self.calendar \
-                            and not self.calendar[break_lim2 + f * dDay].is_forbidden():
-                        break_lim2 += f * dDay
-                        if self.holiday_as_pto:
-                            n_pto += 1
-                        elif self.calendar[break_lim2].is_working():
-                            n_pto += 1
-                        elif self.calendar[break_lim2].is_holiday():
-                            n_holiday += 1
-                        if n_pto > self.max_vac_break:
+                day = holiday + f * dDay
+                if day in self.calendar \
+                        and self.calendar[day].is_working():
+                    while day in self.calendar:
+                        if self.calendar[day].is_forbidden():
                             break
-                        if n_pto >= self.min_vac_break \
-                                and n_pto + n_holiday >= self.min_tot_break:
-                            break_lims = (
-                                min(break_lim1, break_lim2),
-                                max(break_lim1, break_lim2)
-                            )
-                            self.pq_add(self.calendar.new_break(*break_lims,
-                                                                self.holiday_as_pto,
-                                                                self.alpha))
+                        break_lims = (
+                            min(holiday, day),
+                            max(holiday, day)
+                        )
+                        br = self.calendar.new_break(break_lims[0], break_lims[1],
+                                                     self.holiday_as_pto,
+                                                     self.alpha)
+                        if br.days_pto > self.days:
+                            break
+                        if br.days_pto > self.max_vac_break:
+                            break
+                        if br.days_pto < self.min_vac_break:
+                            continue
+                        if br.total < self.min_tot_break:
+                            continue
+                        if br.total > self.max_tot_break:
+                            break
+                        self.pq_add(br)
+                        day += f*dDay
 
     def _prev_break(self, i, all_ends):
         max_date = self.breaks[i].begin.date() - timedelta(days=self.min_gap)
