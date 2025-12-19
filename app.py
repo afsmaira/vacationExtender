@@ -12,7 +12,7 @@ curr_year = datetime.datetime.now().year
 
 # 1. DICTIONARY OF TRANSLATIONS
 languages = {
-    "English": {
+    "🇺🇸 English": {
         "title": "🌴 Vacation Extender 🌴",
         "subtitle": "Maximize your time off by linking<br>holidays and weekends smartly",
         "settings": "⚙️ Settings",
@@ -60,7 +60,7 @@ languages = {
         "config_btn": "Start Planning",
         "save_btn": "Save"
     },
-    "Português": {
+    "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
         "subtitle": "Maximize seu descanso conectando feriados e fins de semana de forma inteligente",
         "settings": "⚙️ Configurações",
@@ -112,7 +112,7 @@ languages = {
 
 # --- LANGUAGE SELECTOR ---
 selected_lang = st.selectbox(
-    "🌐 Language / Idioma", ["🇺🇸 English", "🇧🇷 Português"],
+    "🌐 Language / Idioma", list(languages.keys()),
     index=0
 )
 t = languages[selected_lang]
