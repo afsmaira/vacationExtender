@@ -9,8 +9,11 @@ from .mycalendar import Calendar, Break
 
 
 class VacationExtender:
-    def __init__(self, config_file: str = None):
-        self.config = self._load_config(config_file)
+    def __init__(self, config_file: str = None, config_data: dict = None):
+        if config_data:
+            self.config = config_data
+        else:
+            self.config = self._load_config(config_file)
         self._process_config()
         self.breaks = list()
         self.selected_breaks = list()
