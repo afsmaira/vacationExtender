@@ -304,17 +304,8 @@ for d in st.session_state.get("extra_holidays", []):
         all_hols_dict[d] = t["custom_holiday_label"]
 sorted_dates = sorted(all_hols_dict.keys())
 
-with st.expander(t["hols_list_title"]):
-    if sorted_dates:
-        for d in sorted_dates:
-            date_str = d.strftime(t['date_format'])
-            st.write(f"**{date_str}** - {all_hols_dict[d]}")
-    else:
-        st.info(t["no_hols"])
-
-st.markdown("<br>", unsafe_allow_html=True)
 if st.button(
-    "🚀 "+t['config_btn'], use_container_width=True, type="primary"
+        "🚀 "+t['config_btn'], use_container_width=True, type="primary"
 ):
     components.html(
         """
@@ -324,6 +315,14 @@ if st.button(
         """,
         height=0, width=0,
     )
+
+with st.expander(t["hols_list_title"]):
+    if sorted_dates:
+        for d in sorted_dates:
+            date_str = d.strftime(t['date_format'])
+            st.write(f"**{date_str}** - {all_hols_dict[d]}")
+    else:
+        st.info(t["no_hols"])
 
 if st.button(t["button"], type="primary", use_container_width=True):
     try:
