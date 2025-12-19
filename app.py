@@ -57,7 +57,8 @@ languages = {
         "no_hols": "No holidays identified for this selection.",
         "date_format": "%m/%d",
         "date_display": "%b %d",
-        "config_btn": "Start Planning"
+        "config_btn": "Start Planning",
+        "save_btn": "Save"
     },
     "Português": {
         "title": "🌴 Férias Smart",
@@ -104,13 +105,14 @@ languages = {
         "no_hols": "Nenhum feriado identificado para esta seleção.",
         "date_format": "%d/%m",
         "date_display": "%d/%m",
-        "config_btn": "Começar Planejamento"
+        "config_btn": "Começar Planejamento",
+        "save_btn": "Salvar"
     }
 }
 
 # --- LANGUAGE SELECTOR ---
 selected_lang = st.selectbox(
-    "🌐 Language / Idioma", ["English", "Português"],
+    "🌐 Language / Idioma", ["🇺🇸 English", "🇧🇷 Português"],
     index=0
 )
 t = languages[selected_lang]
@@ -248,6 +250,20 @@ with st.sidebar:
             st.write(f"{t['added_dates']} {lst}")
             if st.button(t["clear_btn"], key="clr_m"):
                 st.session_state.mandatory_days = []
+    if st.button(
+            t['save_btn'], use_container_width=True, type="primary"
+    ):
+        st.session_state.btn_clicks += 1
+        js_close = f"""
+        <script>
+            var sideBtn = window.parent.document.querySelector('button[data-testid="stExpandSidebarButton"]');
+            if (sideBtn) {{
+                sideBtn.click();
+            }}
+        </script>
+        <!--{st.session_state.btn_clicks}-->
+        """
+        components.html(js_close, height=0, width=0)
 
 # --- CORE LOGIC ---
 config_payload = {
