@@ -13,7 +13,7 @@ curr_year = datetime.datetime.now().year
 languages = {
     "English": {
         "title": "🌴 Vacation Extender 🌴",
-        "subtitle": "Maximize your time off by linking holidays<br>and weekends smartly",
+        "subtitle": "Maximize your time off by linking<br>holidays and weekends smartly",
         "settings": "⚙️ Settings",
         "year": "Year",
         "country": "Country (ISO)",
@@ -50,6 +50,7 @@ languages = {
         "h_add_hols": "Add holidays that are not in the standard list (e.g., municipal holidays).",
         "h_mandatory": "Days when you MUST work (the algorithm will avoid these days for vacation).",
         "h_min_gap": "Minimum number of days between two vacation periods to ensure they are well distributed throughout the year.",
+        "h_config": "Touch button 'Vacation Config' at top to start!",
         "hols_list_title": "📅 Holidays Considered for Calculation",
         "custom_holiday_label": "User Added",
         "no_hols": "No holidays identified for this selection.",
@@ -96,6 +97,7 @@ languages = {
         "h_add_hols": "Adicione feriados que não estão na lista padrão (ex: feriados municipais).",
         "h_mandatory": "Dias em que você NÃO pode estar de férias (ex: reuniões importantes).",
         "h_min_gap": "Número mínimo de dias entre dois períodos de férias para garantir que fiquem bem distribuídas ao longo do ano.",
+        "h_config": "Clique no botão 'Configurar Férias' ali no topo para começar!",
         "hols_list_title": "📅 Feriados Considerados para o Cálculo",
         "custom_holiday_label": "Adicionado pelo Usuário",
         "no_hols": "Nenhum feriado identificado para esta seleção.",
@@ -120,7 +122,7 @@ st.markdown(
             font-size: 16px;
             font-weight: bold;
             margin-left: 5px;
-            color: #ff4b4b; /* Cor de destaque (ajuste ao seu tema) */
+            color: #ff4b4b;
         }}
 
         button[data-testid="stSidebarCollapseButton"] {{
@@ -151,6 +153,9 @@ st.markdown(
     </div>""",
     unsafe_allow_html=True
 )
+
+if "sidebar_state" not in st.session_state:
+    st.info("👈 "+t['h_config'])
 
 # --- SIDEBAR INPUTS ---
 with (st.sidebar):
