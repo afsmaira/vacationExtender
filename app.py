@@ -13,7 +13,7 @@ curr_year = datetime.datetime.now().year
 languages = {
     "English": {
         "title": "🌴 Vacation Extender",
-        "subtitle": "Maximize your time off by linking<br>holidays and weekends smartly",
+        "subtitle": "Maximize your time off by linking holidays<br>and weekends smartly",
         "settings": "⚙️ Settings",
         "year": "Year",
         "country": "Country (ISO)",
@@ -58,7 +58,7 @@ languages = {
     },
     "Português": {
         "title": "🌴 Vacation Extender",
-        "subtitle": "Maximize seu descanso conectando feriados e<br>fins de semana de forma inteligente",
+        "subtitle": "Maximize seu descanso conectando feriados e fins de semana<br>de forma inteligente",
         "settings": "⚙️ Configurações",
         "year": "Ano",
         "country": "País (ISO)",
@@ -122,7 +122,9 @@ t = languages[selected_lang]
 # Title & Description
 st.title(t["title"])
 st.markdown(
-    f"<h3 style='text-align: center;'>{t['subtitle']}</h3>",
+    f"""<div style='text-align: center; font-size: 24px; font-weight: bold; padding-top: 10px; padding-bottom: 20px;'>
+        {t['subtitle']}
+    </div>""",
     unsafe_allow_html=True
 )
 
