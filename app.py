@@ -182,7 +182,7 @@ with (st.sidebar):
         col_date, col_btn = st.columns([2, 1])
         new_h = col_date.date_input(
             "Holidays", label_visibility="collapsed", key="in_h",
-            help=t['h_holidays']
+            help=t['h_add_hols']
         )
         if col_btn.button(t["add_date_btn"], key="btn_h"):
             if new_h not in st.session_state.extra_holidays:
