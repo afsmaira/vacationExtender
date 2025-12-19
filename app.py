@@ -53,6 +53,8 @@ languages = {
         "hols_list_title": "📅 Holidays Considered for Calculation",
         "custom_holiday_label": "User Added",
         "no_hols": "No holidays identified for this selection.",
+        "date_format": "%m/%d",
+        "date_display": "%b %d",
     },
     "Português": {
         "title": "🌴 Vacation Extender",
@@ -96,6 +98,8 @@ languages = {
         "hols_list_title": "📅 Feriados Considerados para o Cálculo",
         "custom_holiday_label": "Adicionado pelo Usuário",
         "no_hols": "Nenhum feriado identificado para esta seleção.",
+        "date_format": "%d/%m",
+        "date_display": "%d/%m",
     }
 }
 
@@ -201,7 +205,11 @@ with (st.sidebar):
                 st.session_state.extra_holidays.append(new_h)
 
         if st.session_state.extra_holidays:
-            st.write(f"{t['added_dates']} {st.session_state.extra_holidays}")
+            lst = ', '.join(
+                dt.strftime(t['date_format'])
+                for dt in sorted(st.session_state.extra_holidays)
+            )
+            st.write(f"{t['added_dates']} {}")
             if st.button(t["clear_btn"], key="clr_h"):
                 st.session_state.extra_holidays = []
 
@@ -257,7 +265,7 @@ sorted_dates = sorted(all_hols_dict.keys())
 with st.expander(t["hols_list_title"]):
     if sorted_dates:
         for d in sorted_dates:
-            date_str = d.strftime("%d/%m")
+            date_str = d.strftime(t['date_format'])
             st.write(f"**{date_str}** - {all_hols_dict[d]}")
     else:
         st.info(t["no_hols"])
