@@ -410,14 +410,30 @@ with col_github:
 
 if selected_lang == '🇧🇷 Português':
     st.divider()
-    left, center, right = st.columns([1, 2, 1])
-
-    with center:
-        st.link_button(
-            t["follow_btn"],
-            t['follow_url'],
-            icon="📱"
-        )
+    st.markdown(
+        '''
+        <style>
+            section[data-testid="stSidebar"] {
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 9999;
+                height: 100vh;
+                box-shadow: 5px 0px 15px rgba(0,0,0,0.1);
+            }
+    
+            section.main {
+                margin-left: 0 !important;
+            }
+        </style>
+        '''
+        f"""
+    <div style='text-align: center'>
+        <a href='{t['follow_url']}'>📢 {t["follow_btn"]}</a>
+    </div>
+    """,
+        unsafe_allow_html=True
+    )
 
 st.divider()
 st.markdown(
