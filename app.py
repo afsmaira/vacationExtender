@@ -409,11 +409,15 @@ with col_github:
     """, unsafe_allow_html=True)
 
 if selected_lang == '🇧🇷 Português':
-    st.link_button(
-        t["follow_btn"],
-        t['follow_url'],
-        icon="📱"
-    )
+    st.divider()
+    left, center, right = st.columns([1, 2, 1])
+
+    with center:
+        st.link_button(
+            t["follow_btn"],
+            t['follow_url'],
+            icon="📱"
+        )
 
 st.divider()
 st.markdown(
