@@ -400,6 +400,8 @@ with col_feedback:
     )
 
 with col_github:
+    st.markdown(f"**{t['about_title']}**")
+    st.caption(t['about_desc'])
     st.markdown("**Open Source & Library**")
     st.markdown("""
         [![PyPI version](https://badge.fury.io/py/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
@@ -407,8 +409,6 @@ with col_github:
     """, unsafe_allow_html=True)
 
 if selected_lang == '🇧🇷 Português':
-    st.markdown(f"**{t['about_title']}**")
-    st.caption(t['about_desc'])
     st.link_button(
         t["follow_btn"],
         t['follow_url'],
