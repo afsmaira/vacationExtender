@@ -256,7 +256,7 @@ with st.sidebar:
         st.session_state.btn_clicks += 1
         js_close = f"""
         <script>
-            var sideBtn = window.parent.document.querySelector('button[data-testid="stExpandSidebarButton"]');
+            var sideBtn = window.parent.document.querySelector('button[data-testid="stBaseButton-headerNoPadding"]');
             if (sideBtn) {{
                 sideBtn.click();
             }}
