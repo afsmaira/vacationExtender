@@ -119,7 +119,20 @@ t = languages[selected_lang]
 
 st.set_page_config(
     page_title="Vacation Extender",
-    page_icon="https://i.pinimg.com/736x/9c/46/b3/9c46b336579e939fad219a3d194bd8d3.jpg", layout="centered"
+    page_icon="🌴",
+    layout="centered"
+)
+
+st.markdown(
+    """
+    <head>
+        <meta property="og:title" content="Férias Smart 🧠" />
+        <meta property="og:description" content="Transforme feriados em viagens incríveis sem gastar seus dias de férias!" />
+        <meta property="og:image" content="https://sua-url.com/imagem-de-capa.jpg" />
+        <meta property="og:type" content="website" />
+    </head>
+    """,
+    unsafe_allow_html=True
 )
 
 if 'extra_holidays' not in st.session_state:
@@ -311,10 +324,7 @@ if st.button(
         height=0, width=0
     )
 
-with st.expander(t["hols_list_title"]+\
-                 '\n('+country+('/'+subdivision
-                                if subdivision else '')+\
-                 ')'):
+with st.expander(t["hols_list_title"]):
     if sorted_dates:
         for d in sorted_dates:
             date_str = d.strftime(t['date_format'])
