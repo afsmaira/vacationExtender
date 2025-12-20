@@ -1,5 +1,6 @@
 # 🌴 Vacation Extender 📅
 
+![GitHub stars](https://img.shields.io/github/stars/afsmaira/vacation-extender?style=social)
 [![PyPI version](https://img.shields.io/pypi/v/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
 [![Python versions](https://img.shields.io/pypi/pyversions/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -138,3 +139,13 @@ This section configures the type of optimization algorithm and the specific scor
 | :--- |:--------|:---------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `algorithm_type` | `str` | `optimal` | `optimal`: Uses Dynamic Programming to find the mathematical global maximum. `greedy`: Selects best ROI first (Fast, heuristic-based).                                                                                                                     |
 | `duration_weight_factor_alpha` | `float` | `0.5`      | The Alpha Factor ($\alpha$) that weights break duration. It calculates priority with the Score $P = \eta \times T^{\alpha}$. Values $\alpha > 0$ penalize short breaks and prioritize longer vacation periods ($T$). Use $0$ for Pure Efficiency ($\eta$). |
+
+---
+
+## 🌟 Support the project
+
+If **Vacation Extender** was useful to you or helped you plan your vacations, please consider giving this repository a **star**!
+
+This helps the project grow and motivates the creation of new smart solutions. 🚀
+
+[Click here to give it a star!](https://github.com/afsmaira/vacation-extender/stargazers)
