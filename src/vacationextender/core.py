@@ -1,3 +1,4 @@
+import json
 import re
 import heapq
 import toml
@@ -84,6 +85,34 @@ class VacationExtender:
         except toml.TomlDecodeError:
             raise Exception("Error decoding TOML file. Check syntax.")
 
+    def export_config(self, file_path: str = 'config.json'):
+        json.dump({
+            "CALENDAR": {
+                "year": self.year,
+                "weekend": self.weekend},
+            "LOCATION": {
+                "country_code": self.country,
+                "subdivision_code": self.state,
+                "include_observed": self.weekend_holiday},
+            "CONSTRAINTS": {
+                "vacation_days": self.days,
+                "max_vac_periods": self.n_breaks,
+                "in_holiday_as_pto": self.holiday_as_pto,
+                "min_total_days_off": self.min_tot_break,
+                "max_total_days_off": self.max_tot_break,
+                "min_vac_days_per_break": self.min_vac_break,
+                "max_vac_days_per_break": self.max_vac_break,
+                "min_gap_days": self.min_gap,
+                "top_n_suggestions": self.top_n,
+                "custom_holidays": self.custom_holidays,
+                "forced_work": self.forbidden,
+                "must_be_vacation": self.must_be
+            },
+            "ALGORITHM": {
+                "algorithm_type": self.algorithm
+            }
+        }, open(file_path, 'w'), indent=4)
+
     def _str2date(self, dates: List[Union[str, date]]) -> List[date]:
         pattern = re.compile(r'^(\d{4}-\d{2}-\d{2}):?(\d{4}-\d{2}-\d{2})?')
         all_dates = []
@@ -136,6 +165,8 @@ class VacationExtender:
         if self.max_tot_break <= 0:
             self.max_tot_break = 999999
         self.holiday_as_pto = constraints.get('in_holiday_as_pto', False)
+        self.min_gap = constraints.get('min_gap_days', 0)
+        self.top_n = constraints.get('top_n_suggestions', 1)
         self.custom_holidays = constraints.get('custom_holidays', list())
         self.custom_holidays = self._str2date(self.custom_holidays)
         self.forbidden = constraints.get('forced_work', list())
@@ -150,8 +181,6 @@ class VacationExtender:
         algorithm = self.config.get('ALGORITHM', dict())
         self.algorithm = algorithm.get('algorithm', 'optimal')
         self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
-        self.min_gap = constraints.get('min_gap_days', 0)
-        self.top_n = constraints.get('top_n_suggestions', 1)
 
     def run(self):
         self._preprocess()

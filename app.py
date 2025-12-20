@@ -2,6 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from src.vacationextender.core import VacationExtender
 
+import json
 import datetime
 import holidays as hd
 
@@ -81,7 +82,9 @@ languages = {
         "h_carnival": "Carnival is an optional holiday in most of Brazil. Check this to include it in your vacation planning.",
 
         "must_be": "Fixed Vacation Dates",
-        "h_must_be": "Select days you MUST be off"
+        "h_must_be": "Select days you MUST be off",
+
+        "export": "Settings Export"
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -149,7 +152,9 @@ languages = {
         "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado.",
 
         "must_be": "Datas Obrigatórias",
-        "h_must_be": "Selecione dias que você JÁ VAI estar de folga"
+        "h_must_be": "Selecione dias que você JÁ VAI estar de folga",
+
+        "export": "Exportar Configuração"
     }
 }
 
@@ -369,8 +374,8 @@ config_payload = {
         "max_vac_days_per_break": max_pto_break,
         "min_gap_days": min_gap,
         "top_n_suggestions": top_n,
-        "additional_holidays": list(set(st.session_state.extra_holidays)),
-        "mandatory_work_days": list(set(st.session_state.mandatory_days)),
+        "custom_holidays": list(set(st.session_state.extra_holidays)),
+        "forced_work": list(set(st.session_state.mandatory_days)),
         "must_be_vacation": list(set(st.session_state.must_be_days))
     },
     "ALGORITHM": {
@@ -418,6 +423,25 @@ if st.button(
     )
 
 if st.session_state.config_ready:
+
+    st.subheader("📤 "+t['export'])
+
+    st.download_button(
+        label="JSON",
+        data=json.dumps(config_payload, indent=2),
+        file_name="config.json",
+        mime="application/json",
+        use_container_width=True
+    )
+    # with col2:
+    #     st.download_button(
+    #         label="TOML",
+    #         data=toml_string,
+    #         file_name="config.toml",
+    #         mime="text/x-toml",
+    #         use_container_width=True
+    #     )
+
     with st.expander(t["hols_list_title"] + f' ({year})'):
         if sorted_dates:
             for d in sorted_dates:
