@@ -406,6 +406,15 @@ with col_github:
         [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
     """, unsafe_allow_html=True)
 
+if selected_lang == '🇧🇷 Português':
+    st.markdown(f"**{t['about_title']}**")
+    st.caption(t['about_desc'])
+    st.link_button(
+        t["follow_btn"],
+        t['follow_url'],
+        icon="📱"
+    )
+
 st.divider()
 st.markdown(
     '''
@@ -432,12 +441,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-if selected_lang == '🇧🇷 Português':
-    st.markdown(f"**{t['about_title']}**")
-    st.caption(t['about_desc'])
-    st.link_button(
-        t["follow_btn"],
-        t['follow_url'],
-        icon="📱"
-    )
