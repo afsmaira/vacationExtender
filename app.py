@@ -413,7 +413,7 @@ if selected_lang == '🇧🇷 Português':
     st.markdown(
         f"""
     <div style='text-align: center'>
-        📢 <a href="{t['follow_url']}" target="_blank" style="text-decoration: none;">
+        <a href="{t['follow_url']}" target="_blank" style="text-decoration: none;">
             <div style="
                 display: inline-block;
                 padding: 10px 24px;
@@ -425,7 +425,7 @@ if selected_lang == '🇧🇷 Português':
                 transition: background-color 0.3s;
                 cursor: pointer;
                 margin-bottom: 20px;">
-                {t['follow_btn']}
+                📢 {t['follow_btn']}
             </div>
         </a>
     </div>
