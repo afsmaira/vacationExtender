@@ -111,7 +111,7 @@ class VacationExtender:
             "ALGORITHM": {
                 "algorithm_type": self.algorithm
             }
-        }, open(file_path, 'w'), indent=4)
+        }, open(file_path, 'w'), indent=4, default=str)
 
     def _str2date(self, dates: List[Union[str, date]]) -> List[date]:
         pattern = re.compile(r'^(\d{4}-\d{2}-\d{2}):?(\d{4}-\d{2}-\d{2})?')
