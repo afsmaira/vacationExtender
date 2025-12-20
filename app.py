@@ -61,7 +61,18 @@ languages = {
         "date_format": "%m/%d",
         "date_display": "%b %d",
         "config_btn": "Start Planning",
-        "save_btn": "Save"
+        "save_btn": "Save",
+
+        "feedback_title": "💡 Suggestions for improvement?",
+        "feedback_desc": "Help us make Smart Vacation even better!",
+        "github_btn": "Report bug on GitHub",
+        "forms_btn": "Send feedback (Forms)",
+        "forms_url": "https://forms.gle/2ocBymDTqBU4fR3EA",
+
+        "about_title": "🚀 About the Project",
+        "about_desc": "Smart Vacation is the first of a series of apps designed to simplify your life.",
+        "follow_btn": "Follow our journey on Instagram",
+        "follow_url": "https://linktr.ee/afs.life.apps"
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -112,7 +123,18 @@ languages = {
         "date_format": "%d/%m",
         "date_display": "%d/%m",
         "config_btn": "Começar Planejamento",
-        "save_btn": "Salvar"
+        "save_btn": "Salvar",
+
+        "feedback_title": "💡 Sugestões de melhoria?",
+        "feedback_desc": "Ajude-nos a tornar o Férias Smart ainda melhor!",
+        "github_btn": "Reportar bug no GitHub",
+        "forms_btn": "Dar sugestão (Forms)",
+        "forms_url": "https://forms.gle/heFh7g56DH9mjA8s8",
+
+        "about_title": "🚀 Sobre o Projeto",
+        "about_desc": "O Férias Smart é o primeiro de uma série de apps criados para simplificar sua vida.",
+        "follow_btn": "Siga nossa jornada no Instagram",
+        "follow_url": "https://linktr.ee/afs.life.apps"
     }
 }
 
@@ -357,6 +379,38 @@ if st.session_state.config_ready:
             st.info(t["check_iso"])
 
 # --- FOOTER ---
+
+
+st.divider()
+
+col_social, col_feedback, col_github = st.columns([1.5, 1, 1])
+
+if selected_lang == '🇧🇷 Português':
+    with col_social:
+        st.markdown(f"**{t['about_title']}**")
+        st.caption(t['about_desc'])
+        st.link_button(
+            t["follow_btn"],
+            t['follow_url'],
+            icon="📱"
+        )
+
+with col_feedback:
+    st.markdown(t['feedback_title'])
+    st.caption(t['feedback_desc'])
+    st.link_button(
+        t['forms_btn'],
+        t['forms_url'],
+        icon="📝"
+    )
+
+with col_github:
+    st.markdown("**Open Source & Library**")
+    st.markdown("""
+        [![PyPI version](https://badge.fury.io/py/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
+        [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+    """, unsafe_allow_html=True)
+
 st.divider()
 st.markdown(
     '''
