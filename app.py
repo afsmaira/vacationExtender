@@ -351,7 +351,7 @@ except:
 all_hols_dict = {d: name for d, name in base_hols.items()}
 
 if include_carnival:
-    easter = [k for k, v in all_hols_dict
+    easter = [k for k, v in all_hols_dict.items()
               if v == 'Sexta-feira Santa']
     if len(easter) > 0:
         carnival = easter[0] - 45*dDay
