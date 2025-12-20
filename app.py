@@ -279,7 +279,7 @@ with st.sidebar:
         if st.session_state.extra_holidays:
             lst = ', '.join(
                 dt.strftime(t['date_format'])
-                for dt in sorted(st.session_state.extra_holidays)
+                for dt in sorted(set(st.session_state.extra_holidays))
             )
             st.write(f"{t['added_dates']} {lst}")
             if st.button(t["clear_btn"], key="clr_h"):
@@ -303,7 +303,7 @@ with st.sidebar:
         if st.session_state.mandatory_days:
             lst = ', '.join(
                 dt.strftime(t['date_format'])
-                for dt in sorted(st.session_state.mandatory_days)
+                for dt in sorted(set(st.session_state.mandatory_days))
             )
             st.write(f"{t['added_dates']} {lst}")
             if st.button(t["clear_btn"], key="clr_m"):
@@ -366,7 +366,7 @@ if include_carnival:
 for d in st.session_state.get("extra_holidays", []):
     if d not in all_hols_dict:
         all_hols_dict[d] = t["custom_holiday"]
-sorted_dates = sorted(all_hols_dict.keys())
+sorted_dates = list(sorted(set(all_hols_dict.keys())))
 
 
 if st.button(
