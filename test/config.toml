@@ -99,7 +99,7 @@ forced_work = []
 # List of specific dates where you are already committed to being on vacation.
 # The engine will prioritize these dates and calculate extensions around them.
 # Same format as custom_holidays.
-must_be_vacation = []
+must_be_vacation = ["2026-01-02"]
 
 [ALGORITHM]
 # Algorithm used. greedy or optimal

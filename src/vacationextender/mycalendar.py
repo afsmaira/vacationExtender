@@ -22,6 +22,11 @@ class CalendarDay:
             return self.day > other
         return self.day > other.day
 
+    def __lt__(self, other):
+        if isinstance(other, date):
+            return self.day < other
+        return self.day < other.day
+
     def __eq__(self, other):
         if isinstance(other, date):
             return self.day == other
@@ -31,6 +36,11 @@ class CalendarDay:
         if isinstance(other, date):
             return self.day >= other
         return self.day >= other.day
+
+    def __le__(self, other):
+        if isinstance(other, date):
+            return self.day <= other
+        return self.day <= other.day
 
     def set_forbidden(self):
         self.type = FORBIDDEN
