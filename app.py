@@ -78,7 +78,10 @@ languages = {
         "follow_url": "https://linktr.ee/afs.life.apps",
 
         "carnival": "Include Carnival (Brazil)?",
-        "h_carnival": "Carnival is an optional holiday in most of Brazil. Check this to include it in your vacation planning."
+        "h_carnival": "Carnival is an optional holiday in most of Brazil. Check this to include it in your vacation planning.",
+
+        "must_be": "Fixed Vacation Dates",
+        "h_must_be": "Select days you MUST be off"
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -143,7 +146,10 @@ languages = {
         "follow_url": "https://linktr.ee/afs.life.apps",
 
         "carnival": "Considerar Carnaval como feriado?",
-        "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado."
+        "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado.",
+
+        "must_be": "Datas Obrigatórias",
+        "h_must_be": "Selecione dias que você JÁ VAI estar de folga"
     }
 }
 
