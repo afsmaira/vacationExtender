@@ -4,7 +4,7 @@ import toml
 import bisect
 
 from datetime import date, timedelta
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Union
 from .mycalendar import Calendar, Break
 
 
@@ -87,10 +87,13 @@ class VacationExtender:
         except toml.TomlDecodeError:
             raise Exception("Error decoding TOML file. Check syntax.")
 
-    def _str2date(self, dates: List[str]) -> List[date]:
+    def _str2date(self, dates: List[Union[str, date]]) -> List[date]:
         pattern = re.compile(r'^(\d{4}-\d{2}-\d{2}):?(\d{4}-\d{2}-\d{2})?')
         all_dates = []
         for item in dates:
+            if isinstance(item, date):
+                all_dates.append(item)
+                continue
             clean_item = str(item).strip().replace(" ", "")
             match = pattern.search(clean_item)
             if match:
