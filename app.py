@@ -42,6 +42,8 @@ languages = {
         "add_date_btn": "Add Date",
         "clear_btn": "Clear",
         "added_dates": "Selected Dates:",
+        "holidays_consume": "Holidays consume PTO days?",
+        "h_holidays_consume": "If enabled, holidays occurring during your vacation will count towards your used PTO balance.",
         "h_year": "The calendar year for which you want to plan your vacations.",
         "h_country": "Select your country to automatically load national holidays.",
         "h_state": "Select your state/region for local holidays.",
@@ -93,6 +95,8 @@ languages = {
         "add_date_btn": "Adicionar",
         "clear_btn": "Limpar",
         "added_dates": "Datas selecionadas:",
+        "holidays_consume": "Feriados consomem dias de férias?",
+        "h_holidays_consume": "Se ativado, feriados que caem durante as férias serão contados como dias gastos do seu saldo de férias.",
         "h_year": "O ano do calendário para o qual você deseja planejar suas férias.",
         "h_country": "Selecione seu país para carregar automaticamente os feriados nacionais.",
         "h_state": "Selecione seu estado ou região para feriados locais.",
@@ -190,6 +194,11 @@ with st.sidebar:
     )
 
     with st.expander(t["advanced"]):
+        holidays_consume_pto = st.checkbox(
+            t["holidays_consume"],
+            value=True,
+            help=t["h_holidays_consume"]
+        )
         min_break = st.number_input(
             t["min_break"],
             min_value=1, max_value=366, value=1, step=1,
@@ -290,6 +299,7 @@ config_payload = {
     "CONSTRAINTS": {
         "vacation_days": vac_days,
         "max_vac_periods": max_periods,
+        "in_holiday_as_pto": holidays_consume_pto,
         "min_total_days_off": min_break,
         "max_total_days_off": max_break,
         "min_vac_days_per_break": min_pto_break,
