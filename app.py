@@ -434,7 +434,7 @@ if st.session_state.config_ready:
 
     st.markdown("📤 "+t['export']+": "
                 f'<a href="data:file/txt;base64,{b64_json}" download="config.json" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">JSON</a> | '
-                f'<a href="data:file/txt;base64,{b64_toml}" download="config.toml" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">JSON</a>',
+                f'<a href="data:file/txt;base64,{b64_toml}" download="config.toml" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">TOML</a>',
                 unsafe_allow_html=True)
 
     with st.expander(t["hols_list_title"] + f' ({year})'):
