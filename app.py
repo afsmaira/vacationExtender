@@ -428,7 +428,7 @@ if st.session_state.config_ready:
 
     st.download_button(
         label="JSON",
-        data=json.dumps(config_payload, indent=2),
+        data=json.dumps(config_payload, indent=4, default=str),
         file_name="config.json",
         mime="application/json",
         use_container_width=True
