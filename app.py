@@ -341,7 +341,6 @@ config_payload = {
         "algorithm_type": "optimal"
     }
 }
-print(config_payload)
 
 try:
     base_hols = hd.country_holidays(
@@ -391,6 +390,7 @@ if st.session_state.config_ready:
     if st.button(t["button"], type="primary", use_container_width=True):
         try:
             with st.spinner(t["loading"]):
+                print(config_payload)
                 ve = VacationExtender(config_data=config_payload)
                 ve.run()
 
