@@ -141,6 +141,8 @@ if 'mandatory_days' not in st.session_state:
     st.session_state.mandatory_days = []
 if "btn_clicks" not in st.session_state:
     st.session_state.btn_clicks = 0
+if "config_ready" not in st.session_state:
+    st.session_state.config_ready = False
 
 # Title & Description
 st.title(t["title"])
@@ -267,6 +269,7 @@ with st.sidebar:
     if st.button(
             t['save_btn'], use_container_width=True, type="primary"
     ):
+        st.session_state.config_ready = True
         st.session_state.btn_clicks += 1
         js_close = f"""
         <script>
@@ -324,28 +327,29 @@ if st.button(
         height=0, width=0
     )
 
-with st.expander(t["hols_list_title"]):
-    if sorted_dates:
-        for d in sorted_dates:
-            date_str = d.strftime(t['date_format'])
-            st.write(f"**{date_str}** - {all_hols_dict[d]}")
-    else:
-        st.info(t["no_hols"])
+if st.session_state.config_ready:
+    with st.expander(t["hols_list_title"]):
+        if sorted_dates:
+            for d in sorted_dates:
+                date_str = d.strftime(t['date_format'])
+                st.write(f"**{date_str}** - {all_hols_dict[d]}")
+        else:
+            st.info(t["no_hols"])
 
-if st.button(t["button"], type="primary", use_container_width=True):
-    try:
-        with st.spinner(t["loading"]):
-            ve = VacationExtender(config_data=config_payload)
-            ve.run()
+    if st.button(t["button"], type="primary", use_container_width=True):
+        try:
+            with st.spinner(t["loading"]):
+                ve = VacationExtender(config_data=config_payload)
+                ve.run()
 
-            st.success(t["success"])
-            st.markdown(f"### {t['table_header']}")
-            st.code(str(ve), language="text")
-            st.caption(t["caption"])
+                st.success(t["success"])
+                st.markdown(f"### {t['table_header']}")
+                st.code(str(ve), language="text")
+                st.caption(t["caption"])
 
-    except Exception as e:
-        st.error(f"{t['error']} {e}")
-        st.info(t["check_iso"])
+        except Exception as e:
+            st.error(f"{t['error']} {e}")
+            st.info(t["check_iso"])
 
 # --- FOOTER ---
 st.divider()
