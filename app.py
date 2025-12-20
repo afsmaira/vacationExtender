@@ -5,7 +5,7 @@ from src.vacationextender.core import VacationExtender
 import datetime
 import holidays as hd
 
-DEBUG = True
+DEBUG = False
 
 supported_data = hd.list_supported_countries()
 country_codes = sorted(supported_data.keys())
@@ -336,8 +336,8 @@ config_payload = {
         "max_vac_days_per_break": max_pto_break,
         "min_gap_days": min_gap,
         "top_n_suggestions": top_n,
-        "additional_holidays": st.session_state.extra_holidays,
-        "mandatory_work_days": st.session_state.mandatory_days
+        "additional_holidays": list(set(st.session_state.extra_holidays)),
+        "mandatory_work_days": list(set(st.session_state.mandatory_days))
     },
     "ALGORITHM": {
         "algorithm_type": "optimal"
