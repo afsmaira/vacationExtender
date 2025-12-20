@@ -9,6 +9,7 @@ supported_data = hd.list_supported_countries()
 country_codes = sorted(supported_data.keys())
 
 curr_year = datetime.datetime.now().year
+dDay = datetime.timedelta(days=45)
 
 # 1. DICTIONARY OF TRANSLATIONS
 languages = {
@@ -72,7 +73,10 @@ languages = {
         "about_title": "🚀 About the Project",
         "about_desc": "Vacation Extender is the first of a series of apps designed to simplify your life.",
         "follow_btn": "Follow our journey",
-        "follow_url": "https://linktr.ee/afs.life.apps"
+        "follow_url": "https://linktr.ee/afs.life.apps",
+
+        "carnival": "Include Carnival (Brazil)?",
+        "h_carnival": "Carnival is an optional holiday in most of Brazil. Check this to include it in your vacation planning."
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -134,7 +138,10 @@ languages = {
         "about_title": "🚀 Sobre o Projeto",
         "about_desc": "O Férias Smart é o primeiro de uma série de apps criados para simplificar sua vida.",
         "follow_btn": "Siga nossa jornada nas Redes Sociais",
-        "follow_url": "https://linktr.ee/afs.life.apps"
+        "follow_url": "https://linktr.ee/afs.life.apps",
+
+        "carnival": "Considerar Carnaval como feriado?",
+        "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para planejar pontes com ele."
     }
 }
 
@@ -197,6 +204,14 @@ with st.sidebar:
             )
     else:
         subdivision = None
+
+    include_carnival = False
+    if country == "BR":
+        include_carnival = st.checkbox(
+            t["carnival"],
+            value=True,
+            help=t["h_carnival"]
+        )
 
     st.divider()
 
@@ -366,6 +381,14 @@ if st.session_state.config_ready:
     if st.button(t["button"], type="primary", use_container_width=True):
         try:
             with st.spinner(t["loading"]):
+                if include_carnival:
+                    easter = [k for k, v in all_hols_dict
+                              if v == 'Sexta-feira Santa']
+                    if len(easter) > 0:
+                        carnival = easter[0] - 45*dDay
+                        st.session_state.extra_holidays.extend(
+                            [carnival-dDay, carnival, carnival+dDay]
+                        )
                 ve = VacationExtender(config_data=config_payload)
                 ve.run()
 
@@ -408,7 +431,8 @@ with col_feedback:
         icon="📝"
     )
 
-if selected_lang == '🇧🇷 Português':
+if selected_lang == '🇧🇷 Português' or\
+        (st.session_state.config_ready and country == 'BR'):
     st.divider()
     st.markdown(
         f"""
