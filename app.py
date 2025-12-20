@@ -118,7 +118,8 @@ selected_lang = st.selectbox(
 t = languages[selected_lang]
 
 st.set_page_config(
-    page_title="Vacation Extender", page_icon="🌴", layout="centered"
+    page_title="Vacation Extender",
+    page_icon="https://i.pinimg.com/736x/9c/46/b3/9c46b336579e939fad219a3d194bd8d3.jpg", layout="centered"
 )
 
 if 'extra_holidays' not in st.session_state:
@@ -257,9 +258,7 @@ with st.sidebar:
         js_close = f"""
         <script>
             var sideBtn = window.parent.document.querySelector('button[data-testid="stBaseButton-headerNoPadding"]');
-            if (sideBtn) {{
-                sideBtn.click();
-            }}
+            if (sideBtn) {{ sideBtn.click(); }}
         </script>
         <!--{st.session_state.btn_clicks}-->
         """
