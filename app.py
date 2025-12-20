@@ -9,7 +9,7 @@ supported_data = hd.list_supported_countries()
 country_codes = sorted(supported_data.keys())
 
 curr_year = datetime.datetime.now().year
-dDay = datetime.timedelta(days=45)
+dDay = datetime.timedelta(days=1)
 
 # 1. DICTIONARY OF TRANSLATIONS
 languages = {
@@ -355,9 +355,9 @@ if include_carnival:
               if v == 'Sexta-feira Santa']
     if len(easter) > 0:
         carnival = easter[0] - 45*dDay
-        st.session_state.extra_holidays.extend(
-            [carnival-dDay, carnival, carnival+dDay]
-        )
+        all_hols_dict[carnival-dDay] = 'Carnaval'
+        all_hols_dict[carnival] = 'Carnaval'
+        all_hols_dict[carnival+dDay] = 'Carnaval'
 for d in st.session_state.get("extra_holidays", []):
     if d not in all_hols_dict:
         all_hols_dict[d] = t["custom_holiday"]
