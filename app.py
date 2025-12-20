@@ -64,14 +64,14 @@ languages = {
         "save_btn": "Save",
 
         "feedback_title": "💡 Suggestions for improvement?",
-        "feedback_desc": "Help us make Smart Vacation even better!",
+        "feedback_desc": "Help us make Vacation Extender even better!",
         "github_btn": "Report bug on GitHub",
         "forms_btn": "Send feedback (Forms)",
         "forms_url": "https://forms.gle/2ocBymDTqBU4fR3EA",
 
         "about_title": "🚀 About the Project",
-        "about_desc": "Smart Vacation is the first of a series of apps designed to simplify your life.",
-        "follow_btn": "Follow our journey on Instagram",
+        "about_desc": "Vacation Extender is the first of a series of apps designed to simplify your life.",
+        "follow_btn": "Follow our journey",
         "follow_url": "https://linktr.ee/afs.life.apps"
     },
     "🇧🇷 Português": {
@@ -133,7 +133,7 @@ languages = {
 
         "about_title": "🚀 Sobre o Projeto",
         "about_desc": "O Férias Smart é o primeiro de uma série de apps criados para simplificar sua vida.",
-        "follow_btn": "Siga nossa jornada no Instagram",
+        "follow_btn": "Siga nossa jornada nas Redes Sociais",
         "follow_url": "https://linktr.ee/afs.life.apps"
     }
 }
@@ -401,6 +401,11 @@ with col_feedback:
     st.link_button(
         t['forms_btn'],
         t['forms_url'],
+        icon="📝"
+    )
+    st.link_button(
+        t['github_btn'],
+        'https://github.com/afsmaira/vacationExtender/issues',
         icon="📝"
     )
 
