@@ -36,8 +36,8 @@ languages = {
         "error": "Error processing: ",
         "check_iso": "Please check if the Country ISO code and State are correct.",
         "caption": "Legend: PTO = Vacation days used | TOTAL = Total days off (including holidays and weekends)",
-        "add_holidays_label": "Extra Holidays",
-        "mandatory_label": "Work Days (Block)",
+        "add_holidays": "Extra/Local Holidays",
+        "mandatory": "Work Days (Block)",
         "add_date_btn": "Add Date",
         "clear_btn": "Clear",
         "added_dates": "Selected Dates:",
@@ -56,7 +56,7 @@ languages = {
         "h_min_gap": "Minimum number of days between two vacation periods to ensure they are well distributed throughout the year.",
         "h_config": "Touch button 'Vacation Config' at top to start!",
         "hols_list_title": "📅  Holidays Considered for Calculation",
-        "custom_holiday_label": "User Added",
+        "custom_holiday": "User Added",
         "no_hols": "No holidays identified for this selection.",
         "date_format": "%m/%d",
         "date_display": "%b %d",
@@ -87,8 +87,8 @@ languages = {
         "error": "Erro ao processar: ",
         "check_iso": "Verifique se o código do país e estado estão corretos.",
         "caption": "Legenda: PTO = Dias de férias usados | TOTAL = Dias totais de descanso (incluindo feriados e fins de semana)",
-        "add_holidays_label": "Feriados Extras",
-        "mandatory_label": "Dias de trabalho obrigatórios",
+        "add_holidays": "Feriados Extras/Locais",
+        "mandatory": "Dias de trabalho obrigatórios",
         "add_date_btn": "Adicionar",
         "clear_btn": "Limpar",
         "added_dates": "Datas selecionadas:",
@@ -107,7 +107,7 @@ languages = {
         "h_min_gap": "Número mínimo de dias entre dois períodos de férias para garantir que fiquem bem distribuídas ao longo do ano.",
         "h_config": "Clique no botão 'Configurar Férias' ali no topo para começar!",
         "hols_list_title": "📅  Feriados Considerados para o Cálculo",
-        "custom_holiday_label": "Adicionado pelo Usuário",
+        "custom_holiday": "Adicionado pelo Usuário",
         "no_hols": "Nenhum feriado identificado para esta seleção.",
         "date_format": "%d/%m",
         "date_display": "%d/%m",
@@ -224,7 +224,7 @@ with st.sidebar:
             help=t['h_top_n']
         )
 
-        st.markdown(f"**{t['add_holidays_label']}**")
+        st.markdown(f"**{t['add_holidays']}**")
         col_date, col_btn = st.columns([2, 1])
         new_h = col_date.date_input(
             "Holidays", label_visibility="collapsed", key="in_h",
@@ -248,7 +248,7 @@ with st.sidebar:
 
         st.divider()
 
-        st.markdown(f"**{t['mandatory_label']}**")
+        st.markdown(f"**{t['mandatory']}**")
         col_date_m, col_btn_m = st.columns([2, 1])
         new_m = col_date_m.date_input(
             "Mandatory", label_visibility="collapsed", key="in_m",
@@ -314,7 +314,7 @@ except:
 all_hols_dict = {d: name for d, name in base_hols.items()}
 for d in st.session_state.get("extra_holidays", []):
     if d not in all_hols_dict:
-        all_hols_dict[d] = t["custom_holiday_label"]
+        all_hols_dict[d] = t["custom_holiday"]
 sorted_dates = sorted(all_hols_dict.keys())
 
 
