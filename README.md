@@ -1,6 +1,6 @@
 # 🌴 Vacation Extender 📅
 
-![GitHub stars](https://img.shields.io/github/stars/afsmaira/vacation-extender?style=social)
+![GitHub stars](https://img.shields.io/github/stars/afsmaira/vacationExtender?style=social)
 [![PyPI version](https://img.shields.io/pypi/v/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
 [![Python versions](https://img.shields.io/pypi/pyversions/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -148,4 +148,4 @@ If **Vacation Extender** was useful to you or helped you plan your vacations, pl
 
 This helps the project grow and motivates the creation of new smart solutions. 🚀
 
-[Click here to give it a star!](https://github.com/afsmaira/vacation-extender/stargazers)
+[Click here to give it a star!](https://github.com/afsmaira/vacationExtender/stargazers)
