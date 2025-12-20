@@ -37,7 +37,7 @@ languages = {
         "check_iso": "Please check if the Country ISO code and State are correct.",
         "caption": "Legend: PTO = Vacation days used | TOTAL = Total days off (including holidays and weekends)",
         "add_holidays": "Extra/Local Holidays",
-        "mandatory": "Work Days (Block)",
+        "mandatory": "Mandatory Work Days",
         "add_date_btn": "Add Date",
         "clear_btn": "Clear",
         "added_dates": "Selected Dates:",
