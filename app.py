@@ -28,7 +28,6 @@ languages = {
         "max_pto_break": "Max. PTO days per period",
         "min_gap": "Min. days gap between periods",
         "top_n": "Number of suggestions in output",
-        "alpha": "Alpha Factor (Duration vs Efficiency)",
         "button": "🚀 Optimize My Vacation",
         "loading": "Analyzing calendar and optimizing periods...",
         "success": "Optimization complete!",
@@ -51,7 +50,6 @@ languages = {
         "h_max_periods": "The maximum number of separate vacation blocks the algorithm should suggest.",
         "h_min_max": "Constraints on the duration (in total days) of each vacation block.",
         "h_pto_min_max": "Constraints on the duration (in PTO days) of each vacation block.",
-        "h_alpha": "0.0 focuses on pure efficiency. Greater values prioritize longer breaks.",
         "h_top_n": "Number of alternative vacation plans to display.",
         "h_add_hols": "Add holidays that are not in the standard list (e.g., municipal holidays).",
         "h_mandatory": "Days when you MUST work (the algorithm will avoid these days for vacation).",
@@ -81,7 +79,6 @@ languages = {
         "max_pto_break": "Máx. dias de férias por período",
         "min_gap": "Mín. dias entre períodos",
         "top_n": "Número de sugestões na saída",
-        "alpha": "Fator Alpha (Duração vs Eficiência)",
         "button": "🚀 Otimizar Minhas Férias",
         "loading": "Analisando o calendário...",
         "success": "Otimização concluída!",
@@ -104,7 +101,6 @@ languages = {
         "h_max_periods": "O número máximo de períodos (blocos) em que suas férias podem ser divididas.",
         "h_min_max": "Limites de duração (em dias totais) para cada período de descanso.",
         "h_pto_min_max": "Limites de duração (em dias de férias) para cada período de descanso.",
-        "h_alpha": "0.0 foca em eficiência pura. Valores maiores priorizam períodos mais longos.",
         "h_top_n": "Número de diferentes sugestões de planos de férias que você quer ver.",
         "h_add_hols": "Adicione feriados que não estão na lista padrão (ex: feriados municipais).",
         "h_mandatory": "Dias em que você NÃO pode estar de férias (ex: reuniões importantes).",
@@ -227,11 +223,6 @@ with st.sidebar:
             min_value=1, max_value=10, value=1, step=1,
             help=t['h_top_n']
         )
-        alpha = st.slider(
-            t["alpha"],
-            0.0, 10.0, 0.5,
-            help=t["h_alpha"]
-        )
 
         st.markdown(f"**{t['add_holidays_label']}**")
         col_date, col_btn = st.columns([2, 1])
@@ -310,8 +301,7 @@ config_payload = {
         "mandatory_work_days": st.session_state.mandatory_days
     },
     "ALGORITHM": {
-        "algorithm_type": "optimal",
-        "duration_weight_factor_alpha": alpha
+        "algorithm_type": "optimal"
     }
 }
 
