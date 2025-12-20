@@ -341,6 +341,7 @@ config_payload = {
         "algorithm_type": "optimal"
     }
 }
+print(config_payload)
 
 try:
     base_hols = hd.country_holidays(
@@ -379,7 +380,7 @@ if st.button(
     )
 
 if st.session_state.config_ready:
-    with st.expander(t["hols_list_title"]):
+    with st.expander(t["hols_list_title"] + f' ({year})'):
         if sorted_dates:
             for d in sorted_dates:
                 date_str = d.strftime(t['date_format'])
