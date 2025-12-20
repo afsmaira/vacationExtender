@@ -18,12 +18,18 @@ class CalendarDay:
         return f'{self.day} {TYPES[self.type]}'
 
     def __gt__(self, other):
+        if isinstance(other, date):
+            return self.day > other
         return self.day > other.day
 
     def __eq__(self, other):
+        if isinstance(other, date):
+            return self.day == other
         return self.day == other.day
 
     def __ge__(self, other):
+        if isinstance(other, date):
+            return self.day >= other
         return self.day >= other.day
 
     def set_forbidden(self):
@@ -192,6 +198,9 @@ class Break:
 
     def __xor__(self, other):
         return self.gap(other) == 0
+
+    def __contains__(self, item: Union[date, CalendarDay]) -> bool:
+        return self.begin <= date <= self.end
 
     def gap(self, other):
         if self.end < other.begin:

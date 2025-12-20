@@ -164,6 +164,8 @@ if 'extra_holidays' not in st.session_state:
     st.session_state.extra_holidays = []
 if 'mandatory_days' not in st.session_state:
     st.session_state.mandatory_days = []
+if 'must_be_days' not in st.session_state:
+    st.session_state.must_be_days = []
 if "btn_clicks" not in st.session_state:
     st.session_state.btn_clicks = 0
 if "config_ready" not in st.session_state:
@@ -241,7 +243,7 @@ with st.sidebar:
         )
         max_break = st.number_input(
             t["max_break"],
-            min_value=1, max_value=366, value=vac_days, step=1
+            min_value=1, max_value=366, value=366, step=1
         )
         min_pto_break = st.number_input(
             t["min_pto_break"],
@@ -308,6 +310,31 @@ with st.sidebar:
             st.write(f"{t['added_dates']} {lst}")
             if st.button(t["clear_btn"], key="clr_m"):
                 st.session_state.mandatory_days = []
+
+        st.divider()
+
+        st.markdown(f"**{t['must_be']}**")
+        col_date_mb, col_btn_mb = st.columns([2, 1])
+        new_mb = col_date_mb.date_input(
+            "Must be", label_visibility="collapsed", key="in_m",
+            min_value=datetime.date(year, 1, 1),
+            max_value=datetime.date(year, 12, 31),
+            value=datetime.date(year, 1, 1),
+            help=t['h_must_be']
+        )
+        if col_btn_mb.button(t["add_date_btn"], key="btn_mb"):
+            if new_mb not in st.session_state.must_be_days:
+                st.session_state.must_be_days.append(new_mb)
+
+        if st.session_state.must_be_days:
+            lst = ', '.join(
+                dt.strftime(t['date_format'])
+                for dt in sorted(set(st.session_state.must_be_days))
+            )
+            st.write(f"{t['added_dates']} {lst}")
+            if st.button(t["clear_btn"], key="clr_mb"):
+                st.session_state.must_be_days = []
+
     if st.button(
             t['save_btn'], use_container_width=True, type="primary"
     ):
@@ -337,7 +364,8 @@ config_payload = {
         "min_gap_days": min_gap,
         "top_n_suggestions": top_n,
         "additional_holidays": list(set(st.session_state.extra_holidays)),
-        "mandatory_work_days": list(set(st.session_state.mandatory_days))
+        "mandatory_work_days": list(set(st.session_state.mandatory_days)),
+        "must_be_vacation": list(set(st.session_state.must_be_days))
     },
     "ALGORITHM": {
         "algorithm_type": "optimal"

@@ -130,6 +130,7 @@ This section defines the user's budget and specific rules for suggesting optimal
 | `in_holiday_as_pto`      | Boolean         | `false` | If `true`, Fixed Days Off (holidays/weekends) inside a continuous vacation span are charged against the PTO budget. If `false`, only working days consume PTO.                             |
 | `custom_holidays`        | List of Strings | `[]`    | List of additional non-working days. Supports single days ("YYYY-MM-DD") or ranges ("YYYY-MM-DD:YYYY-MM-DD").                                                                                                         |
 | `forced_work`      | List of Strings | `[]`    | List of dates or intervals where work is mandatory. Supports single days ("YYYY-MM-DD") or ranges ("YYYY-MM-DD:YYYY-MM-DD").                                                               |
+| `must_be_vacation` | List of Strings | `[]`    | List of dates or intervals where vacation is mandatory (e.g., family trips or company shutdowns). Supports single days ("YYYY-MM-DD") or ranges ("YYYY-MM-DD:YYYY-MM-DD").
 
 ### ⚙️ `[ALGORITHM]`
 

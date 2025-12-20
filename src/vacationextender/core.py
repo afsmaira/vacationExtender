@@ -35,13 +35,11 @@ class VacationExtender:
                 ret += f"🌴 EXTENDED VACATION (suggestion {i + 1}) 📅\n"
             ret += "=" * N_SEP + '\n'
 
-            # Headers
             ret += HEADER_FORMAT.format("BEGIN BREAK", "END BREAK",
                                         "BEGIN PTO", "END PTO",
                                         "PTO", "TOTAL", "ROI")
             ret += SEPARATOR
 
-            # Impressão das linhas
             total_pto_used = 0
             total_days_gained = 0
 
@@ -67,7 +65,6 @@ class VacationExtender:
 
             ret += SEPARATOR
 
-            # Resumo Final
             ret += f"USED PTO: {total_pto_used} / {self.days}\n"
             ret += f"TOTAL BREAK DAYS: {total_days_gained}\n"
             ret += f"AVERAGE ROI: {total_days_gained / total_pto_used:.2f} break days / PTO days\n"
@@ -148,6 +145,8 @@ class VacationExtender:
                                  first_day, last_day,
                                  self.weekend, self.custom_holidays,
                                  self.forbidden)
+        self.must_be = constraints.get('must_be_vacation', list())
+        self.must_be = sorted(self._str2date(self.must_be))
         algorithm = self.config.get('ALGORITHM', dict())
         self.algorithm = algorithm.get('algorithm', 'optimal')
         self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
@@ -213,7 +212,6 @@ class VacationExtender:
         """ Runs the optimal vacation algorithm. """
         all_ends: List[date] = [b.end.date() for b in self.breaks]
         n = len(self.breaks)
-        all_ends = [b.end.date() for b in self.breaks]
         dp: List[List[List[List[Tuple[int, List[Break]]]]]] = \
             [[[[] for _ in range(self.n_breaks + 1)]
               for _ in range(self.days + 1)]
@@ -235,7 +233,15 @@ class VacationExtender:
                         for score, path in prev_solutions:
                             new_score = score + br.total
                             new_path = path + [br]
-                            candidates.append((new_score, new_path))
+                            to_add = True
+                            for mb in self.must_be:
+                                if mb > br.end:
+                                    break
+                                if all(mb not in b for b in new_path):
+                                    to_add = False
+                                    break
+                            if to_add:
+                                candidates.append((new_score, new_path))
                     if candidates:
                         candidates.sort(key=lambda x: x[0], reverse=True)
                         dp[i][p][k] = candidates[:self.top_n]

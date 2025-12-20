@@ -71,7 +71,7 @@ top_n_suggestions = 1
 # Holidays and weekends inside a vacation span are counted
 # against the PTO budget?
 # Default: false
-in_holiday_as_pto = false
+in_holiday_as_pto = true
 
 # Additional holidays (e.g., local holidays or company bridges).
 # Accepted formats in the list:
@@ -93,18 +93,13 @@ custom_holidays = ["2026-02-16:2026-02-18", # Carnaval
                     ]
 
 # Mandatory work days or intervals (dates where you CANNOT take vacation).
-# Accepted formats in the list:
-#   - Single day: "YYYY-MM-DD"
-#   - Interval:   "YYYY-MM-DD:YYYY-MM-DD" (Start:End)
-#
-# Usage Example:
-# forced_work = [
-#    "2026-01-15",            # Important meeting (Single day)
-#    "2026-05-20:2026-05-30"  # Project delivery (10-day interval)
-# ]
-#
-# Default: [] (No restrictions)
+# Same format as custom_holidays.
 forced_work = []
+
+# List of specific dates where you are already committed to being on vacation.
+# The engine will prioritize these dates and calculate extensions around them.
+# Same format as custom_holidays.
+must_be_vacation = []
 
 [ALGORITHM]
 # Algorithm used. greedy or optimal

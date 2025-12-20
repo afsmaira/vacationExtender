@@ -57,6 +57,11 @@ custom_holidays = []
 # Same format as custom_holidays.
 forced_work = []
 
+# List of specific dates where you are already committed to being on vacation.
+# The engine will prioritize these dates and calculate extensions around them.
+# Same format as custom_holidays.
+must_be_vacation = []
+
 [ALGORITHM]
 # 'optimal' (Slow, Perfect) or 'greedy' (Fast, Heuristic)
 algorithm_type = "optimal"
