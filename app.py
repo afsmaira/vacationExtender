@@ -383,17 +383,7 @@ if st.session_state.config_ready:
 
 st.divider()
 
-col_social, col_feedback, col_github = st.columns([1.5, 1, 1])
-
-if selected_lang == '🇧🇷 Português':
-    with col_social:
-        st.markdown(f"**{t['about_title']}**")
-        st.caption(t['about_desc'])
-        st.link_button(
-            t["follow_btn"],
-            t['follow_url'],
-            icon="📱"
-        )
+col_feedback, col_github = st.columns([1, 1])
 
 with col_feedback:
     st.markdown(t['feedback_title'])
@@ -442,3 +432,12 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+if selected_lang == '🇧🇷 Português':
+    st.markdown(f"**{t['about_title']}**")
+    st.caption(t['about_desc'])
+    st.link_button(
+        t["follow_btn"],
+        t['follow_url'],
+        icon="📱"
+    )
