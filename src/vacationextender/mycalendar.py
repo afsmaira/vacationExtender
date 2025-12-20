@@ -210,7 +210,7 @@ class Break:
         return self.gap(other) == 0
 
     def __contains__(self, item: Union[date, CalendarDay]) -> bool:
-        return self.begin <= date <= self.end
+        return self.begin <= item <= self.end
 
     def gap(self, other):
         if self.end < other.begin:

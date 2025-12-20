@@ -264,7 +264,7 @@ class VacationExtender:
                             new_path = path + [br]
                             to_add = True
                             for mb in self.must_be:
-                                if mb > br.end:
+                                if mb > br.end.date():
                                     break
                                 if all(mb not in b for b in new_path):
                                     to_add = False
