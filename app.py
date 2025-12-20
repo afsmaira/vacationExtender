@@ -141,7 +141,7 @@ languages = {
         "follow_url": "https://linktr.ee/afs.life.apps",
 
         "carnival": "Considerar Carnaval como feriado?",
-        "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para planejar pontes com ele."
+        "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado."
     }
 }
 
