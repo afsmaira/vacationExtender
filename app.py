@@ -395,7 +395,7 @@ if st.session_state.config_ready:
 
                 st.success(t["success"])
                 st.markdown(f"### {t['table_header']}")
-                st.code(str(config_payload)+'\n'+str(ve), language="text")
+                st.code(str(ve), language="text")
                 st.caption(t["caption"])
 
         except Exception as e:
