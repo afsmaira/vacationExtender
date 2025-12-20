@@ -22,8 +22,10 @@ languages = {
         "vac_days": "Total Vacation Days (Balance)",
         "max_periods": "Max Vacation Periods",
         "advanced": "🛠️ Advanced Parameters",
-        "min_break": "Min. days per period",
-        "max_break": "Max. days per period",
+        "min_break": "Min. total days per period",
+        "max_break": "Max. total days per period",
+        "min_pto_break": "Min. PTO days per period",
+        "max_pto_break": "Max. PTO days per period",
         "min_gap": "Min. days gap between periods",
         "top_n": "Number of suggestions in output",
         "alpha": "Alpha Factor (Duration vs Efficiency)",
@@ -46,13 +48,14 @@ languages = {
         "h_vac_days": "Total number of PTO (Paid Time Off) days you have available.",
         "h_max_periods": "The maximum number of separate vacation blocks the algorithm should suggest.",
         "h_min_max": "Constraints on the duration (in total days) of each vacation block.",
+        "h_pto_min_max": "Constraints on the duration (in PTO days) of each vacation block.",
         "h_alpha": "0.0 focuses on pure efficiency. Greater values prioritize longer breaks.",
         "h_top_n": "Number of alternative vacation plans to display.",
         "h_add_hols": "Add holidays that are not in the standard list (e.g., municipal holidays).",
         "h_mandatory": "Days when you MUST work (the algorithm will avoid these days for vacation).",
         "h_min_gap": "Minimum number of days between two vacation periods to ensure they are well distributed throughout the year.",
         "h_config": "Touch button 'Vacation Config' at top to start!",
-        "hols_list_title": "📅 Holidays Considered for Calculation",
+        "hols_list_title": "📅  Holidays Considered for Calculation",
         "custom_holiday_label": "User Added",
         "no_hols": "No holidays identified for this selection.",
         "date_format": "%m/%d",
@@ -70,8 +73,10 @@ languages = {
         "vac_days": "Total de dias de férias (Saldo)",
         "max_periods": "Máximo de períodos",
         "advanced": "🛠️ Ajustes Avançados",
-        "min_break": "Mín. dias por período",
-        "max_break": "Máx. dias por período",
+        "min_break": "Mín. total de dias por período",
+        "max_break": "Máx. total de dias por período",
+        "min_pto_break": "Mín. dias de férias por período",
+        "max_pto_break": "Máx. dias de férias por período",
         "min_gap": "Mín. dias entre períodos",
         "top_n": "Número de sugestões na saída",
         "alpha": "Fator Alpha (Duração vs Eficiência)",
@@ -94,13 +99,14 @@ languages = {
         "h_vac_days": "Quantidade total de dias de férias que você tem disponível para usar.",
         "h_max_periods": "O número máximo de períodos (blocos) em que suas férias podem ser divididas.",
         "h_min_max": "Limites de duração (em dias totais) para cada período de descanso.",
+        "h_pto_min_max": "Limites de duração (em dias de férias) para cada período de descanso.",
         "h_alpha": "0.0 foca em eficiência pura. Valores maiores priorizam períodos mais longos.",
         "h_top_n": "Número de diferentes sugestões de planos de férias que você quer ver.",
         "h_add_hols": "Adicione feriados que não estão na lista padrão (ex: feriados municipais).",
         "h_mandatory": "Dias em que você NÃO pode estar de férias (ex: reuniões importantes).",
         "h_min_gap": "Número mínimo de dias entre dois períodos de férias para garantir que fiquem bem distribuídas ao longo do ano.",
         "h_config": "Clique no botão 'Configurar Férias' ali no topo para começar!",
-        "hols_list_title": "📅 Feriados Considerados para o Cálculo",
+        "hols_list_title": "📅  Feriados Considerados para o Cálculo",
         "custom_holiday_label": "Adicionado pelo Usuário",
         "no_hols": "Nenhum feriado identificado para esta seleção.",
         "date_format": "%d/%m",
@@ -121,18 +127,6 @@ st.set_page_config(
     page_title="Vacation Extender",
     page_icon="🌴",
     layout="centered"
-)
-
-st.markdown(
-    """
-    <head>
-        <meta property="og:title" content="Férias Smart 🧠" />
-        <meta property="og:description" content="Transforme feriados em viagens incríveis sem gastar seus dias de férias!" />
-        <meta property="og:image" content="https://sua-url.com/imagem-de-capa.jpg" />
-        <meta property="og:type" content="website" />
-    </head>
-    """,
-    unsafe_allow_html=True
 )
 
 if 'extra_holidays' not in st.session_state:
@@ -198,11 +192,20 @@ with st.sidebar:
     with st.expander(t["advanced"]):
         min_break = st.number_input(
             t["min_break"],
-            min_value=1, max_value=vac_days, value=1, step=1,
+            min_value=1, max_value=366, value=1, step=1,
             help=t['h_min_max']
         )
         max_break = st.number_input(
             t["max_break"],
+            min_value=1, max_value=366, value=vac_days, step=1
+        )
+        min_pto_break = st.number_input(
+            t["min_pto_break"],
+            min_value=1, max_value=vac_days, value=1, step=1,
+            help=t['h_pto_min_max']
+        )
+        max_pto_break = st.number_input(
+            t["max_pto_break"],
             min_value=1, max_value=vac_days, value=vac_days, step=1
         )
         min_gap = st.number_input(
@@ -287,8 +290,10 @@ config_payload = {
     "CONSTRAINTS": {
         "vacation_days": vac_days,
         "max_vac_periods": max_periods,
-        "min_vac_days_per_break": min_break,
-        "max_vac_days_per_break": max_break,
+        "min_total_days_off": min_break,
+        "max_total_days_off": max_break,
+        "min_vac_days_per_break": min_pto_break,
+        "max_vac_days_per_break": max_pto_break,
         "min_gap_days": min_gap,
         "top_n_suggestions": top_n,
         "additional_holidays": st.session_state.extra_holidays,
