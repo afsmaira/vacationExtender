@@ -5,6 +5,8 @@ from src.vacationextender.core import VacationExtender
 import datetime
 import holidays as hd
 
+DEBUG = True
+
 supported_data = hd.list_supported_countries()
 country_codes = sorted(supported_data.keys())
 
@@ -358,6 +360,9 @@ if include_carnival:
         all_hols_dict[carnival-dDay] = 'Carnaval'
         all_hols_dict[carnival] = 'Carnaval'
         all_hols_dict[carnival+dDay] = 'Carnaval'
+        st.session_state.extra_holidays.extend(
+            [carnival-dDay, carnival, carnival+dDay]
+        )
 for d in st.session_state.get("extra_holidays", []):
     if d not in all_hols_dict:
         all_hols_dict[d] = t["custom_holiday"]
@@ -395,6 +400,8 @@ if st.session_state.config_ready:
 
                 st.success(t["success"])
                 st.markdown(f"### {t['table_header']}")
+                if DEBUG:
+                    st.code(str(config_payload), language="text")
                 st.code(str(ve), language="text")
                 st.caption(t["caption"])
 
