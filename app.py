@@ -311,7 +311,10 @@ if st.button(
         height=0, width=0
     )
 
-with st.expander(t["hols_list_title"]):
+with st.expander(t["hols_list_title"]+\
+                 '\n('+country+('/'+subdivision
+                                if subdivision else '')+\
+                 ')'):
     if sorted_dates:
         for d in sorted_dates:
             date_str = d.strftime(t['date_format'])
