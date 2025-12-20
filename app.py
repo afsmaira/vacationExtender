@@ -3,6 +3,8 @@ import streamlit.components.v1 as components
 from src.vacationextender.core import VacationExtender
 
 import json
+import toml
+import base64
 import datetime
 import holidays as hd
 
@@ -423,24 +425,17 @@ if st.button(
     )
 
 if st.session_state.config_ready:
+    b64_json = base64.b64encode(
+        json.dumps(config_payload, indent=4, default=str).encode()
+    ).decode()
+    b64_toml = base64.b64encode(
+        toml.dumps(config_payload).encode()
+    ).decode()
 
-    st.subheader("📤 "+t['export'])
-
-    st.download_button(
-        label="JSON",
-        data=json.dumps(config_payload, indent=4, default=str),
-        file_name="config.json",
-        mime="application/json",
-        use_container_width=True
-    )
-    # with col2:
-    #     st.download_button(
-    #         label="TOML",
-    #         data=toml_string,
-    #         file_name="config.toml",
-    #         mime="text/x-toml",
-    #         use_container_width=True
-    #     )
+    st.markdown("📤 "+t['export']+": "
+                f'<a href="data:file/txt;base64,{b64_json}" download="config.json" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">JSON</a> | '
+                f'<a href="data:file/txt;base64,{b64_toml}" download="config.toml" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">JSON</a>',
+                unsafe_allow_html=True)
 
     with st.expander(t["hols_list_title"] + f' ({year})'):
         if sorted_dates:
