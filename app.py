@@ -322,7 +322,7 @@ with st.sidebar:
         st.markdown(f"**{t['must_be']}**")
         col_date_mb, col_btn_mb = st.columns([2, 1])
         new_mb = col_date_mb.date_input(
-            "Must be", label_visibility="collapsed", key="in_m",
+            "Must be", label_visibility="collapsed", key="in_mb",
             min_value=datetime.date(year, 1, 1),
             max_value=datetime.date(year, 12, 31),
             value=datetime.date(year, 1, 1),
