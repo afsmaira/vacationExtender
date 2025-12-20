@@ -390,7 +390,7 @@ if st.session_state.config_ready:
     if st.button(t["button"], type="primary", use_container_width=True):
         try:
             with st.spinner(t["loading"]):
-                print(config_payload)
+                print('Calculating', config_payload)
                 ve = VacationExtender(config_data=config_payload)
                 ve.run()
 
