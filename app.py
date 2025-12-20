@@ -383,7 +383,16 @@ if st.session_state.config_ready:
 
 st.divider()
 
-col_feedback, col_github = st.columns([1, 1])
+col_github, col_feedback = st.columns([1, 1])
+
+with col_github:
+    st.markdown(f"**{t['about_title']}**")
+    st.caption(t['about_desc'])
+    st.markdown("**Open Source & Library**")
+    st.markdown("""
+        [![PyPI version](https://badge.fury.io/py/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
+        [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+    """, unsafe_allow_html=True)
 
 with col_feedback:
     st.markdown(t['feedback_title'])
@@ -399,37 +408,26 @@ with col_feedback:
         icon="📝"
     )
 
-with col_github:
-    st.markdown(f"**{t['about_title']}**")
-    st.caption(t['about_desc'])
-    st.markdown("**Open Source & Library**")
-    st.markdown("""
-        [![PyPI version](https://badge.fury.io/py/vacation-extender.svg)](https://pypi.org/project/vacation-extender/)
-        [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-    """, unsafe_allow_html=True)
-
 if selected_lang == '🇧🇷 Português':
     st.divider()
     st.markdown(
-        '''
-        <style>
-            section[data-testid="stSidebar"] {
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 9999;
-                height: 100vh;
-                box-shadow: 5px 0px 15px rgba(0,0,0,0.1);
-            }
-    
-            section.main {
-                margin-left: 0 !important;
-            }
-        </style>
-        '''
         f"""
     <div style='text-align: center'>
-        <a href='{t['follow_url']}'>📢 {t["follow_btn"]}</a>
+        📢 <a href="{t['follow_url']}" target="_blank" style="text-decoration: none;">
+            <div style="
+                display: inline-block;
+                padding: 10px 24px;
+                background-color: #262730;
+                color: #ffffff;
+                border: 1px solid rgba(250, 250, 250, 0.2);
+                border-radius: 8px;
+                font-size: 16px;
+                transition: background-color 0.3s;
+                cursor: pointer;
+                margin-bottom: 20px;">
+                {t['follow_btn']}
+            </div>
+        </a>
     </div>
     """,
         unsafe_allow_html=True
