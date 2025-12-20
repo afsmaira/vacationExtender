@@ -349,6 +349,15 @@ try:
 except:
     base_hols = {}
 all_hols_dict = {d: name for d, name in base_hols.items()}
+
+if include_carnival:
+    easter = [k for k, v in all_hols_dict
+              if v == 'Sexta-feira Santa']
+    if len(easter) > 0:
+        carnival = easter[0] - 45*dDay
+        st.session_state.extra_holidays.extend(
+            [carnival-dDay, carnival, carnival+dDay]
+        )
 for d in st.session_state.get("extra_holidays", []):
     if d not in all_hols_dict:
         all_hols_dict[d] = t["custom_holiday"]
@@ -381,14 +390,6 @@ if st.session_state.config_ready:
     if st.button(t["button"], type="primary", use_container_width=True):
         try:
             with st.spinner(t["loading"]):
-                if include_carnival:
-                    easter = [k for k, v in all_hols_dict
-                              if v == 'Sexta-feira Santa']
-                    if len(easter) > 0:
-                        carnival = easter[0] - 45*dDay
-                        st.session_state.extra_holidays.extend(
-                            [carnival-dDay, carnival, carnival+dDay]
-                        )
                 ve = VacationExtender(config_data=config_payload)
                 ve.run()
 
