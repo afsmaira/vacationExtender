@@ -292,7 +292,8 @@ with st.sidebar:
             help=t['h_top_n']
         )
 
-        st.markdown(f"**{t['add_holidays']}**")
+        st.markdown(f"**{t['add_holidays']}**",
+                    help=t['h_add_hols'])
         col_date, col_btn = st.columns([2, 1])
         new_h = col_date.date_input(
             "Holidays", label_visibility="collapsed", key="in_h",
@@ -378,16 +379,17 @@ with st.sidebar:
         )
         if col_btn_ms.button(t["add_date_btn"], key="btn_ms"):
             if new_ms not in st.session_state.must_start_on:
-                st.session_state.must_start_on.append(new_ms)
+                if len(set(st.session_state.must_start_on)) < max_periods:
+                    st.session_state.must_start_on.append(new_ms)
 
         if st.session_state.must_start_on:
             lst = ', '.join(
                 dt.strftime(t['date_format'])
                 for dt in sorted(set(st.session_state.must_start_on))
             )
-            st.write(f"{t['must_start_on']} {lst}")
+            st.write(f"{t['must_start_on']} {lst} ({len(set(st.session_state.must_start_on))}/{max_periods})")
             if st.button(t["clear_btn"], key="clr_ms"):
-                st.session_state.must_be_days = []
+                st.session_state.must_start_on = []
 
     if st.button(
             t['save_btn'], use_container_width=True, type="primary"
