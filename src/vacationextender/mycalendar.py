@@ -180,6 +180,8 @@ class Calendar:
                     n_holiday += 1
                 begin += dDAY
         n_pto = n_total - n_holiday
+        if n_pto == 0:
+            return
         br.set_days(n_pto, n_holiday)
         return br
 
