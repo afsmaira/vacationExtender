@@ -113,7 +113,7 @@ must_end_on = []
 # List of months (1 for Jan, 12 for Dec) that must contain at least one full vacation period.
 # Example: [7, 12] ensures you have a vacation block fully inside July AND another in December.
 # Note: The number of months cannot exceed 'max_periods'.
-required_months = [1, 7, 12]
+required_months = []
 
 [ALGORITHM]
 # Algorithm used. greedy or optimal
