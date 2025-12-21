@@ -479,7 +479,7 @@ config_payload = {
         "must_be_vacation": list(set(st.session_state.must_be_days)),
         "must_start_on": list(set(st.session_state.must_start_on)),
         "must_end_on": list(set(st.session_state.must_end_on)),
-        "required_months": list(set(st.session_state.required_months))
+        "required_months": list(set(required_months))
     },
     "ALGORITHM": {
         "algorithm_type": "optimal"
