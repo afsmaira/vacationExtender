@@ -86,7 +86,13 @@ languages = {
         "must_be": "Fixed Vacation Dates",
         "h_must_be": "Select days you MUST be off",
 
-        "export": "Settings Export"
+        "export": "Settings Export",
+
+        "must_start_on": "Fixed Start Dates",
+        "h_must_start_on": "Force vacation periods to start exactly on these dates (e.g., for booked flights). The number of dates cannot exceed the 'Max Vacation Periods'.",
+
+        "must_end_on": "Fixed End Dates",
+        "must_end_on_help": "Force vacation periods to end exactly on these dates. The number of dates cannot exceed the 'Max Vacation Periods'.",
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -156,7 +162,13 @@ languages = {
         "must_be": "Datas Obrigatórias",
         "h_must_be": "Selecione dias que você JÁ VAI estar de folga",
 
-        "export": "Exportar Configuração"
+        "export": "Exportar Configuração",
+
+        "must_start_on": "Datas de Início Fixas",
+        "h_must_start_on": "Obriga os períodos de férias a começar exatamente nestas datas (ex: voos já comprados). O total de datas não pode exceder o 'Máximo de Períodos'.",
+
+        "must_end_on": "Datas de Término Fixas",
+        "must_end_on_help": "Obriga os períodos de férias a terminar exatamente nestas datas. O total de datas não pode exceder o 'Máximo de Períodos'.",
     }
 }
 
@@ -179,6 +191,8 @@ if 'mandatory_days' not in st.session_state:
     st.session_state.mandatory_days = []
 if 'must_be_days' not in st.session_state:
     st.session_state.must_be_days = []
+if 'must_start_on' not in st.session_state:
+    st.session_state.must_start_on = []
 if "btn_clicks" not in st.session_state:
     st.session_state.btn_clicks = 0
 if "config_ready" not in st.session_state:
@@ -344,8 +358,32 @@ with st.sidebar:
                 dt.strftime(t['date_format'])
                 for dt in sorted(set(st.session_state.must_be_days))
             )
-            st.write(f"{t['added_dates']} {lst}")
+            st.write(f"{t['must_be']} {lst}")
             if st.button(t["clear_btn"], key="clr_mb"):
+                st.session_state.must_be_days = []
+
+        st.divider()
+
+        st.markdown(f"**{t['must_start_on']}**")
+        col_date_ms, col_btn_ms = st.columns([2, 1])
+        new_ms = col_date_ms.date_input(
+            "Must Start On", label_visibility="collapsed", key="in_ms",
+            min_value=datetime.date(year, 1, 1),
+            max_value=datetime.date(year, 12, 31),
+            value=datetime.date(year, 1, 1),
+            help=t['h_must_start_on']
+        )
+        if col_btn_ms.button(t["add_date_btn"], key="btn_ms"):
+            if new_ms not in st.session_state.must_start_on:
+                st.session_state.must_start_on.append(new_ms)
+
+        if st.session_state.must_start_on:
+            lst = ', '.join(
+                dt.strftime(t['date_format'])
+                for dt in sorted(set(st.session_state.must_start_on))
+            )
+            st.write(f"{t['must_start_on']} {lst}")
+            if st.button(t["clear_btn"], key="clr_ms"):
                 st.session_state.must_be_days = []
 
     if st.button(

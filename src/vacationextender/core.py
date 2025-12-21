@@ -177,7 +177,12 @@ class VacationExtender:
                                  self.weekend, self.custom_holidays,
                                  self.forbidden)
         self.must_be = constraints.get('must_be_vacation', list())
-        self.must_be = sorted(self._str2date(self.must_be))
+        self.must_be = self._str2date(self.must_be)
+        self.start_days = constraints.get('must_start_on', list())
+        self.start_days = self._str2date(self.start_days)
+        self.start_days.sort()
+        self.must_be.extend(self.start_days)
+        self.must_be.sort()
         algorithm = self.config.get('ALGORITHM', dict())
         self.algorithm = algorithm.get('algorithm', 'optimal')
         self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
@@ -204,29 +209,55 @@ class VacationExtender:
     def _preprocess(self):
         """ Preprocesses the data. """
         dDay = timedelta(days=1)
-        for holiday in self.calendar.holidays():
+
+        for i in range(len(self.start_days)):
+            while self.calendar[self.start_days[i]-dDay].is_holiday():
+                self.start_days[i] -= dDay
+
+        # day, steps, test next day is working day
+        process_list = [(h, [-1, 1], True) for h in self.calendar.holidays()]
+        process_list += [(d, [1], False) for d in self.start_days]
+        for beg_day, steps, test_working in process_list:
+            if beg_day not in self.calendar:
+                continue
             # Days before and after
-            for f in [-1, 1]:
-                day = holiday + f * dDay
-                if day in self.calendar \
-                        and self.calendar[day].is_working():
+            for f in steps:
+                day = beg_day + f * dDay
+                if day not in self.calendar:
+                    br = self.calendar.new_break(
+                        beg_day, beg_day,
+                        self.holiday_as_pto,
+                        self.alpha
+                    )
+                    if br is not None:
+                        self.pq_add(br)
+                    break
+                if (not test_working) \
+                    or self.calendar[day].is_working():
                     while day in self.calendar:
                         if self.calendar[day].is_forbidden():
                             break
                         break_lims = (
-                            min(holiday, day),
-                            max(holiday, day)
+                            min(beg_day, day),
+                            max(beg_day, day)
                         )
-                        br = self.calendar.new_break(break_lims[0], break_lims[1],
-                                                     self.holiday_as_pto,
-                                                     self.alpha)
+                        br = self.calendar.new_break(
+                            break_lims[0], break_lims[1],
+                            self.holiday_as_pto,
+                            self.alpha
+                        )
+                        if br is None:
+                            day += f*dDay
+                            continue
                         if br.days_pto > self.days:
                             break
                         if br.days_pto > self.max_vac_break:
                             break
                         if br.days_pto < self.min_vac_break:
+                            day += f*dDay
                             continue
                         if br.total < self.min_tot_break:
+                            day += f*dDay
                             continue
                         if br.total > self.max_tot_break:
                             break
@@ -269,6 +300,13 @@ class VacationExtender:
                                 if all(mb not in b for b in new_path):
                                     to_add = False
                                     break
+                            if to_add:
+                                for mb in self.start_days:
+                                    if mb > br.end.date():
+                                        break
+                                    if all(mb != b.begin.date() for b in new_path):
+                                        to_add = False
+                                        break
                             if to_add:
                                 candidates.append((new_score, new_path))
                     if candidates:

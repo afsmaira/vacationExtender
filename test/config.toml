@@ -101,6 +101,11 @@ forced_work = []
 # Same format as custom_holidays.
 must_be_vacation = ["2026-01-02"]
 
+# List of dates (YYYY-MM-DD) that MUST be the first day of a vacation block.
+# Useful for pre-booked flights or events with a specific start date.
+# Note: The number of dates here should not exceed 'max_vac_periods'.
+must_start_on = []
+
 [ALGORITHM]
 # Algorithm used. greedy or optimal
 # Default: optimal
