@@ -193,6 +193,8 @@ if 'must_be_days' not in st.session_state:
     st.session_state.must_be_days = []
 if 'must_start_on' not in st.session_state:
     st.session_state.must_start_on = []
+if 'must_end_on' not in st.session_state:
+    st.session_state.must_end_on = []
 if "btn_clicks" not in st.session_state:
     st.session_state.btn_clicks = 0
 if "config_ready" not in st.session_state:
@@ -387,9 +389,37 @@ with st.sidebar:
                 dt.strftime(t['date_format'])
                 for dt in sorted(set(st.session_state.must_start_on))
             )
-            st.write(f"{t['must_start_on']} {lst} ({len(set(st.session_state.must_start_on))}/{max_periods})")
+            st.write(f"{t['must_start_on']} {lst} "
+                     f"({len(set(st.session_state.must_start_on))}/{max_periods})")
             if st.button(t["clear_btn"], key="clr_ms"):
                 st.session_state.must_start_on = []
+
+        st.divider()
+
+        st.markdown(f"**{t['must_end_on']}**",
+                    help=t['h_must_end_on'])
+        col_date_me, col_btn_me = st.columns([2, 1])
+        new_me = col_date_me.date_input(
+            "Must End On", label_visibility="collapsed", key="in_me",
+            min_value=datetime.date(year, 1, 1),
+            max_value=datetime.date(year, 12, 31),
+            value=datetime.date(year, 1, 1),
+            help=t['h_must_end_on']
+        )
+        if col_btn_me.button(t["add_date_btn"], key="btn_me"):
+            if new_me not in st.session_state.must_end_on:
+                if len(set(st.session_state.must_end_on)) < max_periods:
+                    st.session_state.must_end_on.append(new_me)
+
+        if st.session_state.must_end_on:
+            lst = ', '.join(
+                dt.strftime(t['date_format'])
+                for dt in sorted(set(st.session_state.must_end_on))
+            )
+            st.write(f"{t['must_end_on']} {lst} "
+                     f"({len(set(st.session_state.must_end_on))}/{max_periods})")
+            if st.button(t["clear_btn"], key="clr_me"):
+                st.session_state.must_end_on = []
 
     if st.button(
             t['save_btn'], use_container_width=True, type="primary"
@@ -422,7 +452,8 @@ config_payload = {
         "custom_holidays": list(set(st.session_state.extra_holidays)),
         "forced_work": list(set(st.session_state.mandatory_days)),
         "must_be_vacation": list(set(st.session_state.must_be_days)),
-        "must_start_on": list(set(st.session_state.must_start_on))
+        "must_start_on": list(set(st.session_state.must_start_on)),
+        "must_end_on": list(set(st.session_state.must_end_on))
     },
     "ALGORITHM": {
         "algorithm_type": "optimal"

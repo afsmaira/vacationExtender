@@ -106,6 +106,10 @@ must_be_vacation = ["2026-01-02"]
 # Note: The number of dates here should not exceed 'max_vac_periods'.
 must_start_on = []
 
+# List of dates (YYYY-MM-DD) that MUST be the last day of a vacation block.
+# Note: The number of dates here should not exceed 'max_vac_periods'.
+must_end_on = []
+
 [ALGORITHM]
 # Algorithm used. greedy or optimal
 # Default: optimal

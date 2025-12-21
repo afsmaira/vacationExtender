@@ -28,9 +28,9 @@ class VacationExtender:
         SEPARATOR = "-" * N_SEP + '\n'
 
         ret = ''
-        for i, selected_break in enumerate(self.selected_breaks):
+        for i, selected_break in enumerate(self.selected_breaks[:self._top_n]):
             ret += "\n" + "=" * N_SEP + '\n'
-            if self.algorithm == 'greedy' or self.top_n == 1:
+            if self.algorithm == 'greedy' or self._top_n == 1:
                 ret += f"🌴 EXTENDED VACATION 📅\n"
             else:
                 ret += f"🌴 EXTENDED VACATION (suggestion {i + 1}) 📅\n"
@@ -71,6 +71,8 @@ class VacationExtender:
             ret += f"AVERAGE ROI: {total_days_gained / total_pto_used:.2f} break days / PTO days\n"
             ret += "=" * N_SEP + '\n'
 
+        if len(ret) == 0:
+            ret = 'No possible vacation that follows all conditions chosen!'
         return ret
 
     def _load_config(self, file_path: str) -> Dict[str, Any]:
@@ -106,7 +108,9 @@ class VacationExtender:
                 "top_n_suggestions": self.top_n,
                 "custom_holidays": self.custom_holidays,
                 "forced_work": self.forbidden,
-                "must_be_vacation": self.must_be
+                "must_be_vacation": self.must_be,
+                "must_start_on": self.start_days,
+                "must_end_on": self.end_days
             },
             "ALGORITHM": {
                 "algorithm_type": self.algorithm
@@ -166,7 +170,8 @@ class VacationExtender:
             self.max_tot_break = 999999
         self.holiday_as_pto = constraints.get('in_holiday_as_pto', False)
         self.min_gap = constraints.get('min_gap_days', 0)
-        self.top_n = constraints.get('top_n_suggestions', 1)
+        self._top_n = constraints.get('top_n_suggestions', 1)
+        self.top_n = self._top_n * 5
         self.custom_holidays = constraints.get('custom_holidays', list())
         self.custom_holidays = self._str2date(self.custom_holidays)
         self.forbidden = constraints.get('forced_work', list())
@@ -182,7 +187,11 @@ class VacationExtender:
         self.start_days = self._str2date(self.start_days)
         self.start_days.sort()
         self.must_be.extend(self.start_days)
-        self.must_be.sort()
+        self.end_days = constraints.get('must_end_on', list())
+        self.end_days = self._str2date(self.end_days)
+        self.end_days.sort()
+        self.must_be.extend(self.end_days)
+        self.must_be = list(sorted(set(self.must_be)))
         algorithm = self.config.get('ALGORITHM', dict())
         self.algorithm = algorithm.get('algorithm', 'optimal')
         self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
@@ -214,9 +223,14 @@ class VacationExtender:
             while self.calendar[self.start_days[i]-dDay].is_holiday():
                 self.start_days[i] -= dDay
 
+        for i in range(len(self.end_days)):
+            while self.calendar[self.end_days[i]+dDay].is_holiday():
+                self.end_days[i] += dDay
+
         # day, steps, test next day is working day
         process_list = [(h, [-1, 1], True) for h in self.calendar.holidays()]
         process_list += [(d, [1], False) for d in self.start_days]
+        process_list += [(d, [-1], False) for d in self.end_days]
         for beg_day, steps, test_working in process_list:
             if beg_day not in self.calendar:
                 continue
@@ -305,6 +319,13 @@ class VacationExtender:
                                     if mb > br.end.date():
                                         break
                                     if all(mb != b.begin.date() for b in new_path):
+                                        to_add = False
+                                        break
+                            if to_add:
+                                for mb in self.end_days:
+                                    if mb > br.end.date():
+                                        break
+                                    if all(mb != b.end.date() for b in new_path):
                                         to_add = False
                                         break
                             if to_add:
