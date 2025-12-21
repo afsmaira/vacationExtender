@@ -316,7 +316,8 @@ with st.sidebar:
 
         st.divider()
 
-        st.markdown(f"**{t['mandatory']}**")
+        st.markdown(f"**{t['mandatory']}**",
+                    help=t['h_mandatory'])
         col_date_m, col_btn_m = st.columns([2, 1])
         new_m = col_date_m.date_input(
             "Mandatory", label_visibility="collapsed", key="in_m",
@@ -340,7 +341,8 @@ with st.sidebar:
 
         st.divider()
 
-        st.markdown(f"**{t['must_be']}**")
+        st.markdown(f"**{t['must_be']}**",
+                    help=t['h_must_be'])
         col_date_mb, col_btn_mb = st.columns([2, 1])
         new_mb = col_date_mb.date_input(
             "Must be", label_visibility="collapsed", key="in_mb",
@@ -364,7 +366,8 @@ with st.sidebar:
 
         st.divider()
 
-        st.markdown(f"**{t['must_start_on']}**")
+        st.markdown(f"**{t['must_start_on']}**",
+                    help=t['h_must_start_on'])
         col_date_ms, col_btn_ms = st.columns([2, 1])
         new_ms = col_date_ms.date_input(
             "Must Start On", label_visibility="collapsed", key="in_ms",
@@ -416,7 +419,8 @@ config_payload = {
         "top_n_suggestions": top_n,
         "custom_holidays": list(set(st.session_state.extra_holidays)),
         "forced_work": list(set(st.session_state.mandatory_days)),
-        "must_be_vacation": list(set(st.session_state.must_be_days))
+        "must_be_vacation": list(set(st.session_state.must_be_days)),
+        "must_start_on": list(set(st.session_state.must_start_on))
     },
     "ALGORITHM": {
         "algorithm_type": "optimal"
