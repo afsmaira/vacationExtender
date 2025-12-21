@@ -92,7 +92,7 @@ languages = {
         "h_must_start_on": "Force vacation periods to start exactly on these dates (e.g., for booked flights). The number of dates cannot exceed the 'Max Vacation Periods'.",
 
         "must_end_on": "Fixed End Dates",
-        "must_end_on_help": "Force vacation periods to end exactly on these dates. The number of dates cannot exceed the 'Max Vacation Periods'.",
+        "h_must_end_on": "Force vacation periods to end exactly on these dates. The number of dates cannot exceed the 'Max Vacation Periods'.",
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -168,7 +168,7 @@ languages = {
         "h_must_start_on": "Obriga os períodos de férias a começar exatamente nestas datas (ex: voos já comprados). O total de datas não pode exceder o 'Máximo de Períodos'.",
 
         "must_end_on": "Datas de Término Fixas",
-        "must_end_on_help": "Obriga os períodos de férias a terminar exatamente nestas datas. O total de datas não pode exceder o 'Máximo de Períodos'.",
+        "h_must_end_on": "Obriga os períodos de férias a terminar exatamente nestas datas. O total de datas não pode exceder o 'Máximo de Períodos'.",
     }
 }
 
