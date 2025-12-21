@@ -41,7 +41,7 @@ languages = {
         "footer": "Made with ❤️ by André de Freitas Smaira",
         "error": "Error processing: ",
         "check_iso": "Please check if the Country ISO code and State are correct.",
-        "caption": "Legend: PTO = Vacation days used | TOTAL = Total days off (including holidays and weekends)",
+        "caption": "Legend: PTO = Vacation days used\nTOTAL = Total days off (including holidays and weekends)",
         "add_holidays": "Extra/Local Holidays",
         "mandatory": "Mandatory Work Days",
         "add_date_btn": "Add Date",
@@ -93,6 +93,11 @@ languages = {
 
         "must_end_on": "Fixed End Dates",
         "h_must_end_on": "Force vacation periods to end exactly on these dates. The number of dates cannot exceed the 'Max Vacation Periods'.",
+
+        "required_months": "Required Months",
+        "h_required_months": "Select months that MUST contain a full vacation period (e.g., for school holidays).",
+        "month_names": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+        "chosen": "Chosen",
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -117,7 +122,7 @@ languages = {
         "footer": "Feito com ❤️ por André de Freitas Smaira",
         "error": "Erro ao processar: ",
         "check_iso": "Verifique se o código do país e estado estão corretos.",
-        "caption": "Legenda: PTO = Dias de férias usados | TOTAL = Dias totais de descanso (incluindo feriados e fins de semana)",
+        "caption": "Legenda: PTO = Dias de férias usados\nTOTAL = Dias totais de descanso (incluindo feriados e fins de semana)",
         "add_holidays": "Feriados Extras/Locais",
         "mandatory": "Dias de trabalho obrigatórios",
         "add_date_btn": "Adicionar",
@@ -169,6 +174,11 @@ languages = {
 
         "must_end_on": "Datas de Término Fixas",
         "h_must_end_on": "Obriga os períodos de férias a terminar exatamente nestas datas. O total de datas não pode exceder o 'Máximo de Períodos'.",
+
+        "required_months": "Meses Obrigatórios",
+        "h_required_months": "Selecione meses que DEVEM conter um período de férias completo (ex: férias escolares).",
+        "month_names": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        "chosen": "Escolhidos",
     }
 }
 
@@ -421,6 +431,21 @@ with st.sidebar:
             if st.button(t["clear_btn"], key="clr_me"):
                 st.session_state.must_end_on = []
 
+        selected_month_names = st.multiselect(
+            t["required_months"],
+            options=t["month_names"],
+            help=t["h_required_months"]
+        )
+        required_months = [t["month_names"].index(m) + 1
+                           for m in selected_month_names][:max_periods]
+
+        if required_months:
+            lst = ', '.join(
+                t["month_names"][i-1] for i in required_months
+            )
+            st.write(f"{t['chosen']}: {lst} "
+                     f"({len(set(required_months))}/{max_periods})")
+
     if st.button(
             t['save_btn'], use_container_width=True, type="primary"
     ):
@@ -453,7 +478,8 @@ config_payload = {
         "forced_work": list(set(st.session_state.mandatory_days)),
         "must_be_vacation": list(set(st.session_state.must_be_days)),
         "must_start_on": list(set(st.session_state.must_start_on)),
-        "must_end_on": list(set(st.session_state.must_end_on))
+        "must_end_on": list(set(st.session_state.must_end_on)),
+        "required_months": list(set(st.session_state.required_months))
     },
     "ALGORITHM": {
         "algorithm_type": "optimal"
@@ -530,8 +556,8 @@ if st.session_state.config_ready:
                 st.markdown(f"### {t['table_header']}")
                 if DEBUG:
                     st.code(str(config_payload), language="text")
-                st.code(str(ve), language="text")
                 st.caption(t["caption"])
+                st.code(str(ve), language="text")
 
         except Exception as e:
             st.error(f"{t['error']} {e}")
