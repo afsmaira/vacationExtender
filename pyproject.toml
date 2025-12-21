@@ -37,6 +37,7 @@ dependencies = [
 [project.urls]
 "Homepage" = "https://github.com/afsmaira/vacationExtender"
 "Bug Tracker" = "https://github.com/afsmaira/vacationExtender/issues"
+"Changelog" = "https://github.com/afsmaira/vacationExtender/blob/main/CHANGELOG.md"
 
 [project.scripts]
 vacationext = "vacationextender.main:main"
