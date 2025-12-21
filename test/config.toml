@@ -104,11 +104,11 @@ must_be_vacation = ["2026-01-02"]
 # List of dates (YYYY-MM-DD) that MUST be the first day of a vacation block.
 # Useful for pre-booked flights or events with a specific start date.
 # Note: The number of dates here should not exceed 'max_vac_periods'.
-must_start_on = []
+must_start_on = ["2026-01-02", "2026-01-07", "2026-01-10"]
 
 # List of dates (YYYY-MM-DD) that MUST be the last day of a vacation block.
 # Note: The number of dates here should not exceed 'max_vac_periods'.
-must_end_on = []
+must_end_on = ["2026-01-01", "2026-01-03", "2026-01-15"]
 
 [ALGORITHM]
 # Algorithm used. greedy or optimal

@@ -220,11 +220,13 @@ class VacationExtender:
         dDay = timedelta(days=1)
 
         for i in range(len(self.start_days)):
-            while self.calendar[self.start_days[i]-dDay].is_holiday():
+            while self.start_days[i]-dDay in self.calendar\
+                    and self.calendar[self.start_days[i]-dDay].is_holiday():
                 self.start_days[i] -= dDay
 
         for i in range(len(self.end_days)):
-            while self.calendar[self.end_days[i]+dDay].is_holiday():
+            while self.end_days[i]+dDay in self.calendar\
+                    and self.calendar[self.end_days[i]+dDay].is_holiday():
                 self.end_days[i] += dDay
 
         # day, steps, test next day is working day
