@@ -83,6 +83,9 @@ languages = {
         "carnival": "Include Carnival (Brazil)?",
         "h_carnival": "Carnival is an optional holiday in most of Brazil. Check this to include it in your vacation planning.",
 
+        "corpus": "Include Corpus Christi (Brazil)?",
+        "h_corpus": "Corpus Christi is an optional holiday in most of Brazil. Check this to include it in your vacation planning.",
+
         "must_be": "Fixed Vacation Dates",
         "h_must_be": "Select days you MUST be off",
 
@@ -169,6 +172,9 @@ languages = {
 
         "carnival": "Considerar Carnaval como feriado?",
         "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado.",
+
+        "corpus": "Considerar Corpus Christi como feriado?",
+        "h_corpus": "O Corpus Christi é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado.",
 
         "must_be": "Datas Obrigatórias",
         "h_must_be": "Selecione dias que você JÁ VAI estar de folga",
@@ -267,11 +273,17 @@ with st.sidebar:
         subdivision = None
 
     include_carnival = False
+    include_corpus = False
     if country == "BR":
         include_carnival = st.checkbox(
             t["carnival"],
             value=True,
             help=t["h_carnival"]
+        )
+        include_corpus = st.checkbox(
+            t["corpus"],
+            value=True,
+            help=t["h_corpus"]
         )
 
     st.divider()
@@ -535,17 +547,25 @@ except:
     base_hols = {}
 all_hols_dict = {d: name for d, name in base_hols.items()}
 
-if include_carnival:
+if include_carnival or include_corpus:
     easter = [k for k, v in all_hols_dict.items()
               if v == 'Sexta-feira Santa']
     if len(easter) > 0:
-        carnival = easter[0] - 45 * dDay
-        all_hols_dict[carnival - dDay] = 'Carnaval'
-        all_hols_dict[carnival] = 'Carnaval'
-        all_hols_dict[carnival + dDay] = 'Carnaval'
-        st.session_state.extra_holidays.extend(
-            [carnival - dDay, carnival, carnival + dDay]
-        )
+        if include_carnival:
+            carnival = easter[0] - 45 * dDay
+            all_hols_dict[carnival - dDay] = 'Carnaval'
+            all_hols_dict[carnival] = 'Carnaval'
+            all_hols_dict[carnival + dDay] = 'Carnaval'
+            st.session_state.extra_holidays.extend(
+                [carnival - dDay, carnival, carnival + dDay]
+            )
+        if include_corpus:
+            corpus = easter[0] + 62 * dDay
+            all_hols_dict[corpus] = 'Corpus Christi'
+            all_hols_dict[corpus + dDay] = 'Corpus Christi'
+            st.session_state.extra_holidays.extend(
+                [corpus, corpus + dDay]
+            )
 for d in st.session_state.get("extra_holidays", []):
     if d not in all_hols_dict:
         all_hols_dict[d] = t["custom_holiday"]
