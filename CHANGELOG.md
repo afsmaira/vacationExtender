@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-12-23
+
+### ✨ New Features
+* **Corpus Christi Holiday (Brazil):** Added an option to automatically include the Corpus Christi holiday (calculated as 60 days after Easter) in the Brazil configuration.
+* **"Start Month" Constraint:** Introduced a new constraint allowing users to specify months where a vacation period *must start* (allowing it to end in the following month), offering more flexibility than the "full month" constraint.
+* **Terms & Privacy:** Added a Terms of Use and Privacy Policy section to the Streamlit web app.
+
+### 🐛 Bug Fixes
+* **Month Localization:** Fixed an issue where the list of month names was not respecting the selected language (EN/PT) in certain contexts.
+
+### 🎨 Improvements
+* **Interface (UI):** Visual adjustments to the sidebar and reorganization of inputs into logical sections (Basic, Rules, Calendar) for a better user experience.
+* **Documentation:** Added legal documentation files (`TERMS_PT.md` and `TERMS_EN.md`).
+
 ## [0.3.0] - 2024-05-21
 
 ### Added
