@@ -113,6 +113,9 @@ languages = {
         "section_calendar": "📅 Calendar & Constraints",
         "h_section_rules": "Configure duration limits, gaps and balance rules.",
         "h_section_calendar": "Customize holidays, fixed dates and month preferences.",
+
+        "section_terms": "⚖️ Terms & Privacy",
+        "terms_file": "TERMS_EN.md"
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -210,9 +213,13 @@ languages = {
 
         "h_section_rules": "Configure limites de duração, intervalo entre férias e regras de saldo.",
         "h_section_calendar": "Personalize feriados, datas fixas e preferências de meses.",
+
+        "section_terms": "⚖️ Termos & Privacidade",
+        "terms_file": "TERMS_PT.md"
     }
 }
 lang_to_language = {'pt': "🇧🇷 Português",
+                    'br': "🇧🇷 Português",
                     'en': "🇺🇸 English"}
 
 # --- LANGUAGE SELECTOR ---
@@ -718,3 +725,13 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+st.divider()
+
+with st.expander(t['section_terms'], expanded=False):
+    try:
+        with open(t['terms_file'], "r", encoding="utf-8") as f:
+            st.markdown(f.read())
+    except FileNotFoundError:
+        st.error("Legal docs not found.")
+        st.markdown(f"[Ver Termos no GitHub](https://github.com/afsmaira/vacationExtender/blob/main/{t['terms_file']})")
