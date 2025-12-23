@@ -134,6 +134,7 @@ This section defines the user's budget and specific rules for suggesting optimal
 | `must_start_on`          | List of Strings  | `[]` | List of specific dates where a vacation period must begin. Each element anchors one of the suggested blocks to that exact date.                                            |
 | `must_end_on`            | List of Strings  | `[]` | List of specific dates where a vacation period must end. Each element anchors one of the suggested blocks to that exact date.                                              |
 | `required_months` | List of Integers | `[]` | List of months (1-12) where at least one vacation period must be entirely contained. The number of months selected cannot exceed max_periods.                              |
+| `start_months` | List of Integers | `[]` | List of months where a vacation period must begin (e.g., starts in July, but may end in August). |
 
 ### ⚙️ `[ALGORITHM]`
 

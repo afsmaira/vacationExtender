@@ -195,6 +195,8 @@ class VacationExtender:
         self.must_be = list(sorted(set(self.must_be)))
         self.months = constraints.get('required_months', list())
         self.months = list(sorted(set(self.months)))
+        self.start_months = constraints.get('start_months', list())
+        self.start_months = list(sorted(set(self.start_months)))
         algorithm = self.config.get('ALGORITHM', dict())
         self.algorithm = algorithm.get('algorithm', 'optimal')
         self.alpha = algorithm.get('duration_weight_factor_alpha', 0.5)
@@ -320,9 +322,15 @@ class VacationExtender:
                                   and month == b.end.date().month
                                   for b in new_path)
             if not month_satisfied:
-                if month < br.begin.date().month:
+                if month < br.begin.date().month or still == 0:
                     return False
-                if still == 0:
+        for i, month in enumerate(self.start_months):
+            if month > br.end.date().month:
+                if still < len(self.start_months) - i:
+                    return False
+                break
+            if all(month != b.begin.date().month for b in new_path):
+                if month < br.begin.date().month or still == 0:
                     return False
         return True
 

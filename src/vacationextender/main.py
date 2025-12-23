@@ -62,6 +62,20 @@ forced_work = []
 # Same format as custom_holidays.
 must_be_vacation = []
 
+# List of dates (YYYY-MM-DD) that MUST be the first day of a vacation block.
+# Useful for pre-booked flights or events with a specific start date.
+# Note: The number of dates here should not exceed 'max_vac_periods'.
+must_start_on = []
+
+# List of dates (YYYY-MM-DD) that MUST be the last day of a vacation block.
+# Note: The number of dates here should not exceed 'max_vac_periods'.
+must_end_on = []
+
+# List of months (1 for Jan, 12 for Dec) that must contain at least one full vacation period.
+# Example: [7, 12] ensures you have a vacation block fully inside July AND another in December.
+# Note: The number of months cannot exceed 'max_periods'.
+required_months = []
+
 [ALGORITHM]
 # 'optimal' (Slow, Perfect) or 'greedy' (Fast, Heuristic)
 algorithm_type = "optimal"

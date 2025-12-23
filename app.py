@@ -94,9 +94,13 @@ languages = {
         "must_end_on": "Fixed End Dates",
         "h_must_end_on": "Force vacation periods to end exactly on these dates. The number of dates cannot exceed the 'Max Vacation Periods'.",
 
-        "required_months": "Required Months",
-        "h_required_months": "Select months that MUST contain a full vacation period (e.g., for school holidays).",
-        "month_names": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+        "section_months": "Months",
+        "required_months": "Full vacations in:",
+        "h_required_months": "The vacation period must start and end entirely within the selected months.",
+        "start_months": "Vacations starting in:",
+        "h_start_months": "Vacations must begin in these months, but are allowed to end in the next month.",
+        "month_names": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro",
+                        "Outubro", "Novembro", "Dezembro"],
         "chosen": "Chosen",
 
         "date_input_format": "MM/DD/YYYY",
@@ -177,9 +181,13 @@ languages = {
         "must_end_on": "Datas de Término Fixas",
         "h_must_end_on": "Obriga os períodos de férias a terminar exatamente nestas datas. O total de datas não pode exceder o 'Máximo de Períodos'.",
 
-        "required_months": "Meses Obrigatórios",
-        "h_required_months": "Selecione meses que DEVEM conter um período de férias completo (ex: férias escolares).",
-        "month_names": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        "section_months": "Meses",
+        "required_months": "Férias inteiras em:",
+        "h_required_months": "O período de férias deve começar e terminar totalmente dentro dos meses selecionados.",
+        "start_months": "Férias iniciando em:",
+        "h_start_months": "As férias devem começar nestes meses, mas podem terminar no mês seguinte.",
+        "month_names": ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+                        "October", "November", "December"],
         "chosen": "Escolhidos",
 
         "date_input_format": "DD/MM/YYYY",
@@ -235,14 +243,14 @@ with st.sidebar:
 
     year = st.number_input(
         t["year"],
-        min_value=curr_year, max_value=curr_year+10, value=curr_year+1,
+        min_value=curr_year, max_value=curr_year + 10, value=curr_year + 1,
         help=t['h_year']
     )
 
     col1, col2 = st.columns(2)
     with col1:
-        default_country_index = country_codes.index("BR")\
-                                if "BR" in country_codes else 0
+        default_country_index = country_codes.index("BR") \
+            if "BR" in country_codes else 0
         country = st.selectbox(
             t["country"],
             options=country_codes, index=default_country_index,
@@ -446,6 +454,8 @@ with st.sidebar:
             if st.button(t["clear_btn"], key="clr_me"):
                 st.session_state.must_end_on = []
 
+        st.subheader(t["section_months"])
+
         selected_month_names = st.multiselect(
             t["required_months"],
             options=t["month_names"],
@@ -456,10 +466,25 @@ with st.sidebar:
 
         if required_months:
             lst = ', '.join(
-                t["month_names"][i-1] for i in required_months
+                t["month_names"][i - 1] for i in required_months
             )
-            st.write(f"{t['chosen']}: {lst} "
+            st.write(f"{t["required_months"]}: {lst} "
                      f"({len(set(required_months))}/{max_periods})")
+
+        start_month_names = st.multiselect(
+            t["start_months"],
+            options=t["month_names"],
+            help=t["h_start_months"]
+        )
+        start_months = [t["month_names"].index(m) + 1
+                        for m in start_month_names][:max_periods]
+
+        if start_months:
+            lst = ', '.join(
+                t["month_names"][i - 1] for i in start_months
+            )
+            st.write(f"{t["start_months"]}: {lst} "
+                     f"({len(set(start_months))}/{max_periods})")
 
     if st.button(
             t['save_btn'], use_container_width=True, type="primary"
@@ -494,7 +519,8 @@ config_payload = {
         "must_be_vacation": list(set(st.session_state.must_be_days)),
         "must_start_on": list(set(st.session_state.must_start_on)),
         "must_end_on": list(set(st.session_state.must_end_on)),
-        "required_months": list(set(required_months))
+        "required_months": list(set(required_months)),
+        "start_months": list(set(start_months)),
     },
     "ALGORITHM": {
         "algorithm_type": "optimal"
@@ -513,21 +539,20 @@ if include_carnival:
     easter = [k for k, v in all_hols_dict.items()
               if v == 'Sexta-feira Santa']
     if len(easter) > 0:
-        carnival = easter[0] - 45*dDay
-        all_hols_dict[carnival-dDay] = 'Carnaval'
+        carnival = easter[0] - 45 * dDay
+        all_hols_dict[carnival - dDay] = 'Carnaval'
         all_hols_dict[carnival] = 'Carnaval'
-        all_hols_dict[carnival+dDay] = 'Carnaval'
+        all_hols_dict[carnival + dDay] = 'Carnaval'
         st.session_state.extra_holidays.extend(
-            [carnival-dDay, carnival, carnival+dDay]
+            [carnival - dDay, carnival, carnival + dDay]
         )
 for d in st.session_state.get("extra_holidays", []):
     if d not in all_hols_dict:
         all_hols_dict[d] = t["custom_holiday"]
 sorted_dates = list(sorted(set(all_hols_dict.keys())))
 
-
 if st.button(
-        "🚀 "+t['config_btn'], use_container_width=True, type="primary"
+        "🚀 " + t['config_btn'], use_container_width=True, type="primary"
 ):
     st.session_state.btn_clicks += 1
     components.html(
@@ -536,7 +561,7 @@ if st.button(
             var sidebarButton = window.parent.document.querySelector('button[data-testid="stExpandSidebarButton"]');
             if (sidebarButton) { sidebarButton.click(); }
         </script>
-        """+f"<!--{st.session_state.btn_clicks}-->",
+        """ + f"<!--{st.session_state.btn_clicks}-->",
         height=0, width=0
     )
 
@@ -548,9 +573,9 @@ if st.session_state.config_ready:
         toml.dumps(config_payload).encode()
     ).decode()
 
-    st.markdown("📤 "+t['export']+": "
-                f'<a href="data:file/txt;base64,{b64_json}" download="config.json" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">JSON</a> | '
-                f'<a href="data:file/txt;base64,{b64_toml}" download="config.toml" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">TOML</a>',
+    st.markdown("📤 " + t['export'] + ": "
+                                     f'<a href="data:file/txt;base64,{b64_json}" download="config.json" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">JSON</a> | '
+                                     f'<a href="data:file/txt;base64,{b64_toml}" download="config.toml" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">TOML</a>',
                 unsafe_allow_html=True)
 
     with st.expander(t["hols_list_title"] + f' ({year})'):
@@ -608,7 +633,7 @@ with col_feedback:
         icon="📝"
     )
 
-if selected_lang == '🇧🇷 Português' or\
+if selected_lang == '🇧🇷 Português' or \
         (st.session_state.config_ready and country == 'BR'):
     st.divider()
     st.markdown(

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [tool.poetry]
 name = "vacation-extender"
-version = "0.3.0"
+version = "0.4.0"
 description = "Maximize time off by smart linking public holidays and weekends."
 authors = ["André de Freitas Smaira <andre.smaira@gmail.com>"]
 package-mode = false
@@ -14,7 +14,7 @@ packages = [
 
 [project]
 name = "vacation-extender"
-version = "0.3.0"
+version = "0.4.0"
 description = "Maximize time off by smart linking public holidays and weekends."
 readme = "README.md"
 requires-python = ">=3.8"

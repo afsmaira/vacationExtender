@@ -99,7 +99,7 @@ forced_work = []
 # List of specific dates where you are already committed to being on vacation.
 # The engine will prioritize these dates and calculate extensions around them.
 # Same format as custom_holidays.
-must_be_vacation = ["2026-01-02"]
+must_be_vacation = []
 
 # List of dates (YYYY-MM-DD) that MUST be the first day of a vacation block.
 # Useful for pre-booked flights or events with a specific start date.
@@ -114,6 +114,10 @@ must_end_on = []
 # Example: [7, 12] ensures you have a vacation block fully inside July AND another in December.
 # Note: The number of months cannot exceed 'max_periods'.
 required_months = []
+
+# Months where vacation must START (1-12)
+# Example: [7] means you must start a break in July, even if it ends in August.
+start_months = []
 
 [ALGORITHM]
 # Algorithm used. greedy or optimal
