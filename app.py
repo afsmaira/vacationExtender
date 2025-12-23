@@ -99,8 +99,8 @@ languages = {
         "h_required_months": "The vacation period must start and end entirely within the selected months.",
         "start_months": "Vacations starting in:",
         "h_start_months": "Vacations must begin in these months, but are allowed to end in the next month.",
-        "month_names": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro",
-                        "Outubro", "Novembro", "Dezembro"],
+        "month_names": ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+                        "October", "November", "December"],
         "chosen": "Chosen",
 
         "date_input_format": "MM/DD/YYYY",
@@ -186,8 +186,8 @@ languages = {
         "h_required_months": "O período de férias deve começar e terminar totalmente dentro dos meses selecionados.",
         "start_months": "Férias iniciando em:",
         "h_start_months": "As férias devem começar nestes meses, mas podem terminar no mês seguinte.",
-        "month_names": ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-                        "October", "November", "December"],
+        "month_names": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro",
+                        "Outubro", "Novembro", "Dezembro"],
         "chosen": "Escolhidos",
 
         "date_input_format": "DD/MM/YYYY",
