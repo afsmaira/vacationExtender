@@ -98,6 +98,8 @@ languages = {
         "h_required_months": "Select months that MUST contain a full vacation period (e.g., for school holidays).",
         "month_names": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
         "chosen": "Chosen",
+
+        "date_input_format": "MM/DD/YYYY",
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -179,13 +181,19 @@ languages = {
         "h_required_months": "Selecione meses que DEVEM conter um período de férias completo (ex: férias escolares).",
         "month_names": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         "chosen": "Escolhidos",
+
+        "date_input_format": "DD/MM/YYYY",
     }
 }
+lang_to_language = {'pt': "🇧🇷 Português",
+                    'en': "🇺🇸 English"}
 
 # --- LANGUAGE SELECTOR ---
+get_lang = st.query_params.get("lang", "en")
+lang_options = list(languages.keys())
 selected_lang = st.selectbox(
-    "🌐 Language / Idioma", list(languages.keys()),
-    index=0
+    "🌐 Language / Idioma", lang_options,
+    index=lang_options.index(lang_to_language[get_lang])
 )
 t = languages[selected_lang]
 
@@ -312,7 +320,8 @@ with st.sidebar:
             min_value=datetime.date(year, 1, 1),
             max_value=datetime.date(year, 12, 31),
             value=datetime.date(year, 1, 1),
-            help=t['h_add_hols']
+            help=t['h_add_hols'],
+            format=t["date_input_format"]
         )
         if col_btn.button(t["add_date_btn"], key="btn_h"):
             if new_h not in st.session_state.extra_holidays:
@@ -337,7 +346,8 @@ with st.sidebar:
             min_value=datetime.date(year, 1, 1),
             max_value=datetime.date(year, 12, 31),
             value=datetime.date(year, 1, 1),
-            help=t['h_mandatory']
+            help=t['h_mandatory'],
+            format=t["date_input_format"]
         )
         if col_btn_m.button(t["add_date_btn"], key="btn_m"):
             if new_m not in st.session_state.mandatory_days:
@@ -362,7 +372,8 @@ with st.sidebar:
             min_value=datetime.date(year, 1, 1),
             max_value=datetime.date(year, 12, 31),
             value=datetime.date(year, 1, 1),
-            help=t['h_must_be']
+            help=t['h_must_be'],
+            format=t["date_input_format"]
         )
         if col_btn_mb.button(t["add_date_btn"], key="btn_mb"):
             if new_mb not in st.session_state.must_be_days:
@@ -387,7 +398,8 @@ with st.sidebar:
             min_value=datetime.date(year, 1, 1),
             max_value=datetime.date(year, 12, 31),
             value=datetime.date(year, 1, 1),
-            help=t['h_must_start_on']
+            help=t['h_must_start_on'],
+            format=t["date_input_format"]
         )
         if col_btn_ms.button(t["add_date_btn"], key="btn_ms"):
             if new_ms not in st.session_state.must_start_on:
@@ -414,7 +426,8 @@ with st.sidebar:
             min_value=datetime.date(year, 1, 1),
             max_value=datetime.date(year, 12, 31),
             value=datetime.date(year, 1, 1),
-            help=t['h_must_end_on']
+            help=t['h_must_end_on'],
+            format=t["date_input_format"]
         )
         if col_btn_me.button(t["add_date_btn"], key="btn_me"):
             if new_me not in st.session_state.must_end_on:
