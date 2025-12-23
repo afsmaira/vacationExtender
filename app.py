@@ -193,7 +193,9 @@ get_lang = st.query_params.get("lang", "en")
 lang_options = list(languages.keys())
 selected_lang = st.selectbox(
     "🌐 Language / Idioma", lang_options,
-    index=lang_options.index(lang_to_language[get_lang])
+    index=lang_options.index(
+        lang_to_language.get(get_lang, "🇺🇸 English")
+    )
 )
 t = languages[selected_lang]
 
