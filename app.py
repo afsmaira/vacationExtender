@@ -80,6 +80,7 @@ languages = {
         "follow_btn": "Follow our journey",
         "follow_url": "https://linktr.ee/afs.life.apps",
 
+        "section_commom_custom": "Commom Custom Holidays",
         "carnival": "Include Carnival (Brazil)?",
         "h_carnival": "Carnival is an optional holiday in most of Brazil. Check this to include it in your vacation planning.",
 
@@ -107,6 +108,11 @@ languages = {
         "chosen": "Chosen",
 
         "date_input_format": "MM/DD/YYYY",
+
+        "section_rules": "⚙️ Rules & Limits",
+        "section_calendar": "📅 Calendar & Constraints",
+        "h_section_rules": "Configure duration limits, gaps and balance rules.",
+        "h_section_calendar": "Customize holidays, fixed dates and month preferences.",
     },
     "🇧🇷 Português": {
         "title": "🌴 Férias Smart",
@@ -170,22 +176,23 @@ languages = {
         "follow_btn": "Siga nossa jornada nas Redes Sociais",
         "follow_url": "https://linktr.ee/afs.life.apps",
 
+        "section_commom_custom": "Pontos Facultativos Comuns",
         "carnival": "Considerar Carnaval como feriado?",
         "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado.",
 
         "corpus": "Considerar Corpus Christi como feriado?",
         "h_corpus": "O Corpus Christi é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado.",
 
-        "must_be": "Datas Obrigatórias",
-        "h_must_be": "Selecione dias que você JÁ VAI estar de folga",
+        "must_be": "Dias de Férias Obrigatórios",
+        "h_must_be": "Selecione dias que você quer que necessariamente faça parte das férias.",
 
         "export": "Exportar Configuração",
 
         "must_start_on": "Datas de Início Fixas",
-        "h_must_start_on": "Obriga os períodos de férias a começar exatamente nestas datas (ex: voos já comprados). O total de datas não pode exceder o 'Máximo de Períodos'.",
+        "h_must_start_on": "Obriga os períodos de férias a começar exatamente nestas datas (ex: voos já comprados). O total de datas não pode exceder o Máximo de Períodos.",
 
         "must_end_on": "Datas de Término Fixas",
-        "h_must_end_on": "Obriga os períodos de férias a terminar exatamente nestas datas. O total de datas não pode exceder o 'Máximo de Períodos'.",
+        "h_must_end_on": "Obriga os períodos de férias a terminar exatamente nestas datas. O total de datas não pode exceder o Máximo de Períodos.",
 
         "section_months": "Meses",
         "required_months": "Férias inteiras em:",
@@ -197,6 +204,12 @@ languages = {
         "chosen": "Escolhidos",
 
         "date_input_format": "DD/MM/YYYY",
+
+        "section_rules": "⚙️ Regras e Limites",
+        "section_calendar": "📅 Calendário e Restrições",
+
+        "h_section_rules": "Configure limites de duração, intervalo entre férias e regras de saldo.",
+        "h_section_calendar": "Personalize feriados, datas fixas e preferências de meses.",
     }
 }
 lang_to_language = {'pt': "🇧🇷 Português",
@@ -272,20 +285,6 @@ with st.sidebar:
     else:
         subdivision = None
 
-    include_carnival = False
-    include_corpus = False
-    if country == "BR":
-        include_carnival = st.checkbox(
-            t["carnival"],
-            value=True,
-            help=t["h_carnival"]
-        )
-        include_corpus = st.checkbox(
-            t["corpus"],
-            value=True,
-            help=t["h_corpus"]
-        )
-
     st.divider()
 
     vac_days = st.number_input(
@@ -298,8 +297,8 @@ with st.sidebar:
         min_value=1, max_value=vac_days, value=3, step=1,
         help=t['h_max_periods']
     )
-
-    with st.expander(t["advanced"]):
+    with st.expander(t["section_rules"], expanded=False):
+        st.caption(t["h_section_rules"])
         holidays_consume_pto = st.checkbox(
             t["holidays_consume"],
             value=True,
@@ -410,7 +409,23 @@ with st.sidebar:
             if st.button(t["clear_btn"], key="clr_mb"):
                 st.session_state.must_be_days = []
 
-        st.divider()
+    with st.expander(t["section_calendar"], expanded=False):
+        st.caption(t["h_section_calendar"])
+
+        include_carnival = False
+        include_corpus = False
+        if country == "BR":
+            st.subheader(t['section_commom_custom'])
+            include_carnival = st.checkbox(
+                t["carnival"],
+                value=True,
+                help=t["h_carnival"]
+            )
+            include_corpus = st.checkbox(
+                t["corpus"],
+                value=True,
+                help=t["h_corpus"]
+            )
 
         st.markdown(f"**{t['must_start_on']}**",
                     help=t['h_must_start_on'])
