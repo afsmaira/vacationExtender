@@ -383,7 +383,8 @@ with st.sidebar:
             if st.button(t["clear_btn"], key="clr_m"):
                 st.session_state.mandatory_days = []
 
-        st.divider()
+    with st.expander(t["section_calendar"], expanded=False):
+        st.caption(t["h_section_calendar"])
 
         st.markdown(f"**{t['must_be']}**",
                     help=t['h_must_be'])
@@ -408,9 +409,6 @@ with st.sidebar:
             st.write(f"{t['must_be']} {lst}")
             if st.button(t["clear_btn"], key="clr_mb"):
                 st.session_state.must_be_days = []
-
-    with st.expander(t["section_calendar"], expanded=False):
-        st.caption(t["h_section_calendar"])
 
         include_carnival = False
         include_corpus = False
