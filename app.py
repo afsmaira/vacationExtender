@@ -679,16 +679,15 @@ if selected_lang == '🇧🇷 Português' or \
     st.divider()
     st.markdown(
         """
-        <div style='text-align: center; color: #666666; font-size: 0.9em;'>
+        <div style='text-align: center; color: #888888; font-size: 0.9em; margin-bottom: 10px;'>
             📱 <b>Quer levar esse planejamento no bolso?</b><br>
-            App Android chegando em 2026.<br>
-            <a href='https://linktr.ee/afs.life.apps' target='_blank' style='color: #4CAF50; text-decoration: none; font-weight: bold;'>
-                Nos siga nas redes sociais
-            </a> para não perder o lançamento!
+            App Android chegando em 2026.
         </div>
         """,
         unsafe_allow_html=True
     )
+    # Botão nativo que ocupa a largura da coluna central
+    st.link_button("📢 Siga nossa trajetória nas redes sociais!", "https://linktr.ee/afs.life.apps", use_container_width=True)
 
 st.divider()
 st.markdown(
