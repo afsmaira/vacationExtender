@@ -687,7 +687,7 @@ if selected_lang == '🇧🇷 Português' or \
         unsafe_allow_html=True
     )
     # Botão nativo que ocupa a largura da coluna central
-    st.link_button("📢 Siga nossa trajetória nas redes sociais!", "https://linktr.ee/afs.life.apps", use_container_width=True)
+    st.link_button("📢 Siga nossa trajetória nas redes sociais!", "https://linktr.ee/afs.life.apps", use_container_width=False)
 
 st.divider()
 st.markdown(
