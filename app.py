@@ -675,7 +675,7 @@ with col_feedback:
 
 if selected_lang == '🇧🇷 Português' or \
         (st.session_state.config_ready and country == 'BR'):
-    # --- Rodapé com Teaser do App Android ---
+            
     st.divider()
     st.markdown(
         """
@@ -686,8 +686,15 @@ if selected_lang == '🇧🇷 Português' or \
         """,
         unsafe_allow_html=True
     )
-    # Botão nativo que ocupa a largura da coluna central
-    st.link_button("📢 Siga nossa trajetória nas redes sociais!", "https://linktr.ee/afs.life.apps", use_container_width=False)
+            
+    col_esq, col_meio, col_dir = st.columns([1, 2, 1])
+
+    with col_meio:
+        st.link_button(
+            "📢 Siga nossa trajetória nas redes sociais!", 
+            "https://linktr.ee/afs.life.apps", 
+            use_container_width=True
+        )
 
 st.divider()
 st.markdown(
