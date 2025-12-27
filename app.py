@@ -675,27 +675,18 @@ with col_feedback:
 
 if selected_lang == '🇧🇷 Português' or \
         (st.session_state.config_ready and country == 'BR'):
+    # --- Rodapé com Teaser do App Android ---
     st.divider()
     st.markdown(
-        f"""
-    <div style='text-align: center'>
-        <a href="{t['follow_url']}" target="_blank" style="text-decoration: none;">
-            <div style="
-                display: inline-block;
-                padding: 10px 24px;
-                background-color: #262730;
-                color: #ffffff;
-                border: 1px solid rgba(250, 250, 250, 0.2);
-                border-radius: 8px;
-                font-size: 16px;
-                transition: background-color 0.3s;
-                cursor: pointer;
-                margin-bottom: 20px;">
-                📢 {t['follow_btn']}
-            </div>
-        </a>
-    </div>
-    """,
+        """
+        <div style='text-align: center; color: #666666; font-size: 0.9em;'>
+            📱 <b>Quer levar esse planejamento no bolso?</b><br>
+            App Android chegando em 2026.<br>
+            <a href='https://linktr.ee/afs.life.apps' target='_blank' style='color: #4CAF50; text-decoration: none; font-weight: bold;'>
+                Nos siga nas redes sociais
+            </a> para não perder o lançamento!
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
