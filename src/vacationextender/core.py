@@ -147,7 +147,7 @@ class VacationExtender:
         return all_dates
 
     def _process_config(self):
-        calendar = self.config.get('calendar', dict())
+        calendar = self.config.get('CALENDAR', dict())
         today = date.today()
         self.year = calendar.get('year', today.year + 1)
         first_day = max(today, date(self.year, 1, 1))
