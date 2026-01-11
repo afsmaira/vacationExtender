@@ -15,11 +15,13 @@ country_codes = sorted(supported_data.keys())
 
 curr_year = datetime.datetime.now().year
 dDay = datetime.timedelta(days=1)
+app_name = {'pt': 'Estica Férias',
+            'en': 'Vacation Extender'}
 
 # 1. DICTIONARY OF TRANSLATIONS
 languages = {
     "🇺🇸 English": {
-        "title": "🌴 Vacation Extender 🌴",
+        "title": f"🌴 {app_name['en']} 🌴",
         "subtitle": "Maximize your time off by linking<br>holidays and weekends smartly",
         "settings": "⚙️ Settings",
         "year": "Year",
@@ -70,13 +72,13 @@ languages = {
         "save_btn": "Save",
 
         "feedback_title": "💡 Suggestions for improvement?",
-        "feedback_desc": "Help us make Vacation Extender even better!",
+        "feedback_desc": f"Help us make {app_name['en']} even better!",
         "github_btn": "Report bug on GitHub",
         "forms_btn": "Send feedback (Forms)",
         "forms_url": "https://forms.gle/2ocBymDTqBU4fR3EA",
 
         "about_title": "🚀 About the Project",
-        "about_desc": "Vacation Extender is the first of a series of apps designed to simplify your life.",
+        "about_desc": f"{app_name['en']} is the first of a series of apps designed to simplify your life.",
         "follow_btn": "Follow our journey",
         "follow_url": "https://linktr.ee/afs.life.apps",
 
@@ -118,7 +120,7 @@ languages = {
         "terms_file": "TERMS_EN.md"
     },
     "🇧🇷 Português": {
-        "title": "🌴 Férias Smart",
+        "title": "🌴 "+app_name['pt'],
         "subtitle": "Maximize seu descanso conectando feriados e fins de semana de forma inteligente",
         "settings": "⚙️ Configurações",
         "year": "Ano",
@@ -169,13 +171,13 @@ languages = {
         "save_btn": "Salvar",
 
         "feedback_title": "💡 Sugestões de melhoria?",
-        "feedback_desc": "Ajude-nos a tornar o Férias Smart ainda melhor!",
+        "feedback_desc": f"Ajude-nos a tornar o {app_name['pt']} ainda melhor!",
         "github_btn": "Reportar bug no GitHub",
         "forms_btn": "Dar sugestão (Forms)",
         "forms_url": "https://forms.gle/heFh7g56DH9mjA8s8",
 
         "about_title": "🚀 Sobre o Projeto",
-        "about_desc": "O Férias Smart é o primeiro de uma série de apps criados para simplificar sua vida.",
+        "about_desc": f"O {app_name['pt']} é o primeiro de uma série de apps criados para simplificar sua vida.",
         "follow_btn": "Siga nossa jornada nas Redes Sociais",
         "follow_url": "https://linktr.ee/afs.life.apps",
 
@@ -234,7 +236,7 @@ selected_lang = st.selectbox(
 t = languages[selected_lang]
 
 st.set_page_config(
-    page_title="Vacation Extender",
+    page_title=app_name['en'],
     page_icon="🌴",
     layout="centered"
 )
