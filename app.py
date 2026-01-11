@@ -258,7 +258,7 @@ if "config_ready" not in st.session_state:
 
 # Title & Description
 st.markdown(
-    f"""<h1>{t["title"]}</h1><div style='text-align: center; font-size: 24px; font-weight: bold; padding-top: 10px; padding-bottom: 20px;'>
+    f"""<h1 style='text-align: center'>{t["title"]}</h1><div style='text-align: center; font-size: 24px; font-weight: bold; padding-top: 10px; padding-bottom: 20px;'>
         {t['subtitle']}
     </div>""",
     unsafe_allow_html=True
