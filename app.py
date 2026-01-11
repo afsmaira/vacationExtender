@@ -257,11 +257,8 @@ if "config_ready" not in st.session_state:
     st.session_state.config_ready = False
 
 # Title & Description
-col_left, col_center, col_right = st.columns([1, 8, 1])
-with col_center:
-    st.title(t["title"])
 st.markdown(
-    f"""<div style='text-align: center; font-size: 24px; font-weight: bold; padding-top: 10px; padding-bottom: 20px;'>
+    f"""<h1>{t["title"]}</h1><div style='text-align: center; font-size: 24px; font-weight: bold; padding-top: 10px; padding-bottom: 20px;'>
         {t['subtitle']}
     </div>""",
     unsafe_allow_html=True
