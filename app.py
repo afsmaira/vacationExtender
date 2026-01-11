@@ -257,7 +257,7 @@ if "config_ready" not in st.session_state:
     st.session_state.config_ready = False
 
 # Title & Description
-col_left, col_center, col_right = st.columns([1, 4, 1])
+col_left, col_center, col_right = st.columns([1, 5, 1])
 with col_center:
     st.title(t["title"])
 st.markdown(
