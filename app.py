@@ -120,7 +120,7 @@ languages = {
         "terms_file": "TERMS_EN.md"
     },
     "🇧🇷 Português": {
-        "title": "🌴 "+app_name['pt'],
+        "title": f"🌴 {app_name['pt']} 🌴",
         "subtitle": "Maximize seu descanso conectando feriados e fins de semana de forma inteligente",
         "settings": "⚙️ Configurações",
         "year": "Ano",
@@ -257,7 +257,7 @@ if "config_ready" not in st.session_state:
     st.session_state.config_ready = False
 
 # Title & Description
-col_left, col_center, col_right = st.columns([1, 5, 1])
+col_left, col_center, col_right = st.columns([1, 8, 1])
 with col_center:
     st.title(t["title"])
 st.markdown(
