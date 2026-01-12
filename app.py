@@ -50,7 +50,7 @@ languages = {
         "clear_btn": "Clear",
         "added_dates": "Selected Dates:",
         "holidays_consume": "Holidays consume PTO days?",
-        "h_holidays_consume": "If enabled, holidays occurring during your vacation will count towards your used PTO balance.",
+        "h_holidays_consume": "If checked, holidays occurring during your vacation will count towards your used PTO balance.",
         "h_year": "The calendar year for which you want to plan your vacations.",
         "h_country": "Select your country to automatically load national holidays.",
         "h_state": "Select your state/region for local holidays.",
