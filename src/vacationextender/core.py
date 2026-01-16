@@ -368,8 +368,17 @@ class VacationExtender:
                         candidates.sort(key=lambda x: x[0], reverse=True)
                         dp[i][p][k] = candidates[:self.top_n]
 
-        final_solutions = dp[n][self.days][self.n_breaks]
-        self.selected_breaks = [sol[1] for sol in final_solutions]
+        all_candidates = []
+        for k in range(1, self.n_breaks + 1):
+            candidates_k = dp[n][self.days][k]
+            if candidates_k:
+                all_candidates.extend(candidates_k)
+
+        if all_candidates:
+            all_candidates.sort(key=lambda x: x[0], reverse=True)
+            self.selected_breaks = [sol[1] for sol in all_candidates[:self.top_n]]
+        else:
+            self.selected_breaks = []
 
     def _run_greedy(self):
         """ Runs the greedy vacation algorithm. """
