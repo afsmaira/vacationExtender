@@ -34,7 +34,7 @@ languages = {
         "max_break": "Max. total days per block",
         "min_pto_break": "Min. balance days days per block",
         "max_pto_break": "Max. balance days days per block",
-        "min_gap": "Min. days gap between blocks",
+        "min_gap": "Min. days between blocks",
         "top_n": "Number of suggestions in output",
         "button": "🚀 Optimize My Vacation",
         "loading": "Analyzing calendar and optimizing blocks...",
