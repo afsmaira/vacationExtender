@@ -341,6 +341,9 @@ with st.sidebar:
             help=t['h_top_n']
         )
 
+    with st.expander(t["section_calendar"], expanded=False):
+        st.caption(t["h_section_calendar"])
+
         st.markdown(f"**{t['add_holidays']}**",
                     help=t['h_add_hols'])
         col_date, col_btn = st.columns([2, 1])
@@ -390,9 +393,6 @@ with st.sidebar:
             st.write(f"{t['added_dates']} {lst}")
             if st.button(t["clear_btn"], key="clr_m"):
                 st.session_state.mandatory_days = []
-
-    with st.expander(t["section_calendar"], expanded=False):
-        st.caption(t["h_section_calendar"])
 
         st.markdown(f"**{t['must_be']}**",
                     help=t['h_must_be'])
