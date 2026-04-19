@@ -82,7 +82,7 @@ languages = {
         "follow_btn": "Follow our journey",
         "follow_url": "https://linktr.ee/afs.life.apps",
 
-        "section_commom_custom": "Commom Custom Holidays",
+        "section_common_custom": "Common Custom Holidays",
         "carnival": "Include Carnival (Brazil)?",
         "h_carnival": "Carnival is an optional holiday in most of Brazil. Check this to include it in your vacation planning.",
 
@@ -181,7 +181,7 @@ languages = {
         "follow_btn": "Siga nossa jornada nas Redes Sociais",
         "follow_url": "https://linktr.ee/afs.life.apps",
 
-        "section_commom_custom": "Pontos Facultativos Comuns",
+        "section_common_custom": "Pontos Facultativos Comuns",
         "carnival": "Considerar Carnaval como feriado?",
         "h_carnival": "O Carnaval é ponto facultativo na maior parte do Brasil. Marque para considerá-lo como feriado.",
 
@@ -421,7 +421,7 @@ with st.sidebar:
         include_carnival = False
         include_corpus = False
         if country == "BR":
-            st.subheader(t['section_commom_custom'])
+            st.subheader(t['section_common_custom'])
             include_carnival = st.checkbox(
                 t["carnival"],
                 value=True,
